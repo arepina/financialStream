@@ -4,6 +4,8 @@ import {
   FormGroup,
   FormControl,
   ControlLabel,
+  Dropdown,
+  DropdownButton,
   ButtonGroup,
   Button
 } from "react-bootstrap";
@@ -22,6 +24,7 @@ export default class Signup extends Component {
     };
 
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    //this.onCheckboxBtnClick = this.onCheckboxBtnClick.bind(this);
   }
 
   validateForm() {
@@ -36,6 +39,11 @@ export default class Signup extends Component {
     this.setState({ rSelected });
   }
 
+
+  validateConfirmationForm() {
+    return this.state.confirmationCode.length > 0;
+  }
+
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
@@ -45,7 +53,36 @@ export default class Signup extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
-    let url = '';
+    let url = 'http://localhost:5000/register';
+
+    fetch(url, {
+        method: "POST", 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          login: this.state.email,
+          password: this.state.password,
+          userType: this.state.rSelected
+        },),
+        credentials: 'same-origin'
+      }) 
+       //.then(checkStatus)
+       .then(res => res.json())
+        .then(function(res) {
+            console.log(res)
+        })
+       .catch(function(error) {
+           alert(error)
+       });
+
+
+
+
+    this.setState({ isLoading: true });
+
+    this.setState({ newUser: "test" });
 
     fetch(url, {
       method: "POST",
@@ -91,6 +128,22 @@ export default class Signup extends Component {
             type="password"
           />
         </FormGroup>
+
+
+
+        <FormGroup controlId="usertype" bsSize="large">
+        <ControlLabel>User Type: </ControlLabel>
+        <ButtonGroup> 
+          <Button color="primary" onClick={() => this.onRadioBtnClick("Security Officer")} active={this.state.rSelected === "Security Officer"}>Security Officer</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick("Trader")} active={this.state.rSelected === "Trader"}>Trader</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick("System Architect")} active={this.state.rSelected === "System Architect"}>System Architect</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick("Senior trader")} active={this.state.rSelected === "Senior trader"}>Senior trader </Button>
+
+        </ButtonGroup>
+        </FormGroup>
+
+
+
         <FormGroup controlId="confirmPassword" bsSize="large">
           <ControlLabel>Confirm Password</ControlLabel>
           <FormControl

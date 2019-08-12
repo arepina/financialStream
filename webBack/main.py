@@ -1,34 +1,30 @@
 import requests
-from flask import Flask, Response, request
+from flask import Flask, request
+from flask_cors import CORS
 
 from endpoints import CREATE_USER, GET_USER
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/register', methods=["POST"])
 def register():
-    login = request.args['login']
-    password = request.args['password']
-    userType = request.args['userType']
-    r = requests.post(CREATE_USER,
-                      json={"login": login, "password": password, "userType": userType})
-    return Response(
-        r.text,
-        status=r.status_code,
-        content_type=r.headers['content_type'], )
+    login = request.json['login']
+    password = request.json['password']
+    userType = request.json['userType']
+    resp = requests.post(CREATE_USER,
+                         json={"login": login, "password": password, "userType": userType})
+    return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/login', methods=["GET"])
+@app.route('/login', methods=["POST"])
 def login():
-    login = request.args['login']
-    password = request.args['password']
-    r = requests.get(GET_USER,
-                     json={"login": login, "password": password})
-    return Response(
-        r.text,
-        status=r.status_code,
-        content_type=r.headers['content_type'], )
+    login = request.json['login']
+    password = request.json['password']
+    resp = requests.get(GET_USER,
+                        json={"login": login, "password": password})
+    return resp.text, resp.status_code, resp.headers.items()
 
 
 if __name__ == "__main__":

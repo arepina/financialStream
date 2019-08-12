@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request
 import pymysql
 import json
+from flask_cors import CORS
 
 from randomDealData import RandomDealData
 
 app = Flask(__name__)
+CORS(app)
+
 
 class Database:
     def __init__(self):
@@ -17,52 +20,96 @@ class Database:
 
     def login(self, login, password, user_type):
         self.cur.execute(
-            "INSERT INTO `USER`(login, password, user_type) VALUES ({0}, {1}, {2})".format(login, password, user_type))
+            "INSERT INTO `USER`(`login`, `password`, `user_type`) "
+            "VALUES ('{0}', '{1}', '{2}')".format(login, password, user_type))
+        self.con.commit()
+
+    def sign_up(self, login, password):
+        self.cur.execute("SELECT * FROM `USER` "
+                         "WHERE `login` = '{0}' and `password` = '{1}'".format(login, password))
         result = self.cur.fetchall()
         return result
 
-    def sign_up(self, login, password):
-        self.cur.execute("SELECT * FROM `USER` WHERE `login` = {0} and `password` = {1}".format(login, password))
+    def average(self, type, start, end):
+        self.cur.execute(
+            "SELECT i.instr_name, avg(d.price) "
+            "FROM `DEAL` d INNER JOIN `INSTRUMENT` i "
+            "ON d.instrument_id = i.instrument_id "
+            "WHERE timestamp > '{0}' AND timestamp < '{1}' AND type = '{2}'"
+            "GROUP BY i.instr_name;".format(start, end, type))
+        result = self.cur.fetchall()
+        return result
+
+    def dealers_position(self, date):
+        self.cur.execute("SELECT c.cpty_name, sum(d.price*d.quantity)"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "GROUP BY c.cpty_name;")
+        result = self.cur.fetchall()
+        return result
+
+    def dealer_position(self, login, date):
+        self.cur.execute("SELECT c.cpty_name, sum(d.price*d.quantity)"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE c.cpty_name = '{0}'"
+                         "GROUP BY c.cpty_name;".format(login))
         result = self.cur.fetchall()
         return result
 
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
-    login = request.args.get('login')
-    password = request.args.get('password')
-    user_type = request.args.get('user_type')
+    login = request.json.get('login')
+    password = request.json.get('password')
+    user_type = request.json.get('userType')
     try:
         db = Database()
-        data = db.login(login, password, user_type)
-        response = app.response_class(
-            response=json.dumps(data),
+        db.login(login, password, user_type)
+        return app.response_class(
+            response=json.dumps('OK'),
             status=200,
             mimetype='application/json'
         )
-        return response
     except Exception as e:
-        response = app.response_class(
+        return app.response_class(
             response=json.dumps(e),
             status=400,
             mimetype='application/json'
         )
-        return response
 
 
 @app.route('/get_user', methods=['GET'])
 def get_user():
-    login = request.args.get('login')
-    password = request.args.get('password')
+    login = request.json.get('login')
+    password = request.json.get('password')
     try:
         db = Database()
         data = db.sign_up(login, password)
-        response = app.response_class(
+        return app.response_class(
             response=json.dumps(data),
             status=200,
             mimetype='application/json'
         )
-        return response
+    except Exception as e:
+        return app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+
+
+@app.route('/average', methods=['GET'])
+def average():
+    type = request.json.get('type')  # buy(B) or sell(S)
+    start = request.json.get('start')
+    end = request.json.get('end')
+    try:
+        db = Database()
+        data = db.average(type, start, end)
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
     except Exception as e:
         response = app.response_class(
             response=json.dumps(e),
@@ -72,14 +119,43 @@ def get_user():
         return response
 
 
-@app.route('/', methods=['GET'])
-def data_stream():
-    return json.dumps("hi!")
-    # stream = RandomDealData()
-    # instrumentList = stream.createInstrumentList()
-    # while True:
-    #     data_stream.createRandomData(instrumentList)
+@app.route('/dealers_position', methods=['GET'])
+def dealers_position():
+    try:
+        db = Database()
+        data = db.dealers_position()
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        response = app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
 
+
+@app.route('/dealer_position', methods=['GET'])
+def dealer_position():
+    login = request.json.get('login')
+    try:
+        db = Database()
+        data = db.dealer_position(login)
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        response = app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
 
 
 if __name__ == '__main__':
