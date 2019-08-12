@@ -1,6 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import pymysql
 import json
+
+from randomDealData import RandomDealData
 
 app = Flask(__name__)
 
@@ -25,8 +27,8 @@ class Database:
         return result
 
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/create_user', methods=['POST'])
+def create_user():
     login = request.args.get('login')
     password = request.args.get('password')
     user_type = request.args.get('user_type')
@@ -48,8 +50,8 @@ def login():
         return response
 
 
-@app.route('/signup', methods=['GET'])
-def signup():
+@app.route('/get_user', methods=['GET'])
+def get_user():
     login = request.args.get('login')
     password = request.args.get('password')
     try:
@@ -79,4 +81,4 @@ def data_stream():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=80)
