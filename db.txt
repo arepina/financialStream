@@ -24,3 +24,23 @@ CREATE TABLE `DEAL` (
 show tables;
 
 select * from `DEAL`;
+
+# I want to see the average buy and sell prices for each instrument during the period, No. 7
+
+SELECT i.instr_name, avg(d.price)
+	FROM DEAL d INNER JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id
+    WHERE timestamp > '2019-08-11' /*start_date*/ AND timestamp < '2019-08-13' /*end_date*/
+    GROUP BY i.instr_name;
+
+# I want to see the ending positions for each dealer, No. 8
+
+SELECT c.cpty_name, sum(d.price*d.quantity)
+	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
+    GROUP BY c.cpty_name;
+
+# I want to see the ending positions for each dealer, No. 8, addition: input specific dealer
+
+SELECT c.cpty_name, sum(d.price*d.quantity)
+	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
+    WHERE c.cpty_name = '<input_variable>'
+    GROUP BY c.cpty_name;
