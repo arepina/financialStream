@@ -8,11 +8,11 @@ app = Flask(__name__)
 
 @app.route('/register', methods=["POST"])
 def register():
-    username = request.form['username']
-    password = request.form['password']
-    userType = request.form['type']
+    login = request.args['login']
+    password = request.args['password']
+    userType = request.args['userType']
     r = requests.post(CREATE_USER,
-                      json={"username": username, "password": password, "userType": userType})
+                      json={"login": login, "password": password, "userType": userType})
     return Response(
         r.text,
         status=r.status_code,
@@ -21,10 +21,10 @@ def register():
 
 @app.route('/login', methods=["GET"])
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    login = request.args['login']
+    password = request.args['password']
     r = requests.get(GET_USER,
-                     json={"username": username, "password": password})
+                     json={"login": login, "password": password})
     return Response(
         r.text,
         status=r.status_code,
@@ -32,4 +32,4 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='localhost', port=5000)

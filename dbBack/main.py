@@ -74,11 +74,13 @@ def get_user():
 
 @app.route('/', methods=['GET'])
 def data_stream():
-    stream = RandomDealData()
-    instrumentList = stream.createInstrumentList()
-    while True:
-        data_stream.createRandomData(instrumentList)
+    return json.dumps("hi!")
+    # stream = RandomDealData()
+    # instrumentList = stream.createInstrumentList()
+    # while True:
+    #     data_stream.createRandomData(instrumentList)
+
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='localhost', port=80)
