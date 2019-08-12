@@ -57,11 +57,19 @@ export default class Signup extends Component {
 
     let url = 'http://localhost:5000/register';
 
-    let data =  new FormData();
-    data.append("login", this.state.email);
-    data.append("password", this.state.password);
-    data.append("userType", this.state.rSelected);
-    fetch(url, {method: "POST", body: data, mode: "cors"}) 
+    fetch(url, {
+        method: "POST", 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          login: this.state.email,
+          password: this.state.password,
+          userType: this.state.rSelected
+        },),
+        credentials: 'same-origin'
+      }) 
        //.then(checkStatus)
        .then(res => res.json())
         .then(function(res) {
