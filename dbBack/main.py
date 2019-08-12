@@ -71,4 +71,4 @@ def signup():
 
 @app.route('/', methods=['GET'])
 def test():
-   return json.dumps("hi!")
+   return json.dumps("hi")
