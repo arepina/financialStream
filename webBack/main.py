@@ -11,24 +11,18 @@ def register():
     login = request.args['login']
     password = request.args['password']
     userType = request.args['userType']
-    r = requests.post(CREATE_USER,
-                      json={"login": login, "password": password, "userType": userType})
-    return Response(
-        r.text,
-        status=r.status_code,
-        content_type=r.headers['content_type'], )
+    resp = requests.post(CREATE_USER,
+                         json={"login": login, "password": password, "userType": userType})
+    return resp.text, resp.status_code, resp.headers.items()
 
 
 @app.route('/login', methods=["GET"])
 def login():
     login = request.args['login']
     password = request.args['password']
-    r = requests.get(GET_USER,
-                     json={"login": login, "password": password})
-    return Response(
-        r.text,
-        status=r.status_code,
-        content_type=r.headers['content_type'], )
+    resp = requests.get(GET_USER,
+                        json={"login": login, "password": password})
+    return resp.text, resp.status_code, resp.headers.items()
 
 
 if __name__ == "__main__":
