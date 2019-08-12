@@ -4,7 +4,6 @@ import json
 
 app = Flask(__name__)
 
-
 class Database:
     def __init__(self):
         host = "192.168.99.100"
@@ -24,6 +23,7 @@ class Database:
         self.cur.execute("SELECT * FROM `USER` WHERE `login` = {0} and `password` = {1}".format(login, password))
         result = self.cur.fetchall()
         return result
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -69,6 +69,14 @@ def signup():
         )
         return response
 
+
 @app.route('/', methods=['GET'])
-def test():
-   return json.dumps("hi")
+def data_stream():
+    stream = RandomDealData()
+    instrumentList = stream.createInstrumentList()
+    while True:
+        data_stream.createRandomData(instrumentList)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,5 +1,6 @@
 import numpy
 
+
 class Instrument:
 
     def __init__(self, inputname, inputbase, inputdrift, inputvariance):
@@ -8,7 +9,6 @@ class Instrument:
         self.__startingPrice = inputbase
         self.__drift = inputdrift
         self.__variance = inputvariance
-
 
     def calculateNextPrice(self, direction):
         newPriceStarter = self.__price + numpy.random.normal(0, 1) * self.__variance + self.__drift
