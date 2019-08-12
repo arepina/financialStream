@@ -1,6 +1,5 @@
-from flask import Flask, Response, requests, request
-import functools
-
+from flask import Flask, Response, request
+from pip._vendor import requests
 
 app = Flask(__name__)
 
@@ -9,7 +8,6 @@ def register():
     username = request.form['username']
     password = request.form['password']
     userType = request.form['type']
-    
     r = requests.get("")
     return Response(
             r.text,
@@ -22,7 +20,6 @@ def register():
 def login():
     username = request.form['username']
     password = request.form['password']
-    
     r = requests.get("")
     return Response(
             r.text,

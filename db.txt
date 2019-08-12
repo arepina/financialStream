@@ -1,0 +1,26 @@
+show databases;
+
+use mydata;
+
+CREATE TABLE `USER` (
+  `login` varchar(100) NOT NULL,
+  `user_type` varchar(50) DEFAULT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`login`)
+);
+
+CREATE TABLE `DEAL` (
+    `deal_id` int NOT NULL auto_increment,
+    `instument_name` varchar(100) NOT NULL,
+    `counter_party` varchar(100) NOT NULL,
+    `price` float NOT NULL,
+    `quantity` int not null,
+    `timestamp` timestamp not null,
+    `login` varchar(100) NOT NULL,
+    PRIMARY KEY (`deal_id`),
+    FOREIGN KEY (`login`) REFERENCES `USER`(`login`)
+);
+
+show tables;
+
+select * from `DEAL`;
