@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request
 import pymysql
 import json
+from flask_cors import CORS
 
 from randomDealData import RandomDealData
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/create_user', methods=['POST'])
@@ -33,7 +35,7 @@ def get_user():
     login = request.json.get('login')
     password = request.json.get('password')
     try:
-        db = Database()
+        db = Database
         data = db.sign_up(login, password)
         return app.response_class(
             response=json.dumps(data),

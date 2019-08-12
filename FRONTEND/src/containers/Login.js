@@ -26,14 +26,14 @@ export default class Login extends Component {
     event.preventDefault();
 
 
-    fetch('https://jsonplaceholder.typicode.com/posts', {
+    fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            email: this.state.email,
+            login: this.state.email,
             password: this.state.password,
         },),
         credentials: 'same-origin'

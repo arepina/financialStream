@@ -55,12 +55,12 @@ export default class Signup extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
-    let url = 'TO DO'  ;// put flask link here as a string!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TO DO!!!!!!!!!!!!!!!!!!!!!
+    let url = 'http://localhost:5000/register';
 
     let data =  new FormData();
-    data.append("email", this.state.email);
+    data.append("login", this.state.email);
     data.append("password", this.state.password);
-    data.append("user type", this.state.rSelected);
+    data.append("userType", this.state.rSelected);
     fetch(url, {method: "POST", body: data, mode: "cors"}) 
        //.then(checkStatus)
        .then(res => res.json())
