@@ -3,7 +3,11 @@ import {
   HelpBlock,
   FormGroup,
   FormControl,
-  ControlLabel
+  ControlLabel,
+  Dropdown,
+  DropdownButton,
+  ButtonGroup,
+  Button
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./Signup.css";
@@ -20,6 +24,9 @@ export default class Signup extends Component {
       confirmationCode: "",
       newUser: null
     };
+
+    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    //this.onCheckboxBtnClick = this.onCheckboxBtnClick.bind(this);
   }
 
   validateForm() {
@@ -29,6 +36,11 @@ export default class Signup extends Component {
       this.state.password === this.state.confirmPassword
     );
   }
+
+  onRadioBtnClick(rSelected) {
+    this.setState({ rSelected });
+  }
+
 
   validateConfirmationForm() {
     return this.state.confirmationCode.length > 0;
@@ -102,6 +114,22 @@ export default class Signup extends Component {
             type="password"
           />
         </FormGroup>
+
+
+
+        <FormGroup controlId="usertype" bsSize="large">
+        <ControlLabel>User Type: </ControlLabel>
+        <ButtonGroup> 
+          <Button color="primary" onClick={() => this.onRadioBtnClick("Security Officer")} active={this.state.rSelected === "Security Officer"}>Security Officer</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick("Trader")} active={this.state.rSelected === "Trader"}>Trader</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick("System Architect")} active={this.state.rSelected === "System Architect"}>System Architect</Button>
+          <Button color="primary" onClick={() => this.onRadioBtnClick("Senior trader")} active={this.state.rSelected === "Senior trader"}>Senior trader </Button>
+
+        </ButtonGroup>
+        </FormGroup>
+
+
+
         <FormGroup controlId="confirmPassword" bsSize="large">
           <ControlLabel>Confirm Password</ControlLabel>
           <FormControl
