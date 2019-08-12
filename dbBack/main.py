@@ -6,25 +6,6 @@ from randomDealData import RandomDealData
 
 app = Flask(__name__)
 
-class Database:
-    def __init__(self):
-        host = "192.168.99.100"
-        user = "root"
-        password = "ppp"
-        db = "mydata"
-        self.con = pymysql.connect(host=host, user=user, password=password, db=db)
-        self.cur = self.con.cursor()
-
-    def login(self, login, password, user_type):
-        self.cur.execute(
-            "INSERT INTO `USER`(`login`, `password`, `user_type`) VALUES ('{0}', '{1}', '{2}')".format(login, password, user_type))
-        self.con.commit()
-
-    def sign_up(self, login, password):
-        self.cur.execute("SELECT * FROM `USER` WHERE `login` = '{0}' and `password` = '{1}'".format(login, password))
-        result = self.cur.fetchall()
-        return result
-
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
@@ -34,19 +15,18 @@ def create_user():
     try:
         db = Database()
         db.login(login, password, user_type)
-        response = app.response_class(
+        return app.response_class(
             response=json.dumps('OK'),
             status=200,
             mimetype='application/json'
         )
-        return response
     except Exception as e:
-        response = app.response_class(
+        return app.response_class(
             response=json.dumps(e),
             status=400,
             mimetype='application/json'
         )
-        return response
+
 
 @app.route('/get_user', methods=['GET'])
 def get_user():
@@ -55,12 +35,32 @@ def get_user():
     try:
         db = Database()
         data = db.sign_up(login, password)
-        response = app.response_class(
+        return app.response_class(
             response=json.dumps(data),
             status=200,
             mimetype='application/json'
         )
-        return response
+    except Exception as e:
+        return app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+
+
+@app.route('/average', methods=['GET'])
+def average():
+    type = request.json.get('type')  # buy(B) or sell(S)
+    start = request.json.get('start')
+    end = request.json.get('end')
+    try:
+        db = Database()
+        data = db.average(type, start, end)
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
     except Exception as e:
         response = app.response_class(
             response=json.dumps(e),
@@ -69,6 +69,43 @@ def get_user():
         )
         return response
 
+@app.route('/dealers_position', methods=['GET'])
+def dealers_position():
+    try:
+        db = Database()
+        data = db.dealers_position()
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        response = app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
+
+
+@app.route('/dealer_position', methods=['GET'])
+def dealer_position():
+    login = request.json.get('login')
+    try:
+        db = Database()
+        data = db.dealer_position(login)
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        response = app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
 
 if __name__ == '__main__':
     app.run(debug=True, host='localhost', port=80)
