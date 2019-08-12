@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import pymysql
+import json
 
 app = Flask(__name__)
 
@@ -67,3 +68,7 @@ def signup():
             mimetype='application/json'
         )
         return response
+
+@app.route('/', methods=['GET'])
+def test():
+   return json.dumps("hi!")
