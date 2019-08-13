@@ -18,11 +18,9 @@ export default class Signup extends Component {
 
     this.state = {
       isLoading: false,
-      email: "",
+      username: "",
       password: "",
-      confirmPassword: "",
-      confirmationCode: "",
-      newUser: null
+      confirmPassword: ""
     };
 
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
@@ -31,7 +29,7 @@ export default class Signup extends Component {
 
   validateForm() {
     return (
-      this.state.email.length > 0 &&
+      this.state.username.length > 0 &&
       this.state.password.length > 0 &&
       this.state.password === this.state.confirmPassword
     );
@@ -86,50 +84,39 @@ export default class Signup extends Component {
 
     this.setState({ newUser: "test" });
 
-    this.setState({ isLoading: false });
-  }
-
-  handleConfirmationSubmit = async event => {
-    event.preventDefault();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: this.state.username,
+        password: this.state.password,
+        userType: this.state.rSelected
+      }),
+      credentials: 'same-origin'
+    })
+      .then(res => res.json())
+      .then(function (res) {
+        console.log(res)
+      })
+      .catch(function (error) {
+        alert(error)
+      });
 
     this.setState({ isLoading: true });
-  }
-
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        />
-      </form>
-    );
   }
 
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
+        <FormGroup controlId="username" bsSize="large">
+          <ControlLabel>Username</ControlLabel>
           <FormControl
             autoFocus
-            type="email"
-            value={this.state.email}
+            type="username"
+            value={this.state.username}
             onChange={this.handleChange}
           />
         </FormGroup>
@@ -165,6 +152,15 @@ export default class Signup extends Component {
             type="password"
           />
         </FormGroup>
+        <FormGroup controlId="usertype" bsSize="large">
+          <ControlLabel>User Type: </ControlLabel>
+          <ButtonGroup>
+            <Button color="primary" onClick={() => this.onRadioBtnClick("Security Officer")} active={this.state.rSelected === "Security Officer"}>Security Officer</Button>
+            <Button color="primary" onClick={() => this.onRadioBtnClick("Trader")} active={this.state.rSelected === "Trader"}>Trader</Button>
+            <Button color="primary" onClick={() => this.onRadioBtnClick("System Architect")} active={this.state.rSelected === "System Architect"}>System Architect</Button>
+            <Button color="primary" onClick={() => this.onRadioBtnClick("Senior Trader")} active={this.state.rSelected === "Senior Trader"}>Senior Trader </Button>
+          </ButtonGroup>
+        </FormGroup>
         <LoaderButton
           block
           bsSize="large"
@@ -181,9 +177,7 @@ export default class Signup extends Component {
   render() {
     return (
       <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+        {this.renderForm()}
       </div>
     );
   }

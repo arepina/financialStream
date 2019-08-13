@@ -7,13 +7,14 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: "",
+      username: "",
       password: ""
+      // loggedInStatus: false
     };
   }
 
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.username.length > 0 && this.state.password.length > 0;
   }
 
   handleChange = event => {
@@ -41,7 +42,13 @@ export default class Login extends Component {
     .then(res => res.json())
     .then(
         (result) => {
-          console.log(result)
+          console.log(result);
+          // if(result.status === 200 && result.email === this.state.email && result.password === this.state.password) {
+          //   this.setState({
+          //     loggedInStatus: true
+            // })
+            // this.props.changeLoginStatus(true);
+          // }
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -58,12 +65,11 @@ export default class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
+          <FormGroup controlId="username" bsSize="large">
+            <ControlLabel>Username</ControlLabel>
             <FormControl
               autoFocus
-            //   type="email"
-              value={this.state.email}
+              value={this.state.Username}
               onChange={this.handleChange}
             />
           </FormGroup>

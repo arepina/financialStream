@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="745e48b9-a681-41fa-a832-3ec9765bb371" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../dbBack/main_stream.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../db.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../db.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dbBack/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dbBack/randomDealData.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/randomDealData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dbBack/test_instrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/test_instrument.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../webBack/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../webBack/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,8 +33,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="153">
+              <caret line="9" column="45" lean-forward="true" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -318,8 +323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="153">
+          <caret line="9" column="45" lean-forward="true" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

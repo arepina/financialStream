@@ -6,6 +6,16 @@ import Routes from "./Routes";
 import { LinkContainer } from "react-router-bootstrap";
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loggedInStatus: false
+    }
+  }
+
+  // state: loggedInStatus - boolean
   render() {
     return (
       <div className="App container">
@@ -21,13 +31,15 @@ class App extends Component {
           <LinkContainer to="/signup">
               <NavItem>Signup</NavItem>
             </LinkContainer>
+            {/* if loggedInStatus is false - ternary else display logout*/}
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>
+            
           </Nav>
         </Navbar.Collapse>
         </Navbar>
-        <Routes />
+        <Routes loggedInStatus={loggedInStatus}/>
       </div>
     );
   }
