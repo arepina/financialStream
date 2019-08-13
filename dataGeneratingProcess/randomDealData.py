@@ -2,6 +2,7 @@ import json
 import time
 from datetime import datetime, timedelta
 
+import jsons as jsons
 import numpy
 import random
 
@@ -50,5 +51,6 @@ class RandomDealData:
             'quantity': quantity,
             'time': dealTime.strftime("%d-%b-%Y (%H:%M:%S.%f)"),
         }
+        return deal
         #print(deal)
-        return json.dumps(deal)
+        # return json.dumps(deal)

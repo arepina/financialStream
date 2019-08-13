@@ -251,5 +251,31 @@ def aggregated_realised():
         return response
 
 
+@app.route('/add_stream_data', methods=['GET', 'POST', 'DELETE', 'PUT'])
+def add_stream_data():
+    try:
+        instrumentName = request.json.get("instrumentName")
+        cpty = request.json.get("cpty")
+        price = request.json.get("price")
+        type = request.json.get("type")
+        quantity = request.json.get("quantity")
+        time = request.json.get("time")
+        # db = Database()
+        # data = db.add_stream_data()
+        data = 'OK'
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        response = app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='localhost', port=80)
