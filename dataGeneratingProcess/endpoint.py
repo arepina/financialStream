@@ -1,3 +1,3 @@
-POST_TO = "http://0.0.0.0:80/add_stream_data"
+POST_TO = '192.168.0.101'
 HOST = '0.0.0.0'
 PORT = 8080
