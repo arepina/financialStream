@@ -10,17 +10,17 @@ class Database:
         self.con = pymysql.connect(host=host, user=user, password=password, db=db)
         self.cur = self.con.cursor()
 
-    def login(self, login, password, user_type):
-        self.cur.execute(
-            "INSERT INTO `USER`(`login`, `password`, `user_type`) "
-            "VALUES ('{0}', '{1}', '{2}')".format(login, password, user_type))
-        self.con.commit()
-
-    def sign_up(self, login, password):
+    def login(self, login, password):
         self.cur.execute("SELECT * FROM `USER` "
                          "WHERE `login` = '{0}' and `password` = '{1}'".format(login, password))
         result = self.cur.fetchall()
         return result
+
+    def sign_up(self, login, password, user_type):
+        self.cur.execute(
+            "INSERT INTO `USER`(`login`, `password`, `user_type`) "
+            "VALUES ('{0}', '{1}', '{2}')".format(login, password, user_type))
+        self.con.commit()
 
     def average(self, type, start, end):
         self.cur.execute(
@@ -125,3 +125,9 @@ class Database:
                          "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id;")
         result = self.cur.fetchall()
         return result
+
+    def insert_deal(self, deal):
+        self.cur.execute(
+            "INSERT INTO `DEAL` VALUES "
+            "(deal[0], deal[1], deal[2], deal[3], deal[4], deal[5])")
+        self.con.commit()

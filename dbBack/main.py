@@ -3,7 +3,7 @@ import json
 from flask import Flask, request
 from flask_cors import CORS
 
-from Database import Database
+from database import Database
 
 app = Flask(__name__)
 CORS(app)
@@ -186,7 +186,7 @@ def get_deal():
     quantity = deal['quantity']
     time = deal['time']
 
-    return [name, cpty, price, dtype, quantity, time]
+    return [name, cpty, price, deal_type, quantity, time]
 
 
 @app.route('/realised_profit_loss_dealers', methods=['GET'])
