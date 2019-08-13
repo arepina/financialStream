@@ -1,6 +1,7 @@
 import requests
-from flask import Flask, request
+from flask import Flask
 from flask_cors import CORS
+import endpoint
 
 from randomDealData import RandomDealData
 
@@ -17,7 +18,7 @@ def getstream():
             yield stream.createRandomData(instrumentList)
 
     for stream in data_stream():
-        requests.post("http://localhost:80/add_stream_data", json=stream)
+        requests.post(endpoint.POST_TO, json=stream)
 
 
 def bootapp():
