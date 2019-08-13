@@ -5,7 +5,7 @@ from flask import Flask, request
 from flask_cors import CORS
 
 from Database import Database
-from endpoints import HOST, PORT
+from endpoints import PORT, HOST
 
 app = Flask(__name__)
 CORS(app)
