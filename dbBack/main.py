@@ -3,14 +3,9 @@ from distutils.log import Log
 
 from flask import Flask, request
 from flask_cors import CORS
-from werkzeug.debug import console
 
 from Database import Database
-<<<<<<< HEAD
 from endpoints import PORT, HOST
-=======
-from endpoints import HOST, PORT
->>>>>>> 5ec6f8a6e7c86746f8b2ce419a1162fac1e0b1e3
 
 app = Flask(__name__)
 CORS(app)
