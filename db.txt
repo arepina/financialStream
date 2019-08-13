@@ -1,6 +1,10 @@
 show databases;
 
-use mydata;
+CREATE DATABASE CaseStudyTeam20;
+
+USE CaseStudyTeam20;
+
+#CREATE TABLES
 
 CREATE TABLE `USER` (
   `login` varchar(100) NOT NULL,
@@ -9,21 +13,37 @@ CREATE TABLE `USER` (
   PRIMARY KEY (`login`)
 );
 
-CREATE TABLE `DEAL` (
-    `deal_id` int NOT NULL auto_increment,
-    `instument_name` varchar(100) NOT NULL,
-    `counter_party` varchar(100) NOT NULL,
-    `price` float NOT NULL,
-    `quantity` int not null,
-    `timestamp` timestamp not null,
-    `login` varchar(100) NOT NULL,
-    PRIMARY KEY (`deal_id`),
-    FOREIGN KEY (`login`) REFERENCES `USER`(`login`)
+CREATE TABLE `COUNTER_PARTY` (
+	`counter_party_id` int NOT NULL auto_increment,
+    `cpty_name` varchar(100) NOT NULL,
+    PRIMARY KEY (`counter_party_id`)
 );
 
-show tables;
+CREATE TABLE `COUNTER_PARTY` (
+	`counter_party_id` int NOT NULL auto_increment,
+    `cpty_name` varchar(100) NOT NULL,
+    PRIMARY KEY (`counter_party_id`)
+);
 
-select * from `DEAL`;
+
+
+CREATE TABLE `DEAL` (
+    `deal_id` int NOT NULL auto_increment,
+    `instrument_id` int NOT NULL,
+    `counter_party_id` int NOT NULL,
+    `price` float NOT NULL,
+    `quantity` int not null,
+    `type`  varchar(10) not null,
+    `timestamp` timestamp not null,
+    PRIMARY KEY (`deal_id`),
+    FOREIGN KEY (`instrument_id`) REFERENCES `INSTRUMENT`(`instrument_id`),
+    FOREIGN KEY (`counter_party_id`) REFERENCES `COUNTER_PARTY`(`counter_party_id`)
+);
+
+
+
+
+#SQL Statements - NOT CURRENT
 
 # I want to see the average buy and sell prices for each instrument during the period, No. 7
 
