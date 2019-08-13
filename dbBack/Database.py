@@ -1,12 +1,14 @@
 import pymysql
 
+from endpoints import HOST
+
 
 class Database:
     def __init__(self):
-        host = "192.168.99.100"
-        user = "root"
-        password = "ppp"
-        db = "mydata"
+        host = HOST
+        user = "admin"
+        password = "admin"
+        db = "sampledb"
         self.con = pymysql.connect(host=host, user=user, password=password, db=db)
         self.cur = self.con.cursor()
 

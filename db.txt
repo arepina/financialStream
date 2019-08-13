@@ -19,10 +19,10 @@ CREATE TABLE `COUNTER_PARTY` (
     PRIMARY KEY (`counter_party_id`)
 );
 
-CREATE TABLE `COUNTER_PARTY` (
-	`counter_party_id` int NOT NULL auto_increment,
-    `cpty_name` varchar(100) NOT NULL,
-    PRIMARY KEY (`counter_party_id`)
+CREATE TABLE `INSTRUMENT` (
+	`instrument_id` int NOT NULL auto_increment,
+    `instrument_name` varchar(100) NOT NULL,
+    PRIMARY KEY (`instrument_id`) 
 );
 
 

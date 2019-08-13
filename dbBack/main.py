@@ -296,7 +296,7 @@ def get_stream_data():
 
 
 def bootapp():
-    app.run(port=80, threaded=True, host=('0.0.0.0'))
+    app.run(port=PORT, threaded=True, host=HOST)
 
 
 if __name__ == '__main__':

@@ -1,1 +1,1 @@
-POST_TO = "http://localhost:80/add_stream_data"
+POST_TO = "http://0.0.0.0:80/add_stream_data"

@@ -2,10 +2,6 @@ import requests
 from flask import Flask, request
 from flask_cors import CORS
 
-# from endpoints import CREATE_USER, GET_USER, GET_STREAM_DATA, AVERAGE, DEALERS_POSITION, DEALER_POSITION, \
-#     REALISED_DEALERS, REALISED_DEALER, EFFECTIVE_DEALERS, EFFECTIVE_DEALER, AGGREGATED_ENDING, AGGREGATED_REALISED, \
-#     AGGREGATED_EFFECTIVE
-
 from endpoints import *
 
 app = Flask(__name__)
@@ -121,4 +117,4 @@ def get_stream_data():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='localhost', port=5000)
+    app.run(debug=True, host=HOST, port=PORT)
