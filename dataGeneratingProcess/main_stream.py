@@ -1,5 +1,4 @@
-from distutils.log import Log
-
+import logging
 import requests
 from flask import Flask
 from flask_cors import CORS
@@ -18,9 +17,10 @@ def getstream():
         instrumentList = stream.createInstrumentList()
         while True:
             yield stream.createRandomData(instrumentList)
+
     for stream in data_stream():
         print(stream)
-        Log.i(stream)
+        logging.info(stream)
         requests.post(endpoint.POST_TO, json=stream)
 
 

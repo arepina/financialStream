@@ -1,6 +1,6 @@
-PATH = "http://localhost:80/"
-HOST = "localhost"
-PORT = 5000
+PATH = "http://0.0.0.0:8080/"
+HOST = "0.0.0.0"
+PORT = 5000  # TODO CHANGE THE PORT
 CREATE_USER = PATH + "create_user"
 GET_USER = PATH + "get_user"
 GET_STREAM_DATA = PATH + "get_stream_data"
