@@ -126,9 +126,8 @@ class Database:
         result = self.cur.fetchall()
         return result
 
-<<<<<<< HEAD
     def add_stream_data(self, instrumentName, cpty, price, type, quantity, time):
-        #TODO MORE INSERTS
+        # TODO MORE INSERTS
         self.cur.execute(
             "INSERT INTO `DEAL`(instrumentName, cpty, price, type, quantity, time) VALUES({0}, {1}, {2}, {3}, {4}, {5})"
                 .format(instrumentName, cpty, price, type, quantity, time))
@@ -136,14 +135,13 @@ class Database:
         return result
 
     def get_stream_data(self):
-        #TODO Join with other tables
+        # TODO Join with other tables
         self.cur.execute("SELECT * FROM `DEAL`")
         result = self.cur.fetchall()
         return result
-=======
+
     def insert_deal(self, deal):
         self.cur.execute(
             "INSERT INTO `DEAL` VALUES "
             "(deal[0], deal[1], deal[2], deal[3], deal[4], deal[5])")
         self.con.commit()
->>>>>>> 0786b438a75b625c56ec8a9a89de7918eb5b7a38
