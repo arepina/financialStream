@@ -1,2 +1,5 @@
 mysql-server.tar
 frontend/node_modules
+dbBack/.idea
+webBack/.idea
+dataGeneratingProcess/.idea

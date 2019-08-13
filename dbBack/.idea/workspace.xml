@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="745e48b9-a681-41fa-a832-3ec9765bb371" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../dbBack/main_stream.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../db.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../db.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataGeneratingProcess/main_stream.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dataGeneratingProcess/main_stream.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataGeneratingProcess/randomDealData.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dataGeneratingProcess/randomDealData.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dbBack/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dbBack/randomDealData.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/randomDealData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dbBack/test_instrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/test_instrument.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../webBack/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../webBack/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dbBack/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,25 +15,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../dbBack/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="154" column="23" lean-forward="true" selection-start-line="154" selection-start-column="23" selection-end-line="154" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#49#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="45" lean-forward="true" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
+            <state relative-caret-position="76">
+              <caret line="256" column="16" lean-forward="true" selection-start-line="256" selection-start-column="16" selection-end-line="256" selection-end-column="16" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#6316#6848#0" />
+                <element signature="e#6899#7380#0" />
+                <element signature="e#7433#7994#0" />
+                <element signature="e#3914#4327#0" />
+                <element signature="e#8551#9010#0" />
+                <element signature="e#9112#9581#0" />
+                <element signature="e#9682#10199#0" />
+                <element signature="e#9110#9578#0" />
+                <element signature="e#10837#11309#0" />
+                <element signature="e#11390#11894#0" />
+                <element signature="e#9084#9539#0" />
               </folding>
             </state>
           </provider>
@@ -44,7 +40,25 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../dbBack/Database.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+              <folding>
+                <element signature="e#319#509#0" />
+                <element signature="e#559#755#0" />
+                <element signature="e#806#1164#0" />
+                <element signature="e#1218#1771#0" />
+                <element signature="e#1831#2239#0" />
+                <element signature="e#2299#2839#0" />
+                <element signature="e#2905#3476#0" />
+                <element signature="e#3531#4002#0" />
+                <element signature="e#4063#4600#0" />
+                <element signature="e#4655#5134#0" />
+                <element signature="e#5186#5636#0" />
+                <element signature="e#5681#6063#0" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -98,7 +112,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../webBack" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dataGeneratingProcess" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -139,16 +154,16 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="dbBack" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\team20project\webBack\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../dbBack" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../dbBack/main.py" />
@@ -227,7 +242,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
@@ -236,7 +251,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39886847" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.5374823" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -246,39 +261,41 @@
     </layout>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../dbBack/main.py</url>
+          <line>257</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../dbBack/main.py</url>
+          <line>265</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="request.json.get(&quot;login&quot;)" language="Python" />
         <watch expression="&quot;INSERT INTO `USER`(login, password, user_type) VALUES ({0}, {1}, {2})&quot;.format(login, password, user_type)" language="Python" />
         <watch expression="&quot;INSERT INTO `USER`(login, password, user_type) VALUES (`{0}`, `{1}`, `{2}`)&quot;.format(login, password, user_type)" language="Python" />
         <watch expression="&quot;INSERT INTO `USER`(`login`, `password`, `user_type`) VALUES ('{0}', '{1}', '{2}')&quot;.format(login, password, user_type)" language="Python" />
+        <watch expression="request.data" language="Python" />
+        <watch expression="request.args" language="Python" />
+        <watch expression="request" language="Python" />
+        <watch expression="request.json.get(&quot;instrumentName&quot;)" language="Python" />
+        <watch expression="request.data[&quot;instrumentName&quot;]" language="Python" />
+        <watch expression="request" language="Python" />
+        <watch expression="request.json" language="Python" />
+        <watch expression="request.json.get(&quot;cpty&quot;)" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
-        <expression-string>&quot;INSERT INTO `USER`(`login`, `password`, `user_type`) VALUES ('{0}', '{1}', '{2}')&quot;.format(login, password, user_type)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>&quot;INSERT INTO `USER`(login, password, user_type) VALUES (`{0}`, `{1}`, `{2}`)&quot;.format(login, password, user_type)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>&quot;INSERT INTO `USER`(login, password, user_type) VALUES (`{0}`, `{1}`, `{2}`)&quot;.format(login, password, user_type)&quot;</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>&quot;INSERT INTO `USER`(login, password, user_type) VALUES ({0}, {1}, {2})&quot;.format(login, password, user_type)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>request.json.get(&quot;login&quot;)</expression-string>
+        <expression-string>request.json.get(&quot;cpty&quot;)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -289,6 +306,41 @@
       </expression>
       <expression>
         <expression-string>request</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>request.data[&quot;instrumentName&quot;]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>request.data.get(&quot;instrumentName&quot;)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>request.json.get(&quot;instrumentName&quot;)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>request.args</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>request.data</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>&quot;INSERT INTO `USER`(`login`, `password`, `user_type`) VALUES ('{0}', '{1}', '{2}')&quot;.format(login, password, user_type)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>&quot;INSERT INTO `USER`(login, password, user_type) VALUES (`{0}`, `{1}`, `{2}`)&quot;.format(login, password, user_type)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -308,25 +360,61 @@
     <entry file="file://$PROJECT_DIR$/../dbBack/initialRandomValues.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/../dbBack/main.py">
+    <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="154" column="23" lean-forward="true" selection-start-line="154" selection-start-column="23" selection-end-line="154" selection-end-column="23" />
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../dbBack/main_stream.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
           <folding>
-            <element signature="e#0#49#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../dbBack/Database.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="45" lean-forward="true" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding>
+            <element signature="e#319#509#0" />
+            <element signature="e#559#755#0" />
+            <element signature="e#806#1164#0" />
+            <element signature="e#1218#1771#0" />
+            <element signature="e#1831#2239#0" />
+            <element signature="e#2299#2839#0" />
+            <element signature="e#2905#3476#0" />
+            <element signature="e#3531#4002#0" />
+            <element signature="e#4063#4600#0" />
+            <element signature="e#4655#5134#0" />
+            <element signature="e#5186#5636#0" />
+            <element signature="e#5681#6063#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../dbBack/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="256" column="16" lean-forward="true" selection-start-line="256" selection-start-column="16" selection-end-line="256" selection-end-column="16" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#6316#6848#0" />
+            <element signature="e#6899#7380#0" />
+            <element signature="e#7433#7994#0" />
+            <element signature="e#3914#4327#0" />
+            <element signature="e#8551#9010#0" />
+            <element signature="e#9112#9581#0" />
+            <element signature="e#9682#10199#0" />
+            <element signature="e#9110#9578#0" />
+            <element signature="e#10837#11309#0" />
+            <element signature="e#11390#11894#0" />
+            <element signature="e#9084#9539#0" />
           </folding>
         </state>
       </provider>
