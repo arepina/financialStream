@@ -1,3 +1,5 @@
+from distutils.log import Log
+
 import requests
 from flask import Flask
 from flask_cors import CORS
@@ -16,13 +18,14 @@ def getstream():
         instrumentList = stream.createInstrumentList()
         while True:
             yield stream.createRandomData(instrumentList)
-
     for stream in data_stream():
+        print(stream)
+        Log.i(stream)
         requests.post(endpoint.POST_TO, json=stream)
 
 
 def bootapp():
-    app.run(port=8080, threaded=True, host='localhost')
+    app.run(port=endpoint.PORT, threaded=True, host=endpoint.HOST)
 
 
 if __name__ == '__main__':
