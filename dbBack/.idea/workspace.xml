@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="745e48b9-a681-41fa-a832-3ec9765bb371" name="Default Changelist" comment="">
 <<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/../dbBack/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dbBack/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/main.py" afterDir="false" />
+=======
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/dbBack.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbBack.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -16,6 +20,7 @@
       <change beforePath="$PROJECT_DIR$/../dbBack/test_instrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dbBack/test_instrument.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../webBack/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../webBack/.idea/workspace.xml" afterDir="false" />
 >>>>>>> c0672006058082ad4594c5b7fc59184af0c6e00e
+>>>>>>> d14d946fc838f4a544f92995202d9c4c71be8d39
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,22 +34,37 @@
         <entry file="file://$PROJECT_DIR$/../dbBack/main.py">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+            <state relative-caret-position="124">
+              <caret line="235" column="8" lean-forward="true" selection-start-line="235" selection-start-column="8" selection-end-line="235" selection-end-column="8" />
+=======
+<<<<<<< HEAD
             <state relative-caret-position="102">
               <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
 =======
             <state relative-caret-position="112">
               <caret line="154" column="23" lean-forward="true" selection-start-line="154" selection-start-column="23" selection-end-line="154" selection-end-column="23" />
 >>>>>>> c0672006058082ad4594c5b7fc59184af0c6e00e
+>>>>>>> d14d946fc838f4a544f92995202d9c4c71be8d39
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
+                <element signature="e#5332#5731#0" />
+                <element signature="e#5095#5174#0" />
+                <element signature="e#944#1528#0" />
+                <element signature="e#1592#2121#0" />
+                <element signature="e#1441#2016#0" />
+                <element signature="e#3914#4327#0" />
+                <element signature="e#2456#2868#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
+        <entry file="file://$PROJECT_DIR$/../dbBack/main_stream.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state>
+=======
 <<<<<<< HEAD
             <state relative-caret-position="340">
               <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
@@ -52,9 +72,19 @@
             <state relative-caret-position="153">
               <caret line="9" column="45" lean-forward="true" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
 >>>>>>> c0672006058082ad4594c5b7fc59184af0c6e00e
+>>>>>>> d14d946fc838f4a544f92995202d9c4c71be8d39
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#0#33#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="13" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -351,8 +381,22 @@
     <entry file="file://$PROJECT_DIR$/../dbBack/initialRandomValues.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/../dbBack/Database.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../dbBack/main.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="124">
+          <caret line="235" column="8" lean-forward="true" selection-start-line="235" selection-start-column="8" selection-end-line="235" selection-end-column="8" />
+=======
 <<<<<<< HEAD
         <state relative-caret-position="102">
           <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
@@ -360,17 +404,25 @@
         <state relative-caret-position="112">
           <caret line="154" column="23" lean-forward="true" selection-start-line="154" selection-start-column="23" selection-end-line="154" selection-end-column="23" />
 >>>>>>> c0672006058082ad4594c5b7fc59184af0c6e00e
+>>>>>>> d14d946fc838f4a544f92995202d9c4c71be8d39
           <folding>
             <element signature="e#0#49#0" expanded="true" />
+            <element signature="e#5332#5731#0" />
+            <element signature="e#5095#5174#0" />
+            <element signature="e#944#1528#0" />
+            <element signature="e#1592#2121#0" />
+            <element signature="e#1441#2016#0" />
+            <element signature="e#3914#4327#0" />
+            <element signature="e#2456#2868#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../dbBack/Database.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../dbBack/randomDealData.py">
+    <entry file="file://$PROJECT_DIR$/../dbBack/main_stream.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state>
+=======
 <<<<<<< HEAD
         <state relative-caret-position="340">
           <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
@@ -378,8 +430,9 @@
         <state relative-caret-position="153">
           <caret line="9" column="45" lean-forward="true" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
 >>>>>>> c0672006058082ad4594c5b7fc59184af0c6e00e
+>>>>>>> d14d946fc838f4a544f92995202d9c4c71be8d39
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
