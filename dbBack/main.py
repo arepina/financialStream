@@ -108,7 +108,7 @@ def dealer_position():
             status=400,
             mimetype='application/json'
         )
-        return responsehe
+        return response
 
 
 @app.route('/realised_profit_loss_dealers', methods=['GET'])
@@ -295,5 +295,9 @@ def get_stream_data():
         return response
 
 
+def bootapp():
+    app.run(port=80, threaded=True, host=('0.0.0.0'))
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host='localhost', port=80)
+    bootapp()
