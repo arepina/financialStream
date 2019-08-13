@@ -125,3 +125,17 @@ class Database:
                          "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id;")
         result = self.cur.fetchall()
         return result
+
+    def add_stream_data(self, instrumentName, cpty, price, type, quantity, time):
+        #TODO MORE INSERTS
+        self.cur.execute(
+            "INSERT INTO `DEAL`(instrumentName, cpty, price, type, quantity, time) VALUES({0}, {1}, {2}, {3}, {4}, {5})"
+                .format(instrumentName, cpty, price, type, quantity, time))
+        result = self.cur.fetchall()
+        return result
+
+    def get_stream_data(self):
+        #TODO Join with other tables
+        self.cur.execute("SELECT * FROM `DEAL`")
+        result = self.cur.fetchall()
+        return result
