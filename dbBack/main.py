@@ -3,8 +3,6 @@ import pymysql
 import json
 from flask_cors import CORS
 
-from randomDealData import RandomDealData
-
 app = Flask(__name__)
 CORS(app)
 
