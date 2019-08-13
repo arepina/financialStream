@@ -1,3 +1,16 @@
-PATH = "http://localhost:80/"
+PATH = "http://10.1.4.75:8080/"  # TODO CHANGE THE PORT
+HOST = "0.0.0.0"
+PORT = 8080  # TODO CHANGE THE PORT
 CREATE_USER = PATH + "create_user"
 GET_USER = PATH + "get_user"
+GET_STREAM_DATA = PATH + "get_stream_data"
+AGGREGATED_REALISED = PATH + "aggregated_realised"
+AGGREGATED_EFFECTIVE = PATH + "aggregated_effective"
+AGGREGATED_ENDING = PATH + "aggregated_ending"
+EFFECTIVE_DEALER = PATH + "effective_profit_loss_dealer"
+EFFECTIVE_DEALERS = PATH + "effective_profit_loss_dealers"
+REALISED_DEALER = PATH + "realised_profit_loss_dealer"
+REALISED_DEALERS = PATH + "realised_profit_loss_dealers"
+DEALER_POSITION = PATH + "dealer_position"
+DEALERS_POSITION = PATH + "dealers_position"
+AVERAGE = PATH + "average"
