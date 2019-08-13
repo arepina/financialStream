@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="745e48b9-a681-41fa-a832-3ec9765bb371" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../dataGeneratingProcess/endpoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dataGeneratingProcess/endpoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dataGeneratingProcess/main_stream.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dataGeneratingProcess/main_stream.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dataGeneratingProcess/randomDealData.py" beforeDir="false" afterPath="$PROJECT_DIR$/../dataGeneratingProcess/randomDealData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dataGeneratingProcess/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../dataGeneratingProcess/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbBack.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbBack.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="745e48b9-a681-41fa-a832-3ec9765bb371" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +42,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="85" />
     <option name="y" value="25" />
     <option name="width" value="1750" />
@@ -130,7 +122,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
