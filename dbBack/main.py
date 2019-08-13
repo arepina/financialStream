@@ -32,29 +32,107 @@ class Database:
 
     def average(self, type, start, end):
         self.cur.execute(
-            "SELECT i.instr_name, avg(d.price) "
-            "FROM `DEAL` d INNER JOIN `INSTRUMENT` i "
-            "ON d.instrument_id = i.instrument_id "
-            "WHERE timestamp > '{0}' AND timestamp < '{1}' AND type = '{2}'"
+            "SELECT i.instr_name, avg(d.price)"
+            "FROM DEAL d INNER JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id"
+            "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' AND d.type = '{2}'"
             "GROUP BY i.instr_name;".format(start, end, type))
         result = self.cur.fetchall()
         return result
 
-    def dealers_position(self, date):
+    def dealers_position(self, start, end):
+        self.cur.execute("SELECT c.cpty_name, "
+                         "SUM(CASE "
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity END) AS dealer_revenue"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}'"
+                         "GROUP BY c.cpty_name;".format(start, end))
+        result = self.cur.fetchall()
+        return result
+
+    def dealer_position(self, login, start, end):
         self.cur.execute("SELECT c.cpty_name, sum(d.price*d.quantity)"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE c.cpty_name = '{0}' AND d.timestamp > '{1}' AND d.timestamp <= '{2}'"
+                         "GROUP BY c.cpty_name;".format(login, start, end))
+        result = self.cur.fetchall()
+        return result
+
+    def realised_profit_loss_dealers(self, date):
+        self.cur.execute("SELECT c.cpty_name, "
+                         "SUM(CASE "
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE d.timestamp > '%{0}%'"
+                         "GROUP BY c.cpty_name;".format(date))
+        result = self.cur.fetchall()
+        return result
+
+    def realised_profit_loss_dealer(self, date, login):
+        self.cur.execute("SELECT c.cpty_name, "
+                         "SUM(CASE "
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE c.cpty_name = '{0}' AND d.timestamp > '%{1}%'"
+                         "GROUP BY c.cpty_name;".format(login, date))
+        result = self.cur.fetchall()
+        return result
+
+    def effective_profit_loss_dealers(self):
+        self.cur.execute("SELECT c.cpty_name, "
+                         "SUM(CASE"
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
                          "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
                          "GROUP BY c.cpty_name;")
         result = self.cur.fetchall()
         return result
 
-    def dealer_position(self, login, date):
-        self.cur.execute("SELECT c.cpty_name, sum(d.price*d.quantity)"
+    def effective_profit_loss_dealer(self, login):
+        self.cur.execute("SELECT c.cpty_name,"
+                         "SUM(CASE"
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
                          "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
                          "WHERE c.cpty_name = '{0}'"
                          "GROUP BY c.cpty_name;".format(login))
         result = self.cur.fetchall()
         return result
 
+    def aggregated_ending(self, start, end):
+        self.cur.execute("SELECT SUM(CASE"
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}';".format(start, end))
+        result = self.cur.fetchall()
+        return result
+
+    def aggregated_effective(self, date):
+        self.cur.execute("SELECT SUM(CASE"
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
+                         "WHERE d.timestamp > '%{0}%';".format(date))
+        result = self.cur.fetchall()
+        return result
+
+    def aggregated_realised(self):
+        self.cur.execute("SELECT SUM(CASE"
+                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
+                         "WHEN d.type = 'S' THEN d.price*d.quantity"
+                         "END) AS rev"
+                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id;")
+        result = self.cur.fetchall()
+        return result
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
@@ -76,7 +154,6 @@ def create_user():
             mimetype='application/json'
         )
 
-
 @app.route('/get_user', methods=['GET'])
 def get_user():
     login = request.json.get('login')
@@ -95,7 +172,6 @@ def get_user():
             status=400,
             mimetype='application/json'
         )
-
 
 @app.route('/average', methods=['GET'])
 def average():
@@ -118,7 +194,6 @@ def average():
         )
         return response
 
-
 @app.route('/dealers_position', methods=['GET'])
 def dealers_position():
     try:
@@ -136,7 +211,6 @@ def dealers_position():
             mimetype='application/json'
         )
         return response
-
 
 @app.route('/dealer_position', methods=['GET'])
 def dealer_position():
@@ -156,6 +230,27 @@ def dealer_position():
             mimetype='application/json'
         )
         return response
+
+@app.route('/aggregated_realised', methods=['GET'])
+def aggregated_realised():
+    try:
+        db = Database()
+        data = db.aggregated_realised()
+        return app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        response = app.response_class(
+            response=json.dumps(e),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
+
+
+
 
 
 if __name__ == '__main__':
