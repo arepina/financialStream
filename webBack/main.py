@@ -116,5 +116,9 @@ def get_stream_data():
     return resp.text, resp.status_code, resp.headers.items()
 
 
-if __name__ == "__main__":
-    app.run(debug=True, host=HOST, port=PORT)
+def bootapp():
+    app.run(port=PORT, threaded=True, host=HOST, debug=True)
+
+
+if __name__ == '__main__':
+    bootapp()
