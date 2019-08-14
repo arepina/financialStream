@@ -266,9 +266,7 @@ class Database:
         else:
             time_local[1] = '12'
         time_string = time_local[2] + "-" + time_local[1] + "-" + time_local[0] + " " + time_local[3]
-        self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, "
-                         "quantity, type, timestamp) VALUES ({0}, {1}, {2}, {3}, {4}, "
-                         "CAST({5} AS DATETIME))".format(instr_id, cpty_id, price, quantity, type, time_string))
+        self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, quantity, type, timestamp) VALUES ({0}, {1}, {2}, {3}, {4}, CAST({5} AS DATETIME))".format(instr_id, cpty_id, price, quantity, type, time_string))
         self.con.commit()
 
     def insert_initial_counter_party(self):
