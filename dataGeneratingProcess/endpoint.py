@@ -1,3 +1,3 @@
-POST_TO = 'http://localhost:8080/add_stream_data'
-HOST = 'localhost'
-PORT = 5000
+POST_TO = 'http://172.30.94.76/add_stream_data'
+HOST = '0.0.0.0'
+PORT = 8080
