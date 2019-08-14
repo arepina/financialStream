@@ -5,7 +5,7 @@ import {Bar} from 'react-chartjs-2';
 import {Line} from 'react-chartjs-2';
 import Loader from 'react-loader-spinner';
 import DateTimePicker from 'react-datetime-picker';
-import GetData from './GetData';
+import TableData from './TableData';
 export default class DisplayData extends Component {
 
     constructor(props) {
@@ -250,7 +250,7 @@ export default class DisplayData extends Component {
     renderSuccess() {
         return (
             <div>
-            <GetData/>
+            <TableData/>
             <div style={{alignItems:'center', textAlign:'center'}}>
             <select id="charts" onChange={this.handleChartDataSubmit} style={{width:'100%', marginTop:'10px'}}>
                 <option disabled selected value> -- select an option -- </option>

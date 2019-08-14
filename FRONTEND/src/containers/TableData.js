@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, withLatestFrom, filter } from 'rxjs/operators';
 import { Table, Input, Button } from 'reactstrap';
 // import { ReactTable } from 'react-table';
-import "./GetData.css";
+import "./TableData.css";
 
 const url = "http://localhost:8083/streamTime/sse";
     const source = new EventSource(url);
@@ -15,8 +15,7 @@ const url = "http://localhost:8083/streamTime/sse";
         }, false);
     });
     
-function GetData() {
-    let streamingStatus = true;
+function TableData() {
     const myTable = "myTable";
 
     const [stringArray, setStringArray] = useState([]);
@@ -41,7 +40,6 @@ function GetData() {
     );
 
     const stopStreaming = event => {
-        streamingStatus = false;
         console.log('Connection closed');
         source.close();
     }
@@ -98,7 +96,6 @@ function GetData() {
                         stringArray.map((message, index) => {
                             message = message.replace(/'/g, '"')
                             message = JSON.parse(message)
-                            // console.log(jsonMessgage.id + ' ' + jsonMessgage.name + ' ' + jsonMessgage.password)
                             return (
                                 <tr key={index}>
                                 <td>{index}</td>
@@ -122,4 +119,4 @@ function GetData() {
     );
 }
 
-export default GetData;
+export default TableData;
