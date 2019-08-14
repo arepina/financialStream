@@ -14,7 +14,6 @@ class App extends Component {
             <Navbar.Brand>
               <Link to="/" style={{color: 'white'}}>DB.Deals</Link>
             </Navbar.Brand>
-            <Navbar.Toggle />
           </Navbar.Header>
         </Navbar>
         <Routes />

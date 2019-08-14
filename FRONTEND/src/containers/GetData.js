@@ -6,20 +6,23 @@ import { Table, Input, Button } from 'reactstrap';
 // import { ReactTable } from 'react-table';
 import "./GetData.css";
 
-const url = "http://localhost:8080/streamTime/sse";
-const source = new EventSource(url);
-const stringObservable = Observable.create(observer => {
-    source.addEventListener('message', (messageEvent) => {
-        // console.log(messageEvent);
-        observer.next(messageEvent.data);
-    }, false);
-});
-
+const url = "http://localhost:8083/streamTime/sse";
+    const source = new EventSource(url);
+    const stringObservable = Observable.create(observer => {
+        source.addEventListener('message', (messageEvent) => {
+            // console.log(messageEvent);
+            observer.next(messageEvent.data);
+        }, false);
+    });
+    
 function GetData() {
     let streamingStatus = true;
     const myTable = "myTable";
 
     const [stringArray, setStringArray] = useState([]);
+    const refresh = event => {
+        window.location.reload();
+    }
 
     useObservable(
         state =>
@@ -44,7 +47,6 @@ function GetData() {
     }
 
     const filterFn = event => {
-        console.log("hello");
         // Declare variables 
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myFilter");
@@ -55,7 +57,7 @@ function GetData() {
         if (filter) {
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 1; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
+                td = tr[i].getElementsByTagName("td")[1];
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     // if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -67,23 +69,28 @@ function GetData() {
                 }
             }
         }
+        else {
+            for (i = 1; i < tr.length; i++) {
+                    tr[i].style.display = "";
+                }
+            }
     }
 
     return (
         <>
             <Input type="text" id="myFilter" onKeyPress={filterFn} placeholder="Filter for Instrument here..."></Input>
+            <div id="table-wrapper">
+            <div id="table-scroll">
             <Table responsive id={myTable}>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>name</th>
-                        <th>password</th>
-                        {/* <th>instrumentName</th>
+                        <th>instrumentName</th>
                         <th>cpty</th>
                         <th>price</th>
                         <th>type</th>
                         <th>quantity</th>
-                        <th>time</th> */}
+                        <th>time</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,28 +98,26 @@ function GetData() {
                         stringArray.map((message, index) => {
                             message = message.replace(/'/g, '"')
                             message = JSON.parse(message)
-                            console.log(message.id)
                             // console.log(jsonMessgage.id + ' ' + jsonMessgage.name + ' ' + jsonMessgage.password)
                             return (
                                 <tr key={index}>
-                                    <td>{message.id}</td>
-                                    <td>{message.name}</td>
-                                    <td>{message.password}</td>
-                                    {/* <td>{instrumentName}</td>
-                                <td>{cpty}</td>
-                                <td>{price}</td>
-                                <td>{type}</td>
-                                <td>{quantity}</td>
-                                <td>{time}</td> */}
+                                <td>{index}</td>
+                                <td>{message.instrumentName}</td>
+                                <td>{message.cpty}</td>
+                                <td>{message.price}</td>
+                                <td>{message.type}</td>
+                                <td>{message.quantity}</td>
+                                <td>{message.time}</td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </Table>
+            </div>
+            </div>
             <Button onClick={stopStreaming}>Stop</Button>
-            {/* {stringArray[0]} */}
-            {/* {stringArray ? stringArray.map((message, index) => <p key={index}>{message}</p>) : <p>Loading...</p>} */}
+            <Button onClick={refresh}>Refresh</Button>
         </>
     );
 }
