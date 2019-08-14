@@ -240,9 +240,36 @@ class Database:
         self.cur.execute("SELECT counter_party_id FROM COUNTER_PARTY "
                          "WHERE cpty_name = '{0}';".format(cpty))
         cpty_id = self.cur.fetchone()
+        time_local = time.replace('-', ' ')
+        time_local = time_local.split()
+        if time_local[1] == 'Jan':
+            time_local[1] = '01'
+        elif time_local[1] == 'Feb':
+            time_local[1] = '02'
+        elif time_local[1] == 'Mrz':
+            time_local[1] = '03'
+        elif time_local[1] == 'Apr':
+            time_local[1] = '04'
+        elif time_local[1] == 'May':
+            time_local[1] = '05'
+        elif time_local[1] == 'Jun':
+            time_local[1] = '06'
+        elif time_local[1] == 'Jul':
+            time_local[1] = '07'
+        elif time_local[1] == 'Aug':
+            time_local[1] = '08'
+        elif time_local[1] == 'Sep':
+            time_local[1] = '09'
+        elif time_local[1] == 'Oct':
+            time_local[1] = '10'
+        elif time_local[1] == 'Nov':
+            time_local[1] = '11'
+        else:
+            time_local[1] = '12'
+        time_string = time_local[2] + "-" + time_local[1] + "-" + time_local[0] + " " + time_local[3]
         self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, "
-                         "quantity, type, timestamp) VALUES "
-                         "({0}, {1}, {2}, {3}, {4}, {5})".format(instr_id, cpty_id, price, quantity, type, time))
+                         "quantity, type, timestamp) VALUES {0}, {1}, {2}, {3}, {4}, "
+                         "CAST({5} AS DATETIME))".format(instr_id, cpty_id, price, quantity, type, time_string))
         self.con.commit()
 
     def insert_initial_counter_party(self):
