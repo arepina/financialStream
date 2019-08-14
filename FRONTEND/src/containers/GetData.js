@@ -37,14 +37,6 @@ function GetData() {
             )
     );
 
-    const columns = [{
-        Header: 'Id',
-        accessor: 'id' // String-based value accessors!
-    }, {
-        Header: 'Clock',
-        accessor: 'clock'
-    }]
-
     const stopStreaming = event => {
         streamingStatus = false;
         console.log('Connection closed');
@@ -52,31 +44,34 @@ function GetData() {
     }
 
     const filterFn = event => {
+        console.log("hello");
         // Declare variables 
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myFilter");
         filter = input.value.toUpperCase();
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
-      
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          console.log(td);
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
+
+        if (filter) {
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    // if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    if (txtValue.toUpperCase() === filter) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
-          } 
         }
     }
 
     return (
         <>
-        <Input type="text" id="myFilter" onKeyPress={filterFn} placeholder="Filter for Instrument here..."></Input>
+            <Input type="text" id="myFilter" onKeyPress={filterFn} placeholder="Filter for Instrument here..."></Input>
             <Table responsive id={myTable}>
                 <thead>
                     <tr>
@@ -95,14 +90,12 @@ function GetData() {
                     {
                         stringArray.map((message, index) => {
                             message = message.replace(/'/g, '"')
-                            console.log("after " + message)
                             message = JSON.parse(message)
-                            console.log(message)
-                            // console.log(message.id)
+                            console.log(message.id)
                             // console.log(jsonMessgage.id + ' ' + jsonMessgage.name + ' ' + jsonMessgage.password)
                             return (
                                 <tr key={index}>
-                                    <td>{index}</td>
+                                    <td>{message.id}</td>
                                     <td>{message.name}</td>
                                     <td>{message.password}</td>
                                     {/* <td>{instrumentName}</td>
