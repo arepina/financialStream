@@ -13,15 +13,15 @@ class Database:
         self.cur = self.con.cursor()
 
     def login(self, login, password):
-        self.cur.execute("SELECT * FROM `USER` "
-                         "WHERE `login` = '{0}' and `password` = '{1}'".format(login, password))
+        self.cur.execute("SELECT * FROM USER "
+                         "WHERE login = '{0}' and password = '{1}';".format(login, password))
         result = self.cur.fetchall()
         return result
 
     def sign_up(self, login, password, user_type):
         self.cur.execute(
-            "INSERT INTO `USER`(`login`, `password`, `user_type`) "
-            "VALUES ('{0}', '{1}', '{2}')".format(login, password, user_type))
+            "INSERT INTO USER(login, password, user_type) "
+            "VALUES ('{0}', '{1}', '{2}');".format(login, password, user_type))
         self.con.commit()
 
     def average(self, start, end):
@@ -233,13 +233,13 @@ class Database:
         result = self.cur.fetchall()
         return result
 
-    def add_stream_data(self, instrumentName, cpty, price, type, quantity, time):
+    def add_stream_data(self, instrumentName, cpty, price, quantity, type, time):
         self.cur.execute("SELECT instrument_id FROM INSTRUMENT "
                          "WHERE instrument_name = '{0}';".format(instrumentName))
-        instr_id = self.cur.fetchone()
+        instr_id = self.cur.fetchone()[0]
         self.cur.execute("SELECT counter_party_id FROM COUNTER_PARTY "
                          "WHERE cpty_name = '{0}';".format(cpty))
-        cpty_id = self.cur.fetchone()
+        cpty_id = self.cur.fetchone()[0]
         time_local = time.replace('-', ' ')
         time_local = time_local.split()
         if time_local[1] == 'Jan':
@@ -267,8 +267,7 @@ class Database:
         else:
             time_local[1] = '12'
         time_string = time_local[2] + "-" + time_local[1] + "-" + time_local[0] + " " + time_local[3]
-        logging.info("INSERT INTO DEAL (instrument_id, counter_party_id, price, quantity, type, timestamp) VALUES ({0}, {1}, {2}, {3}, {4}, CAST({5} AS DATETIME));".format(instr_id, cpty_id, price, quantity, type, time_string))
-        self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, quantity, type, timestamp) VALUES ({0}, {1}, {2}, {3}, {4}, CAST({5} AS DATETIME));".format(instr_id, cpty_id, price, quantity, type, time_string))
+        self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, quantity, type, timestamp) VALUES ({0}, {1}, {2}, {3}, '{4}', CAST('{5}' AS DATETIME));".format(instr_id, cpty_id, price, quantity, type, time_string))
         self.con.commit()
 
     def insert_initial_counter_party(self):
