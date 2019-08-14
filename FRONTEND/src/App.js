@@ -19,10 +19,10 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        <Navbar fluid collapseOnSelect>
+        <Navbar fluid collapseOnSelect  style={{background:'#0018A8'}}>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/">Scratch</Link>
+              <Link to="/" style={{color: 'white'}}>DB.Deals</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>

@@ -109,19 +109,19 @@ export default class Login extends Component {
   }
 
   renderSuccess() {
-    return (
-        <p>Connection Successful!</p>
-    )
-}
+      return (
+          <p>Connection Successful!</p>
+      )
+  }
 
-renderFail() {
-    return (
-        <div>
-            <p>Connection Fail!</p>
-            <NavLink to={{pathname: "/"}} > Retry </NavLink>
-        </div>
-    )
-}
+  renderFail() {
+      return (
+          <div>
+              <p>Connection Fail!</p>
+              <NavLink to={{pathname: "/"}} > Retry </NavLink>
+          </div>
+      )
+  }
 
 
   renderLogin() {
@@ -144,7 +144,7 @@ renderFail() {
               type="password"
             />
           </FormGroup>
-          <Button
+          <Button style={{background:'#0018A8', color: 'white'}}
             block
             bsSize="large"
             disabled={!this.validateForm()}
@@ -166,14 +166,16 @@ renderFail() {
     )
   }
 
-
-
   render() {
+    const divStyle = {
+      justifycontent: 'center', 
+      display: 'grid'
+    };
     if (this.state.loggedInStatus) {
       return (
-        <div>
-          <p> Login Successsfully!</p>
-            <Button onClick={this.handleDisplayDataSubmit}> Continue </Button>
+        <div style={divStyle}>
+          <p style={{textAlign:'center', fontWeight: 'bold'}}> Login Successsfully!</p>
+            <Button  style={{background:'#0018A8', color: 'white'}} onClick={this.handleDisplayDataSubmit}> Continue </Button>
         </div>
       )
     }
