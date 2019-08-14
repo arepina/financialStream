@@ -21,10 +21,8 @@ def getstream():
     for stream in data_stream():
         print(stream)
         logging.info(stream)
-        try:
-            requests.post(endpoint.POST_TO, json=stream) #ERROR
-        except Exception as e:
-            logging.info("CONNECTION FAILED!")
+        requests.post(endpoint.POST_TO, json=stream) #ERROR
+
 
 
 def bootapp():
