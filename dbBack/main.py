@@ -10,7 +10,6 @@ from endpoints import PORT, HOST
 app = Flask(__name__)
 CORS(app)
 
-
 @app.route('/create_user', methods=['POST'])
 def create_user():
     try:
@@ -65,6 +64,8 @@ def average():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.average(start, end)
         return app.response_class(
@@ -86,6 +87,8 @@ def dealers_position():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.dealers_position(start, end)
         return app.response_class(
@@ -108,6 +111,8 @@ def dealer_position():
         login = request.json.get('login')
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.dealer_position(login, start, end)
         return app.response_class(
@@ -129,6 +134,8 @@ def realised_profit_loss_dealers():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.realised_profit_loss_dealers(start, end)
         return app.response_class(
@@ -151,6 +158,8 @@ def realised_profit_loss_dealer():
         login = request.json.get('login')
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.realised_profit_loss_dealer(start, end, login)
         return app.response_class(
@@ -172,6 +181,8 @@ def effective_profit_loss_dealers():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.effective_profit_loss_dealers(start, end)
         return app.response_class(
@@ -194,6 +205,8 @@ def effective_profit_loss_dealer():
         start = request.json.get('start')
         end = request.json.get('end')
         login = request.json.get('login')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.effective_profit_loss_dealer(start, end, login)
         return app.response_class(
@@ -215,6 +228,8 @@ def aggregated_ending():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.aggregated_ending(start, end)
         return app.response_class(
@@ -236,6 +251,8 @@ def aggregated_effective():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.aggregated_effective(start, end)
         return app.response_class(
@@ -257,6 +274,8 @@ def aggregated_realised():
     try:
         start = request.json.get('start')
         end = request.json.get('end')
+        start = start[:10] + ' ' + start[10 + 1:]
+        end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.aggregated_realised(start, end)
         return app.response_class(

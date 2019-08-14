@@ -1,3 +1,5 @@
+import json
+
 import requests
 from flask import Flask, request
 from flask_cors import CORS
@@ -6,6 +8,10 @@ from endpoints import *
 
 app = Flask(__name__)
 CORS(app)
+
+
+def json_response(payload, status=200):
+    return (json.dumps(payload), status, {'content-type': 'application/json'})
 
 
 @app.route('/register', methods=["POST"])
@@ -31,11 +37,26 @@ def login():
 def average():
     start = request.json['start']
     end = request.json['end']
-    # resp = requests.get(AVERAGE,
-    #                     json={"start": start, "end": end})
-    return [("I", "R", 1.1, "S", 2, "12-Aug-2019 (10:11:55.000001)"),
-            ("I", "R", 1.1, "S", 2, "12-Aug-2019 (10:11:55.000001)")], 200
-    # return resp.text, resp.status_code, resp.headers.items()
+    resp = requests.get(AVERAGE,
+                        json={"start": start, "end": end})
+    # '[["an", "\\u00a3 321.00", null], ["en", null, "\\u00a3 743.00"], ["in", "\\u00a3 3,416.00", null], ["un", null, "\\u00a3 123.00"]]'
+    averageBuy = []
+    averageSell = []
+    for item in resp.text.split('], ['):
+        item = item.replace('[', '').replace(']', '').replace('\\u00a3', '')
+        item = item[item.index(',') + 2:]
+        sep = item.index(', ')
+        buy = item[:sep].replace(" ", '').replace("\"", "")
+        sell = item[sep + 2:].replace(" ", '').replace("\"", "")
+        if buy == 'null':
+            averageBuy.append(0)
+        else:
+            averageBuy.append(float(buy.replace(',', '')))
+        if sell == 'null':
+            averageSell.append(0)
+        else:
+            averageSell.append(float(sell.replace(',', '')))
+    return json_response({'averageBuy': averageBuy, 'averageSell': averageSell})
 
 
 @app.route('/dealers_position', methods=["POST"])
