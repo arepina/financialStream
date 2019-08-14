@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "./DisplayData.css";
+import DataTable from "./DataTable";
 
 export default class DisplayData extends Component {
     constructor(props) {
@@ -10,7 +11,10 @@ export default class DisplayData extends Component {
 
     renderSuccess() {
         return (
-            <p>Connection Successful!</p>
+            <div>
+                <p>Connection Successful!</p>
+                <DataTable />
+            </div>
         )
     }
 
@@ -18,7 +22,7 @@ export default class DisplayData extends Component {
         return (
             <div>
                 <p>Connection Fail!</p>
-                <NavLink to={{pathname: "/login"}} > Retry </NavLink>
+                <NavLink to={{ pathname: "/" }} > Retry </NavLink>
             </div>
         )
     }

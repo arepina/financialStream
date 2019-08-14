@@ -72,7 +72,7 @@ export default class Login extends Component {
   handleDisplayDataSubmit = async event => {
     event.preventDefault();
 
-    fetch('https://jsonplaceholder.typicode.co/posts', {
+    fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
