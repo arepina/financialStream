@@ -1,9 +1,11 @@
 import json
 
+import logging
 from flask import Flask, request
 from flask_cors import CORS
 
 from Database import Database
+from endpoints import PORT, HOST
 
 app = Flask(__name__)
 CORS(app)
@@ -16,7 +18,11 @@ def create_user():
         password = request.json.get('password')
         user_type = request.json.get('userType')
         db = Database()
+        print("Connected")
+        logging.info("Connected")
         db.sign_up(login, password, user_type)
+        logging.info("User created")
+        print("User created")
         return app.response_class(
             response=json.dumps('OK'),
             status=200,
@@ -36,7 +42,11 @@ def get_user():
         login = request.json.get('login')
         password = request.json.get('password')
         db = Database()
+        logging.info("Connected")
+        print("Connected")
         data = db.login(login, password)
+        logging.info("login done")
+        print("login done")
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -296,7 +306,7 @@ def get_stream_data():
 
 
 def bootapp():
-    app.run(port=PORT, threaded=True, host=HOST)
+    app.run(port=PORT, threaded=True, host=HOST, debug=True)
 
 
 if __name__ == '__main__':

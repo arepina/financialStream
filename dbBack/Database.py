@@ -1,11 +1,11 @@
 import pymysql
 
-from endpoints import HOST
+from endpoints import DB_HOST
 
 
 class Database:
     def __init__(self):
-        host = HOST
+        host = DB_HOST
         user = "admin"
         password = "admin"
         db = "sampledb"
