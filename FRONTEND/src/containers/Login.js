@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+// import { Link } from "react-router-bootstrap";
+import { NavLink } from "react-router-dom";
 import "./Login.css";
+import  DisplayData from "./DisplayData";
 
 export default class Login extends Component {
   constructor(props) {
@@ -8,8 +11,9 @@ export default class Login extends Component {
 
     this.state = {
       username: "",
-      password: ""
-      // loggedInStatus: false
+      password: "",
+      loggedInStatus: false,
+      connectStatus: false
     };
   }
 
@@ -23,48 +27,107 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit = event => {
+  handleLoginSubmit = async event => {
     event.preventDefault();
 
-
-    fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            login: this.state.email,
-            password: this.state.password,
-        },),
-        credentials: 'same-origin'
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: this.state.email,
+        password: this.state.password,
+      }),
+      //credentials: 'same-origin'
+      mode: "cors"
     })
-    .then(res => res.json())
-    .then(
+      .then(res => res)
+      .then(
         (result) => {
           console.log(result);
-          // if(result.status === 200 && result.email === this.state.email && result.password === this.state.password) {
-          //   this.setState({
-          //     loggedInStatus: true
-            // })
-            // this.props.changeLoginStatus(true);
-          // }
+          if (parseInt(result.status / 100) === 2) {
+            this.setState({
+              loggedInStatus: true
+            })
+          }
+          else {
+            alert("Login failed. Please try again.")
+            this.setState({
+              loggedInStatus: false
+            })
+          }
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           console.error("Login error!")
+          alert("Login failed. Please try again.")
+          this.setState({
+            loggedInStatus: false
+          })
         }
       )
   }
 
+  handleDisplayDataSubmit = async event => {
+    event.preventDefault();
+
+    fetch('https://jsonplaceholder.typicode.co/posts', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      //credentials: 'same-origin'
+      mode: "cors"
+    })
+      .then(res => res)
+      .then(
+        (result) => {
+          console.log(result);
+          if (parseInt(result.status / 100) === 2) {
+            this.setState ({
+              connectStatus: true
+            })
+            console.log("connect status: " + this.state.connectStatus)
+            this.props.history.push('/displaydata', { status: true});
+          }
+          else {
+            this.setState ({
+              connectStatus: false
+            })
+            this.props.history.push('/displaydata', { status: false});
+          }
+        },
+        (error) => {
+          this.setState ({
+            connectStatus: false
+          })
+          this.props.history.push('/displaydata', {status: false});
+        }
+      )
+  }
+
+  renderSuccess() {
+    return (
+        <p>Connection Successful!</p>
+    )
+}
+
+renderFail() {
+    return (
+        <div>
+            <p>Connection Fail!</p>
+            <NavLink to={{pathname: "/"}} > Retry </NavLink>
+        </div>
+    )
+}
 
 
-  render() {
+  renderLogin() {
     return (
       <div className="Login">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleLoginSubmit}>
           <FormGroup controlId="username" bsSize="large">
             <ControlLabel>Username</ControlLabel>
             <FormControl
@@ -91,6 +154,31 @@ export default class Login extends Component {
           </Button>
         </form>
       </div>
-    );
+    )
+  }
+
+  renderDisplayData() {
+    return (
+      <div>
+        <p> Successsfully connected!</p>
+        <p> Data here!</p>
+      </div>
+    )
+  }
+
+
+
+  render() {
+    if (this.state.loggedInStatus) {
+      return (
+        <div>
+          <p> Login Successsfully!</p>
+            <Button onClick={this.handleDisplayDataSubmit}> Continue </Button>
+        </div>
+      )
+    }
+    else {
+      return (this.renderLogin())
+    }
   }
 }
