@@ -109,19 +109,19 @@ export default class Login extends Component {
   }
 
   renderSuccess() {
-    return (
-        <p>Connection Successful!</p>
-    )
-}
+      return (
+          <p>Connection Successful!</p>
+      )
+  }
 
-renderFail() {
-    return (
-        <div>
-            <p>Connection Fail!</p>
-            <NavLink to={{pathname: "/"}} > Retry </NavLink>
-        </div>
-    )
-}
+  renderFail() {
+      return (
+          <div>
+              <p>Connection Fail!</p>
+              <NavLink to={{pathname: "/"}} > Retry </NavLink>
+          </div>
+      )
+  }
 
 
   renderLogin() {
@@ -165,8 +165,6 @@ renderFail() {
       </div>
     )
   }
-
-
 
   render() {
     const divStyle = {
