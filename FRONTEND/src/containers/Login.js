@@ -3,7 +3,6 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 // import { Link } from "react-router-bootstrap";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
-import  DisplayData from "./DisplayData";
 
 export default class Login extends Component {
   constructor(props) {

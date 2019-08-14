@@ -27,17 +27,18 @@ def login():
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/average', methods=["GET"])
+@app.route('/average', methods=["POST"])
 def average():
-    type = request.json['type']
     start = request.json['start']
     end = request.json['end']
-    resp = requests.get(AVERAGE,
-                        json={"type": type, "start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
+    # resp = requests.get(AVERAGE,
+    #                     json={"start": start, "end": end})
+    return [("I", "R", 1.1, "S", 2, "12-Aug-2019 (10:11:55.000001)"),
+            ("I", "R", 1.1, "S", 2, "12-Aug-2019 (10:11:55.000001)")], 200
+    # return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/dealers_position', methods=["GET"])
+@app.route('/dealers_position', methods=["POST"])
 def dealers_position():
     start = request.json['start']
     end = request.json['end']
@@ -46,7 +47,7 @@ def dealers_position():
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/dealer_position', methods=["GET"])
+@app.route('/dealer_position', methods=["POST"])
 def dealer_position():
     login = request.json['login']
     start = request.json['start']
@@ -56,15 +57,15 @@ def dealer_position():
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/realised_profit_loss_dealers', methods=["GET"])
+@app.route('/realised_profit_loss_dealers', methods=["POST"])
 def realised_profit_loss_dealers():
-    date = request.json['date']
-    resp = requests.get(REALISED_DEALERS,
-                        json={"date": date})
+    start = request.json['start']
+    end = request.json['end']
+    resp = requests.get(REALISED_DEALERS, json={"start": start, "end": end})
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/realised_profit_loss_dealer', methods=["GET"])
+@app.route('/realised_profit_loss_dealer', methods=["POST"])
 def realised_profit_loss_dealer():
     login = request.json['login']
     date = request.json['date']
@@ -73,13 +74,15 @@ def realised_profit_loss_dealer():
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/effective_profit_loss_dealers', methods=["GET"])
+@app.route('/effective_profit_loss_dealers', methods=["POST"])
 def effective_profit_loss_dealers():
-    resp = requests.get(EFFECTIVE_DEALERS)
+    start = request.json['start']
+    end = request.json['end']
+    resp = requests.get(EFFECTIVE_DEALERS, json={"start": start, "end": end})
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/effective_profit_loss_dealer', methods=["GET"])
+@app.route('/effective_profit_loss_dealer', methods=["POST"])
 def effective_profit_loss_dealer():
     login = request.json['login']
     resp = requests.get(EFFECTIVE_DEALER,
@@ -87,30 +90,31 @@ def effective_profit_loss_dealer():
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/aggregated_ending', methods=["GET"])
+@app.route('/aggregated_ending', methods=["POST"])
 def aggregated_ending():
-    login = request.json['login']
-    password = request.json['password']
-    resp = requests.get(AGGREGATED_ENDING,
-                        json={"login": login, "password": password})
+    start = request.json['start']
+    end = request.json['end']
+    resp = requests.get(AGGREGATED_ENDING, json={"start": start, "end": end})
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/aggregated_effective', methods=["GET"])
+@app.route('/aggregated_effective', methods=["POST"])
 def aggregated_effective():
-    date = request.json['date']
-    resp = requests.get(AGGREGATED_EFFECTIVE,
-                        json={"date": date})
+    start = request.json['start']
+    end = request.json['end']
+    resp = requests.get(AGGREGATED_EFFECTIVE, json={"start": start, "end": end})
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/aggregated_realised', methods=["GET"])
+@app.route('/aggregated_realised', methods=["POST"])
 def aggregated_realised():
-    resp = requests.get(AGGREGATED_REALISED)
+    start = request.json['start']
+    end = request.json['end']
+    resp = requests.get(AGGREGATED_REALISED, json={"start": start, "end": end})
     return resp.text, resp.status_code, resp.headers.items()
 
 
-@app.route('/get_stream_data', methods=["GET"])
+@app.route('/get_stream_data', methods=["POST"])
 def get_stream_data():
     resp = requests.get(GET_STREAM_DATA)
     return resp.text, resp.status_code, resp.headers.items()
