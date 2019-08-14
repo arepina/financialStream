@@ -1,6 +1,5 @@
 import pymysql
-
-from dbBack.endpoints import DB_HOST
+from endpoints import DB_HOST
 
 
 class Database:
