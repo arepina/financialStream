@@ -236,10 +236,10 @@ class Database:
     def add_stream_data(self, instrumentName, cpty, price, quantity, type, time):
         self.cur.execute("SELECT instrument_id FROM INSTRUMENT "
                          "WHERE instrument_name = '{0}';".format(instrumentName))
-        instr_id = self.cur.fetchone()
+        instr_id = self.cur.fetchall()
         self.cur.execute("SELECT counter_party_id FROM COUNTER_PARTY "
                          "WHERE cpty_name = '{0}';".format(cpty))
-        cpty_id = self.cur.fetchone()
+        cpty_id = self.cur.fetchall()
         time_local = time.replace('-', ' ')
         time_local = time_local.split()
         if time_local[1] == 'Jan':
