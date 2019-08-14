@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "./DisplayData.css";
 import {Bar} from 'react-chartjs-2';
 import {Line} from 'react-chartjs-2';
 import Loader from 'react-loader-spinner';
+import DateTimePicker from 'react-datetime-picker';
 
 export default class DisplayData extends Component {
 
@@ -152,55 +152,107 @@ export default class DisplayData extends Component {
         };
     }
 
+    getChartsUrl(id){
+        switch(id){
+            case "averageData": return "http://localhost:5001/average";
+            case "endingDealers": return "http://localhost:5001/dealers_position";
+            case "realisedDealers": return "http://localhost:5001/realised_profit_loss_dealers";
+            case "effectiveDealers": return "http://localhost:5001/effective_profit_loss_dealers";
+            case "endingAggregated": return "http://localhost:5001/aggregated_ending";
+            case "realisedAggregated": return "http://localhost:5001/aggregated_effective";
+            case "effectiveAggregated": return "http://localhost:5001/aggregated_realised";
+        }
+    }
+
     handleChartDataSubmit = async event => {
-        event.preventDefault();
-        if(document.getElementById("showChartsBtn").textContent === "Hide charts")
-        {
-            document.getElementById("charts").style.display = 'none';  
-            document.getElementById("showChartsBtn").textContent = "Show charts";  
-        }else{
-            document.getElementById('loader').style.display = 'block';
-            fetch('http://localhost:5001/collectChartsData', {
-                method: 'GET',
-                headers: {
+        var sel = document.getElementById("charts");
+        var id = sel.options[sel.selectedIndex].value;
+        console.log(id);
+        document.getElementById('loader').style.display = 'block';
+        var url = this.getChartsUrl(id);
+        console.log(url);
+        fetch(url, {
+            method: 'POST',
+            headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                },
-                mode: "cors"
-            })
-            .then(res => res)
-            .then(
-            (result) => {
-                console.log(result);
-                this.setState ({
-                    chartsData: result
-                }) 
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById("charts").style.display = 'block';  
-                document.getElementById("showChartsBtn").textContent = "Hide charts";          
             },
-            (error) => {
-                console.log("ERROR in charts");
-                document.getElementById('loader').style.display = 'none'; 
-            }
-            )
-        }        
+            body: JSON.stringify({
+              start: document.getElementsByClassName("react-datetime-picker__inputGroup")[0].children[0].value,
+              end: document.getElementsByClassName("react-datetime-picker__inputGroup")[1].children[0].value,
+            }),
+            mode: "cors"
+        })
+        .then(res => res)
+        .then(
+        (result) => {
+            console.log(result);
+            //todo change the vars
+            this.setState ({
+                chartsData: result
+            }) 
+            document.getElementById('loader').style.display = 'none';        
+        },
+        (error) => {
+            console.log("ERROR in charts " + error);
+            document.getElementById('loader').style.display = 'none'; 
+        }
+        );
     }
 
     renderSuccess() {
         return (
             <div style={{alignItems:'center', textAlign:'center'}}>
-            <Button id="showChartsBtn" style={{background:'#0018A8', color: 'white'}} onClick={this.handleChartDataSubmit}>Show charts</Button>
+            <select id="charts" onChange={this.handleChartDataSubmit} style={{width:'100%', marginTop:'10px'}}>
+                <option disabled selected value> -- select an option -- </option>
+                <option value="averageData">Average buy and sell prices for each instrument during the period</option>
+                <option value="endingDealers">Ending positions for each dealer</option>
+                <option value="realisedDealers">Realised profit/loss for each dealer</option>
+                <option value="effectiveDealers">Effective profit/loss for each dealer</option>
+                <option value="endingAggregated">Ending positions aggregated for all dealers</option>
+                <option value="realisedAggregated">Realised profit/loss for aggregated for all dealers</option>
+                <option value="effectiveAggregated">Effective profit/loss aggregated for all dealers</option>
+            </select>
+            <div style={{display: 'inline-flex', marginTop: '10px', enabled: false, pointerEvents:'none'}}>
+                <p style={{marginLeft:'10px', marginRight:'10px'}}>Start</p>
+                <DateTimePicker style={{marginLeft:'10px', marginRight:'10px', enabled: false}}
+                    amPmAriaLabel="Select AM/PM"
+                    calendarAriaLabel="Toggle calendar"
+                    clearAriaLabel="Clear value"
+                    dayAriaLabel="Day"
+                    hourAriaLabel="Hour"
+                    maxDetail="second"
+                    minuteAriaLabel="Minute"
+                    monthAriaLabel="Month"
+                    nativeInputAriaLabel="Date and time"
+                    secondAriaLabel="Second"
+                    value={new Date() - 1000 * 120} // pass 2 min ago for 1 day data
+                    yearAriaLabel="Year"/>
+                <p style={{marginLeft:'10px', marginRight:'10px'}}>End</p>
+                <DateTimePicker style={{marginLeft:'10px', marginRight:'10px', enabled: false}}
+                    amPmAriaLabel="Select AM/PM"
+                    calendarAriaLabel="Toggle calendar"
+                    clearAriaLabel="Clear value"
+                    dayAriaLabel="Day"
+                    hourAriaLabel="Hour"
+                    maxDetail="second"
+                    minuteAriaLabel="Minute"
+                    monthAriaLabel="Month"
+                    nativeInputAriaLabel="Date and time"
+                    secondAriaLabel="Second"
+                    value={Date()}
+                    yearAriaLabel="Year"/>
+            </div>
             <div id="loader" style={{marginTop:'10px', display:'none'}} >
                 <Loader type="Oval" color="#0018A8" height={80} width={80}/>
             </div>
-            <div id="charts" style={{display:'none'}}>
-                <div>
+            <div>
+                <div id="averageData" style={{display:'none'}}>
                     <h4>Average buy and sell prices for each instrument during the period</h4>
                     <Line data={this.averageData} width={100}
                     height={50}/>           
                 </div>
-                <div>
+                <div id="endingDealers" style={{display:'none'}}>
                     <h4>Ending positions for each dealer</h4>
                     <Bar
                     data={this.EndingDealers}
@@ -210,8 +262,8 @@ export default class DisplayData extends Component {
                     }}
                     />
                 </div>
-                <div>
-                    <h4>Realised profit/loss for each dealer </h4>
+                <div id="realisedDealers" style={{display:'none'}}>
+                    <h4>Realised profit/loss for each dealer</h4>
                     <Bar
                     data={this.RealisedDealers}
                     width={100}
@@ -221,7 +273,7 @@ export default class DisplayData extends Component {
                     }}
                     />
                 </div>
-                <div>
+                <div id="effectiveDealers" style={{display:'none'}}>
                     <h4>Effective profit/loss for each dealer</h4> 
                     <Bar
                     data={this.effectiveDealers}
@@ -232,7 +284,7 @@ export default class DisplayData extends Component {
                     }}
                     />
                 </div>
-                <div>
+                <div id="endingAggregated" style={{display:'none'}}>
                     <h4>Ending positions aggregated for all dealers</h4>
                     <Bar
                     data={this.endingAggregated}
@@ -243,11 +295,11 @@ export default class DisplayData extends Component {
                     }}
                     />
                 </div>
-                <div>
+                <div id="realisedAggregated" style={{display:'none'}}>
                     <h4>Realised profit/loss for aggregated for all dealers</h4>
                     <p>{this.realisedAggregated}</p>
                 </div>
-                <div>
+                <div id="effectiveAggregated" style={{display:'none'}}>
                     <h4>Effective profit/loss aggregated for all dealers</h4>
                     <p>{this.effectiveAggregated}</p>
                 </div>
