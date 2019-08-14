@@ -1,3 +1,3 @@
-POST_TO = 'http://localhost:8080/add_stream_data'
-HOST = 'localhost'
-PORT = 5000
+POST_TO = 'http://dbback-mysql-server.apps.dbgrads-6eec.openshiftworkshop.com/add_stream_data'
+HOST = '0.0.0.0'
+PORT = 8080

@@ -63,11 +63,10 @@ def get_user():
 @app.route('/average', methods=['GET'])
 def average():
     try:
-        type = request.json.get('type')  # buy(B) or sell(S)
         start = request.json.get('start')
         end = request.json.get('end')
         db = Database()
-        data = db.average(type, start, end)
+        data = db.average(start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -85,8 +84,10 @@ def average():
 @app.route('/dealers_position', methods=['GET'])
 def dealers_position():
     try:
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.dealers_position()
+        data = db.dealers_position(start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -105,8 +106,10 @@ def dealers_position():
 def dealer_position():
     try:
         login = request.json.get('login')
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.dealer_position(login)
+        data = db.dealer_position(login, start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -124,9 +127,10 @@ def dealer_position():
 @app.route('/realised_profit_loss_dealers', methods=['GET'])
 def realised_profit_loss_dealers():
     try:
-        date = request.json.get('date')
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.realised_profit_loss_dealers(date)
+        data = db.realised_profit_loss_dealers(start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -145,9 +149,10 @@ def realised_profit_loss_dealers():
 def realised_profit_loss_dealer():
     try:
         login = request.json.get('login')
-        date = request.json.get('date')
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.realised_profit_loss_dealer(date, login)
+        data = db.realised_profit_loss_dealer(start, end, login)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -165,8 +170,10 @@ def realised_profit_loss_dealer():
 @app.route('/effective_profit_loss_dealers', methods=['GET'])
 def effective_profit_loss_dealers():
     try:
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.effective_profit_loss_dealers()
+        data = db.effective_profit_loss_dealers(start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -184,9 +191,11 @@ def effective_profit_loss_dealers():
 @app.route('/effective_profit_loss_dealer', methods=['GET'])
 def effective_profit_loss_dealer():
     try:
+        start = request.json.get('start')
+        end = request.json.get('end')
         login = request.json.get('login')
         db = Database()
-        data = db.effective_profit_loss_dealer(login)
+        data = db.effective_profit_loss_dealer(start, end, login)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -225,9 +234,10 @@ def aggregated_ending():
 @app.route('/aggregated_effective', methods=['GET'])
 def aggregated_effective():
     try:
-        date = request.json.get('date')
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.aggregated_effective(date)
+        data = db.aggregated_effective(start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -245,8 +255,10 @@ def aggregated_effective():
 @app.route('/aggregated_realised', methods=['GET'])
 def aggregated_realised():
     try:
+        start = request.json.get('start')
+        end = request.json.get('end')
         db = Database()
-        data = db.aggregated_realised()
+        data = db.aggregated_realised(start, end)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -270,8 +282,8 @@ def add_stream_data():
         type = request.json.get("type")
         quantity = request.json.get("quantity")
         time = request.json.get("time")
-        db = Database()
-        data = db.add_stream_data(instrumentName, cpty, price, type, quantity, time)
+        db = Database() #ERROR
+        data = db.add_stream_data(instrumentName, cpty, price, quantity, type, time)
         return app.response_class(
             response=json.dumps(data),
             status=200,
