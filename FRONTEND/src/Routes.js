@@ -10,6 +10,7 @@ export default () =>
     <Route path="/" exact component={Home} />
     <Route path="/login" exact component={Login} />
     <Route path="/signup" exact component={Signup}/>
+    <Route path="/table" exact component={table}/>
     <Route component={NotFound} />
     {/* {props.loggedInStatus ? } */}
   </Switch>;
