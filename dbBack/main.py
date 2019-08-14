@@ -282,7 +282,7 @@ def add_stream_data():
         type = request.json.get("type")
         quantity = request.json.get("quantity")
         time = request.json.get("time")
-        db = Database()
+        db = Database() #ERROR
         data = db.add_stream_data(instrumentName, cpty, price, quantity, type, time)
         return app.response_class(
             response=json.dumps(data),
