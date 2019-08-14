@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import _ from "lodash";
-import { makeData, Logo, Tips } from "./Utils";
+import { makeData } from "./Utils.js";
 
 // Import React Table
 import ReactTable from "react-table";
@@ -40,7 +40,7 @@ const requestData = (pageSize, page, sorted, filtered) => {
 
     // You must return an object containing the rows of the current page, and optionally the total pages number.
     const res = {
-      rows: sortedData.slice(pageSize * page, pageSize * page + pageSize),
+      rows: filteredData.slice(pageSize * page, pageSize * page + pageSize),
       pages: Math.ceil(filteredData.length / pageSize)
     };
 
@@ -49,7 +49,7 @@ const requestData = (pageSize, page, sorted, filtered) => {
   });
 };
 
-class App extends React.Component {
+export default class TableSample extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -70,6 +70,7 @@ class App extends React.Component {
       state.sorted,
       state.filtered
     ).then(res => {
+        console.log(res);
       // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
       this.setState({
         data: res.rows,
@@ -90,8 +91,7 @@ class App extends React.Component {
             },
             {
               Header: "Last Name",
-              id: "lastName",
-              accessor: d => d.lastName
+              accessor: "lastName"
             },
             {
               Header: "Age",
@@ -108,11 +108,9 @@ class App extends React.Component {
           className="-striped -highlight"
         />
         <br />
-        <Tips />
-        <Logo />
       </div>
     );
   }
 }
 
-render(<App />, document.getElementById("root"));
+// render(<TableSample />, document.getElementById("root"));

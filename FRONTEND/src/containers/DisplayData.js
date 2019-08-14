@@ -202,6 +202,8 @@ export default class DisplayData extends Component {
 
     renderSuccess() {
         return (
+            <div>
+            <GetData/>
             <div style={{alignItems:'center', textAlign:'center'}}>
             <select id="charts" onChange={this.handleChartDataSubmit} style={{width:'100%', marginTop:'10px'}}>
                 <option disabled selected value> -- select an option -- </option>
@@ -304,6 +306,7 @@ export default class DisplayData extends Component {
                     <p>{this.effectiveAggregated}</p>
                 </div>
             </div>
+          </div>
           </div>       
         )
     }
