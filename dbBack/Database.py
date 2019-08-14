@@ -21,7 +21,7 @@ class Database:
     def sign_up(self, login, password, user_type):
         self.cur.execute(
             "INSERT INTO USER(login, password, user_type) "
-            "VALUES ('{0}', '{1}', '{2}');".format(login, password, user_type))
+            "VALUES ('{0}', SHA1('{1}'), '{2}');".format(login, password, user_type))
         self.con.commit()
 
     def average(self, start, end):
