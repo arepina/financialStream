@@ -5,6 +5,7 @@ import "./DisplayData.css";
 import {Bar} from 'react-chartjs-2';
 import {Line} from 'react-chartjs-2';
 import Loader from 'react-loader-spinner';
+import GetData from "./GetData";
 
 export default class DisplayData extends Component {
 
@@ -189,6 +190,8 @@ export default class DisplayData extends Component {
 
     renderSuccess() {
         return (
+            <div>
+            <GetData/>
             <div style={{alignItems:'center', textAlign:'center'}}>
             <Button id="showChartsBtn" style={{background:'#0018A8', color: 'white'}} onClick={this.handleChartDataSubmit}>Show charts</Button>
             <div id="loader" style={{marginTop:'10px', display:'none'}} >
@@ -252,6 +255,7 @@ export default class DisplayData extends Component {
                     <p>{this.effectiveAggregated}</p>
                 </div>
             </div>
+          </div>
           </div>       
         )
     }
