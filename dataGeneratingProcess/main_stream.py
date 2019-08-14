@@ -26,7 +26,7 @@ def getstream():
 
 def bootapp():
     logging.info("I'm running")
-    app.run(port=endpoint.PORT, threaded=True, host=endpoint.HOST, debug=True)
+    app.run(port=endpoint.PORT, threaded=True, host=(endpoint.HOST), debug=True)
 
 
 if __name__ == '__main__':
