@@ -31,9 +31,11 @@ def login():
 def average():
     start = request.json['start']
     end = request.json['end']
-    resp = requests.get(AVERAGE,
-                        json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
+    # resp = requests.get(AVERAGE,
+    #                     json={"start": start, "end": end})
+    return [("I", "R", 1.1, "S", 2, "12-Aug-2019 (10:11:55.000001)"),
+            ("I", "R", 1.1, "S", 2, "12-Aug-2019 (10:11:55.000001)")], 200
+    # return resp.text, resp.status_code, resp.headers.items()
 
 
 @app.route('/dealers_position', methods=["POST"])

@@ -312,7 +312,7 @@ export default class DisplayData extends Component {
         return (
             <div>
                 <p>Connection Fail!</p>
-                <NavLink to={{ pathname: "/" }} > Retry </NavLink>
+                <NavLink to={{pathname: "/login"}} > Retry </NavLink>
             </div>
         )
     }
