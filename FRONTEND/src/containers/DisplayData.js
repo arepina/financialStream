@@ -154,37 +154,43 @@ export default class DisplayData extends Component {
 
     handleChartDataSubmit = async event => {
         event.preventDefault();
-        document.getElementById('loader').style.display = 'block';
-        fetch('http://localhost:5001/collectChartsData', {
-            method: 'GET',
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+        if(document.getElementById("showChartsBtn").textContent === "Hide charts")
+        {
+            document.getElementById("charts").style.display = 'none';  
+            document.getElementById("showChartsBtn").textContent = "Show charts";  
+        }else{
+            document.getElementById('loader').style.display = 'block';
+            fetch('http://localhost:5001/collectChartsData', {
+                method: 'GET',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                },
+                mode: "cors"
+            })
+            .then(res => res)
+            .then(
+            (result) => {
+                console.log(result);
+                this.setState ({
+                    chartsData: result
+                }) 
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById("charts").style.display = 'block';  
+                document.getElementById("showChartsBtn").textContent = "Hide charts";          
             },
-            mode: "cors"
-        })
-        .then(res => res)
-        .then(
-        (result) => {
-            console.log(result);
-            this.setState ({
-                chartsData: result
-            }) 
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById("charts").style.display = 'block';             
-        },
-        (error) => {
-            console.log("ERROR in charts");
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById("charts").style.display = 'block';
-        }
-        )
+            (error) => {
+                console.log("ERROR in charts");
+                document.getElementById('loader').style.display = 'none'; 
+            }
+            )
+        }        
     }
 
     renderSuccess() {
         return (
             <div style={{alignItems:'center', textAlign:'center'}}>
-            <Button style={{background:'#0018A8', color: 'white'}} onClick={this.handleChartDataSubmit}>Show charts</Button>
+            <Button id="showChartsBtn" style={{background:'#0018A8', color: 'white'}} onClick={this.handleChartDataSubmit}>Show charts</Button>
             <div id="loader" style={{marginTop:'10px', display:'none'}} >
                 <Loader type="Oval" color="#0018A8" height={80} width={80}/>
             </div>
