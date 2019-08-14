@@ -72,7 +72,7 @@ export default class Login extends Component {
   handleDisplayDataSubmit = async event => {
     event.preventDefault();
 
-    fetch('https://jsonplaceholder.typicode.co/posts', {
+    fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -144,7 +144,7 @@ renderFail() {
               type="password"
             />
           </FormGroup>
-          <Button
+          <Button style={{background:'#0018A8', color: 'white'}}
             block
             bsSize="large"
             disabled={!this.validateForm()}
@@ -169,11 +169,15 @@ renderFail() {
 
 
   render() {
+    const divStyle = {
+      justifycontent: 'center', 
+      display: 'grid'
+    };
     if (this.state.loggedInStatus) {
       return (
-        <div>
-          <p> Login Successsfully!</p>
-            <Button onClick={this.handleDisplayDataSubmit}> Continue </Button>
+        <div style={divStyle}>
+          <p style={{textAlign:'center', fontWeight: 'bold'}}> Login Successsfully!</p>
+            <Button  style={{background:'#0018A8', color: 'white'}} onClick={this.handleDisplayDataSubmit}> Continue </Button>
         </div>
       )
     }

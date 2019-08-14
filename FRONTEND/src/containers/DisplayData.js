@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "./DisplayData.css";
+import { Doughnut } from 'react-chartjs-2';
 
 export default class DisplayData extends Component {
     constructor(props) {
