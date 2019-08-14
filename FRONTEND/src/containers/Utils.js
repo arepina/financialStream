@@ -1,5 +1,4 @@
 import React from "react";
-import namor from "namor";
 import "./TableSample";
 
 const range = len => {
