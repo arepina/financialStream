@@ -1,6 +1,6 @@
 import pymysql
 
-from endpoints import DB_HOST
+from dbBack.endpoints import DB_HOST
 
 
 class Database:
@@ -24,126 +24,235 @@ class Database:
             "VALUES ('{0}', '{1}', '{2}')".format(login, password, user_type))
         self.con.commit()
 
-    def average(self, type, start, end):
-        self.cur.execute(
-            "SELECT i.instr_name, avg(d.price)"
-            "FROM DEAL d INNER JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id"
-            "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' AND d.type = '{2}'"
-            "GROUP BY i.instr_name;".format(start, end, type))
+    def average(self, start, end):
+        self.cur.execute("SELECT i.instrument_name AS 'Instrument Name', "
+                         " concat('£ ', format((AVG(CASE WHEN d.type = 'B' THEN d.price END)), 2)) "
+                         "AS 'Average Buy Price', concat('£ ', format((AVG(CASE WHEN d.type = 'S' "
+                         "THEN d.price END)), 2)) AS 'Average Sell Price' "
+                         "FROM DEAL d INNER JOIN INSTRUMENT i "
+                         "ON d.instrument_id = i.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND "
+                         "d.timestamp <= '{1}' GROUP BY i.instrument_name "
+                         "ORDER BY i.instrument_name asc;".format(start, end))
         result = self.cur.fetchall()
         return result
 
     def dealers_position(self, start, end):
-        self.cur.execute("SELECT c.cpty_name, "
-                         "SUM(CASE "
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity END) AS dealer_revenue"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}'"
-                         "GROUP BY c.cpty_name;".format(start, end))
+        self.cur.execute("SELECT c.cpty_name, i.instrument_name, "
+                         "concat('£ ', format((SUM(CASE "
+                         "WHEN d.type = 'B' THEN -d.price * d.quantity "
+                         "WHEN d.type = 'S' THEN d.price * d.quantity END)), 2)) AS 'Ending Position', "
+                         "SUM(CASE WHEN d.type = 'B' THEN d.quantity END) AS 'Quantity Bought', "
+                         "SUM(CASE WHEN d.type = 'S' THEN d.quantity END) AS 'Quantity Sold', "
+                         "SUM(CASE WHEN d.type = 'B' THEN d.quantity "
+                         "WHEN d.type = 'S' THEN -d.quantity END) AS 'End Quantity' "
+                         "FROM COUNTER_PARTY c INNER JOIN(DEAL d INNER JOIN INSTRUMENT i "
+                         "ON d.instrument_id = i.instrument_id) "
+                         "ON d.counter_party_id = c.counter_party_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         result = self.cur.fetchall()
         return result
 
     def dealer_position(self, login, start, end):
-        self.cur.execute("SELECT c.cpty_name, sum(d.price*d.quantity)"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE c.cpty_name = '{0}' AND d.timestamp > '{1}' AND d.timestamp <= '{2}'"
-                         "GROUP BY c.cpty_name;".format(login, start, end))
+        self.cur.execute("SELECT c.cpty_name, i.instrument_name, "
+                         "concat('£ ', format((SUM(CASE "
+                         "WHEN d.type = 'B' THEN -d.price * d.quantity "
+                         "WHEN d.type = 'S' THEN d.price * d.quantity END)), 2)) AS 'Ending Position', "
+                         "SUM(CASE WHEN d.type = 'B' THEN d.quantity END) AS 'Quantity Bought', "
+                         "SUM(CASE WHEN d.type = 'S' THEN d.quantity END) AS 'Quantity Sold', "
+                         "SUM(CASE WHEN d.type = 'B' THEN d.quantity "
+                         "WHEN d.type = 'S' THEN -d.quantity END) AS 'End Quantity' "
+                         "FROM COUNTER_PARTY c INNER JOIN(DEAL d INNER JOIN INSTRUMENT i "
+                         "ON d.instrument_id = i.instrument_id) "
+                         "ON d.counter_party_id = c.counter_party_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
+                         "AND c.cpty_name = '{2}'"
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end, login))
         result = self.cur.fetchall()
         return result
 
-    def realised_profit_loss_dealers(self, date):
-        self.cur.execute("SELECT c.cpty_name, "
-                         "SUM(CASE "
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE d.timestamp > '%{0}%'"
-                         "GROUP BY c.cpty_name;".format(date))
+    def realised_profit_loss_dealers(self, start, end):
+        self.cur.execute("CREATE VIEW realized_profit_loss AS "
+                         "SELECT c.cpty_name, (SUM(CASE "
+                         "WHEN d.type = 'S' THEN d.quantity END)) * "
+                         "((AVG(CASE WHEN d.type = 'S' THEN d.price "
+                         "END)) - (AVG(CASE WHEN d.type = 'B' "
+                         "THEN d.price END))) AS realized_profit_loss "
+                         "FROM INSTRUMENT i INNER JOIN(DEAL d "
+                         "INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) "
+                         "ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND "
+                         "d.timestamp < '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+        self.con.commit()
+        self.cur.execute("SELECT cpty_name, "
+                         "concat('£ ', format(SUM(realized_profit_loss), 2)) "
+                         "AS realized_profit_loss "
+                         "FROM realized_profit_loss GROUP BY cpty_name;")
         result = self.cur.fetchall()
+        self.cur.execute("DROP VIEW realized_profit_loss;")
+        self.con.commit()
         return result
 
-    def realised_profit_loss_dealer(self, date, login):
-        self.cur.execute("SELECT c.cpty_name, "
-                         "SUM(CASE "
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE c.cpty_name = '{0}' AND d.timestamp > '%{1}%'"
-                         "GROUP BY c.cpty_name;".format(login, date))
+    def realised_profit_loss_dealer(self, start, end, login):
+        self.cur.execute("CREATE VIEW realized_profit_loss AS "
+                         "SELECT c.cpty_name, (SUM(CASE "
+                         "WHEN d.type = 'S' THEN d.quantity END)) * "
+                         "((AVG(CASE WHEN d.type = 'S' THEN d.price "
+                         "END)) - (AVG(CASE WHEN d.type = 'B' "
+                         "THEN d.price END))) AS realized_profit_loss "
+                         "FROM INSTRUMENT i INNER JOIN(DEAL d "
+                         "INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) "
+                         "ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND "
+                         "d.timestamp < '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+        self.con.commit()
+        self.cur.execute("SELECT cpty_name, "
+                         "concat('£ ', format(SUM(realized_profit_loss), 2)) "
+                         "AS realized_profit_loss "
+                         "FROM realized_profit_loss "
+                         "WHERE cpty_name = '{0}'"
+                         "GROUP BY cpty_name;".format(login))
         result = self.cur.fetchall()
+        self.cur.execute("DROP VIEW realized_profit_loss;")
+        self.con.commit()
         return result
 
-    def effective_profit_loss_dealers(self):
-        self.cur.execute("SELECT c.cpty_name, "
-                         "SUM(CASE"
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "GROUP BY c.cpty_name;")
+    def effective_profit_loss_dealers(self, start, end):
+        self.cur.execute("CREATE VIEW effective_profit_loss AS SELECT c.cpty_name, "
+                         "(SUM(CASE WHEN d.type = 'B' THEN d.quantity WHEN d.type = 'S' THEN -d.quantity "
+                         "END)) * ((AVG(CASE WHEN d.type = 'S' THEN d.price END)) - (AVG(CASE "
+                         "WHEN d.type = 'B' THEN d.price END))) AS effective_profit_loss "
+                         "FROM INSTRUMENT i INNER JOIN (DEAL d INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp < '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+        self.con.commit()
+        self.cur.execute("SELECT cpty_name, "
+                         "concat('£ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss "
+                         "FROM effective_profit_loss GROUP BY cpty_name;")
         result = self.cur.fetchall()
+        self.cur.execute("DROP VIEW effective_profit_loss;")
+        self.con.commit()
         return result
 
-    def effective_profit_loss_dealer(self, login):
-        self.cur.execute("SELECT c.cpty_name,"
-                         "SUM(CASE"
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE c.cpty_name = '{0}'"
-                         "GROUP BY c.cpty_name;".format(login))
+    def effective_profit_loss_dealer(self, start, end, login):
+        self.cur.execute("CREATE VIEW effective_profit_loss AS SELECT c.cpty_name, "
+                         "(SUM(CASE WHEN d.type = 'B' THEN d.quantity WHEN d.type = 'S' THEN -d.quantity "
+                         "END)) * ((AVG(CASE WHEN d.type = 'S' THEN d.price END)) - (AVG(CASE "
+                         "WHEN d.type = 'B' THEN d.price END))) AS effective_profit_loss "
+                         "FROM INSTRUMENT i INNER JOIN (DEAL d INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp < '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+        self.con.commit()
+        self.cur.execute("SELECT cpty_name, "
+                         "concat('£ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss "
+                         "FROM effective_profit_loss "
+                         "WHERE cpty_name = '{0}' "
+                         "GROUP BY cpty_name;".format(login))
         result = self.cur.fetchall()
+        self.cur.execute("DROP VIEW effective_profit_loss;")
+        self.con.commit()
         return result
 
     def aggregated_ending(self, start, end):
-        self.cur.execute("SELECT SUM(CASE"
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}';".format(start, end))
+        self.cur.execute("SELECT i.instrument_name, "
+                         "concat('£ ', format(SUM(CASE "
+                         "WHEN d.type = 'B' THEN -d.price * d.quantity "
+                         "WHEN d.type = 'S' THEN d.price * d.quantity "
+                         "END), 2)) AS 'Ending Position', "
+                         "SUM(CASE "
+                         "WHEN d.type = 'B' THEN d.quantity END) "
+                         "AS 'Quantity Bought', "
+                         "SUM(CASE WHEN d.type = 'S' THEN d.quantity END) "
+                         "AS 'Quantity Sold', "
+                         "SUM(CASE "
+                         "WHEN d.type = 'B' THEN d.quantity "
+                         "WHEN d.type = 'S' THEN -d.quantity "
+                         "END) AS 'End Quantity' "
+                         "FROM COUNTER_PARTY c INNER JOIN "
+                         "(DEAL d INNER JOIN INSTRUMENT i "
+                         "ON d.instrument_id = i.instrument_id) "
+                         "ON c.counter_party_id = d.counter_party_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
+                         "GROUP BY i.instrument_name;".format(start, end))
         result = self.cur.fetchall()
         return result
 
-    def aggregated_effective(self, date):
-        self.cur.execute("SELECT SUM(CASE"
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id"
-                         "WHERE d.timestamp > '%{0}%';".format(date))
+    def aggregated_realised(self, start, end):
+        self.cur.execute("CREATE VIEW realized_profit_loss AS "
+                         "SELECT c.cpty_name, (SUM(CASE "
+                         "WHEN d.type = 'S' THEN d.quantity END)) * "
+                         "((AVG(CASE WHEN d.type = 'S' THEN d.price "
+                         "END)) - (AVG(CASE WHEN d.type = 'B' "
+                         "THEN d.price END))) AS realized_profit_loss "
+                         "FROM INSTRUMENT i INNER JOIN(DEAL d "
+                         "INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) "
+                         "ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND "
+                         "d.timestamp < '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+        self.con.commit()
+        self.cur.execute("SELECT concat('£ ', format(SUM(realized_profit_loss), 2)) "
+                         "AS 'Aggregated Realized Profit/Loss' "
+                         "FROM realized_profit_loss;")
         result = self.cur.fetchall()
+        self.cur.execute("DROP VIEW realized_profit_loss;")
+        self.con.commit()
         return result
 
-    def aggregated_realised(self):
-        self.cur.execute("SELECT SUM(CASE"
-                         "WHEN d.type = 'B' THEN -d.price*d.quantity"
-                         "WHEN d.type = 'S' THEN d.price*d.quantity"
-                         "END) AS rev"
-                         "FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id;")
+    def aggregated_effective(self, start, end):
+        self.cur.execute("CREATE VIEW effective_profit_loss AS SELECT c.cpty_name, "
+                         "(SUM(CASE WHEN d.type = 'B' THEN d.quantity WHEN d.type = 'S' THEN -d.quantity "
+                         "END)) * ((AVG(CASE WHEN d.type = 'S' THEN d.price END)) - (AVG(CASE "
+                         "WHEN d.type = 'B' THEN d.price END))) AS effective_profit_loss "
+                         "FROM INSTRUMENT i INNER JOIN (DEAL d INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp < '{1}' "
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+        self.con.commit()
+        self.cur.execute("SELECT concat('£ ', format(SUM(effective_profit_loss), 2)) "
+                         "AS 'Aggregated Effective Profit/Loss' "
+                         "FROM effective_profit_loss;")
+        result = self.cur.fetchall()
+        self.cur.execute("DROP VIEW effective_profit_loss;")
+        self.con.commit()
+        return result
+
+    def get_stream_data(self):
+        self.cur.execute("SELECT * FROM INSTRUMENT i INNER JOIN "
+                         "(DEAL d INNER JOIN COUNTER_PARTY c "
+                         "ON d.counter_party_id = c.counter_party_id) "
+                         "ON i.instrument_id = d.instrument_id;")
         result = self.cur.fetchall()
         return result
 
     def add_stream_data(self, instrumentName, cpty, price, type, quantity, time):
-        # TODO MORE INSERTS
-        self.cur.execute(
-            "INSERT INTO `DEAL`(instrumentName, cpty, price, type, quantity, time) VALUES({0}, {1}, {2}, {3}, {4}, {5})"
-                .format(instrumentName, cpty, price, type, quantity, time))
-        result = self.cur.fetchall()
-        return result
+        self.cur.execute("SELECT instrument_id FROM INSTRUMENT "
+                         "WHERE instrument_name = '{0}';".format(instrumentName))
+        instr_id = self.cur.fetchone()
+        self.cur.execute("SELECT counter_party_id FROM COUNTER_PARTY "
+                         "WHERE cpty_name = '{0}';".format(cpty))
+        cpty_id = self.cur.fetchone()
+        self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, "
+                         "quantity, type, timestamp) VALUES "
+                         "({0}, {1}, {2}, {3}, {4}, {5})".format(instr_id, cpty_id, price, quantity, type, time))
+        self.con.commit()
 
-    def get_stream_data(self):
-        # TODO Join with other tables
-        self.cur.execute("SELECT * FROM `DEAL`")
-        result = self.cur.fetchall()
-        return result
+    def insert_initial_counter_party(self):
+        self.cur.execute("INSERT INTO COUNTER_PARTY (cpty_name) VALUES "
+                         "('Lewis'), ('Selvyn'), ('Richard'), ('Lina'), ('John'), ('Nidia');")
+        self.con.commit()
 
-    def insert_deal(self, deal):
-        self.cur.execute(
-            "INSERT INTO `DEAL` VALUES "
-            "(deal[0], deal[1], deal[2], deal[3], deal[4], deal[5])")
+    def insert_initial_instrument(self):
+        self.cur.execute("INSERT INTO INSTRUMENT (instrument_name) VALUES "
+                         "('Astronomica'), ('Borealis'), ('Celestial'), ('Deuteronic'), "
+                         "('Eclipse'), ('Floral'), ('Galactia'), ('Heliosphere'), "
+                         "('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');")
         self.con.commit()
