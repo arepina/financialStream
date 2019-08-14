@@ -21,7 +21,7 @@ def getstream():
     for stream in data_stream():
         print(stream)
         logging.info(stream)
-        # requests.post(endpoint.POST_TO, json=stream) #ERROR
+        requests.post(endpoint.POST_TO, json=stream) #ERROR
 
 
 def bootapp():
