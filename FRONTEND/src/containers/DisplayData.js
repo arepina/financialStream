@@ -5,7 +5,7 @@ import {Bar} from 'react-chartjs-2';
 import {Line} from 'react-chartjs-2';
 import Loader from 'react-loader-spinner';
 import DateTimePicker from 'react-datetime-picker';
-
+import GetData from './GetData';
 export default class DisplayData extends Component {
 
     EndingDealers = {
