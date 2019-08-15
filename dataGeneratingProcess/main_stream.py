@@ -2,10 +2,9 @@ import logging
 import requests
 from flask import Flask, Response
 from flask_cors import CORS
+import endpoint
 
-from dataGeneratingProcess import endpoint
-from dataGeneratingProcess.endpoint import PORT, HOST
-from dataGeneratingProcess.randomDealData import RandomDealData
+from randomDealData import RandomDealData
 
 app = Flask(__name__)
 CORS(app)
@@ -29,7 +28,6 @@ def getstream():
             print(e)
             continue
 
-
 @app.route('/getStreamData')
 def getstreamfrontend():
     def data_stream():
@@ -40,11 +38,11 @@ def getstreamfrontend():
 
     return Response(data_stream(), mimetype="text/event-stream")
 
-
 def bootapp():
-    app.run(port=PORT, threaded=True, host=HOST, debug=True)
+    app.run(port=8080, threaded=True, host=(endpoint.HOST), debug=True)
     logging.info("I'm running")
 
 
 if __name__ == '__main__':
     bootapp()
+    
