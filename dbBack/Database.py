@@ -282,3 +282,7 @@ class Database:
                          "('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');")
         self.con.commit()
 
+    def close_connection(self):
+        self.cur.close()
+        self.con.close()
+
