@@ -30,7 +30,7 @@ def getstream():
 
 
 def bootapp():
-    app.run(port=endpoint.PORT, threaded=True, host=(endpoint.HOST), debug=True)
+    app.run(port=8080, threaded=True, host=(endpoint.HOST), debug=True)
     logging.info("I'm running")
 
 

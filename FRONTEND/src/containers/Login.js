@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-// import { Link } from "react-router-bootstrap";
-import { NavLink } from "react-router-dom";
 import "./Login.css";
 
 export default class Login extends Component {
@@ -11,8 +9,7 @@ export default class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      loggedInStatus: false,
-      connectStatus: false
+      loggedInStatus: false
     };
   }
 
@@ -45,7 +42,6 @@ export default class Login extends Component {
       .then(res => res)
       .then(
         (result) => {
-          console.log(result);
           if (parseInt(result.status / 100) === 2) {
             this.setState({
               loggedInStatus: true
@@ -59,7 +55,6 @@ export default class Login extends Component {
           }
         },
         (error) => {
-          console.error("Login error!")
           alert("Login failed. Please try again.")
           this.setState({
             loggedInStatus: false
@@ -83,45 +78,18 @@ export default class Login extends Component {
       .then(res => res)
       .then(
         (result) => {
-          console.log(result);
           if (parseInt(result.status / 100) === 2) {
-            this.setState ({
-              connectStatus: true
-            })
-            console.log("connect status: " + this.state.connectStatus)
-            this.props.history.push('/displaydata', { status: true});
+            this.props.history.push('/displaydata', { status: true, username: this.state.username});
           }
           else {
-            this.setState ({
-              connectStatus: false
-            })
             this.props.history.push('/displaydata', { status: false});
           }
         },
         (error) => {
-          this.setState ({
-            connectStatus: false
-          })
           this.props.history.push('/displaydata', {status: false});
         }
       )
   }
-
-  renderSuccess() {
-      return (
-          <p>Connection Successful!</p>
-      )
-  }
-
-  renderFail() {
-      return (
-          <div>
-              <p>Connection Fail!</p>
-              <NavLink to={{pathname: "/"}} > Retry </NavLink>
-          </div>
-      )
-  }
-
 
   renderLogin() {
     return (
@@ -156,15 +124,6 @@ export default class Login extends Component {
     )
   }
 
-  renderDisplayData() {
-    return (
-      <div>
-        <p> Successsfully connected!</p>
-        <p> Data here!</p>
-      </div>
-    )
-  }
-
   render() {
     const divStyle = {
       justifycontent: 'center', 
@@ -173,8 +132,14 @@ export default class Login extends Component {
     if (this.state.loggedInStatus) {
       return (
         <div style={divStyle}>
-          <p style={{textAlign:'center', fontWeight: 'bold'}}> Login Successsfully!</p>
-            <Button  style={{background:'#0018A8', color: 'white'}} onClick={this.handleDisplayDataSubmit}> Continue </Button>
+          <h3 style={{textAlign:'center', fontWeight: 'bold'}}> Welcome, {this.state.username}!</h3>
+          <div style={{textAlign:'center'}}>
+            <Button  style={{
+              background:'#0018A8', color: 'white', width: '100px', 
+              fontWeight: 'bold', padding: '10px'
+              }} onClick={this.handleDisplayDataSubmit}> Continue 
+            </Button>
+          </div>
         </div>
       )
     }
