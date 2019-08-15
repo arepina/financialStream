@@ -25,7 +25,7 @@ class Database:
         self.con.commit()
 
     def average(self, start, end):
-        self.cur.execute("SELECT i.instrument_name, "
+        self.cur.execute("(SELECT i.instrument_name, "
                          "concat('$ ', format((AVG(CASE WHEN d.type = 'B' THEN d.price END))"
                          ", 2)) AS 'Average Buy Price', "
                          "concat('$ ', format((AVG(CASE WHEN d.type = 'S' THEN d.price END))"
