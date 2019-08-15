@@ -14,7 +14,7 @@ class Database:
 
     def login(self, login, password):
         self.cur.execute("SELECT * FROM USER "
-                         "WHERE login = '{0}' and password = PASSWORD('{1}');".format(login, password))
+                         "WHERE login = '{0}' and password = sha1('{1}');".format(login, password))
         result = self.cur.fetchall()
         if len(result) != 0:
             return result
