@@ -25,21 +25,28 @@ class Database:
         self.con.commit()
 
     def average(self, start, end):
-        self.cur.execute("SELECT i.instrument_name AS 'Instrument Name', "
-                         " concat('£ ', format((AVG(CASE WHEN d.type = 'B' THEN d.price END)), 2)) "
-                         "AS 'Average Buy Price', concat('£ ', format((AVG(CASE WHEN d.type = 'S' "
-                         "THEN d.price END)), 2)) AS 'Average Sell Price' "
-                         "FROM DEAL d LEFT JOIN INSTRUMENT i "
-                         "ON d.instrument_id = i.instrument_id "
-                         "WHERE d.timestamp > '{0}' AND "
-                         "d.timestamp <= '{1}' GROUP BY i.instrument_name "
-                         "ORDER BY i.instrument_name asc;".format(start, end))
+        self.cur.execute("(SELECT i.instrument_name, "
+                         "concat('$ ', format((AVG(CASE WHEN d.type = 'B' THEN d.price END))"
+                         ", 2)) AS 'Average Buy Price', "
+                         "concat('$ ', format((AVG(CASE WHEN d.type = 'S' THEN d.price END))"
+                         ", 2)) AS 'Average Sell Price' "
+                         "FROM INSTRUMENT i LEFT JOIN DEAL d ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}'"
+                         "AND d.timestamp <= '{1}'"
+                         "GROUP BY i.instrument_name) "
+                         "UNION "
+                         "(SELECT i.instrument_name, NULL, NULL FROM INSTRUMENT i "
+                         "WHERE i.instrument_name NOT IN (SELECT i.instrument_name "
+                         "FROM INSTRUMENT i LEFT JOIN DEAL d ON i.instrument_id = d.instrument_id "
+                         "WHERE d.timestamp > '{0}' AND d.timestamp "
+                         "<= '{1}' GROUP BY i.instrument_name)) "
+                         "ORDER BY instrument_name asc;".format(start, end))
         result = self.cur.fetchall()
         return result
 
     def dealers_position(self, start, end):
         self.cur.execute("SELECT c.cpty_name, i.instrument_name, "
-                         "concat('£ ', format((SUM(CASE "
+                         "concat('$ ', format((SUM(CASE "
                          "WHEN d.type = 'B' THEN -d.price * d.quantity "
                          "WHEN d.type = 'S' THEN d.price * d.quantity END)), 2)) AS 'Ending Position', "
                          "SUM(CASE WHEN d.type = 'B' THEN d.quantity END) AS 'Quantity Bought', "
@@ -57,7 +64,7 @@ class Database:
 
     def dealer_position(self, login, start, end):
         self.cur.execute("SELECT c.cpty_name, i.instrument_name, "
-                         "concat('£ ', format((SUM(CASE "
+                         "concat('$ ', format((SUM(CASE "
                          "WHEN d.type = 'B' THEN -d.price * d.quantity "
                          "WHEN d.type = 'S' THEN d.price * d.quantity END)), 2)) AS 'Ending Position', "
                          "SUM(CASE WHEN d.type = 'B' THEN d.quantity END) AS 'Quantity Bought', "
@@ -69,7 +76,8 @@ class Database:
                          "ON d.counter_party_id = c.counter_party_id "
                          "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
                          "AND c.cpty_name = '{2}'"
-                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end, login))
+                         "GROUP BY c.cpty_name, i.instrument_name "
+                         "ORDER BY c.cpty_name asc, i.instrument_name asc;".format(start, end, login))
         result = self.cur.fetchall()
         return result
 
@@ -86,12 +94,12 @@ class Database:
                          "ON i.instrument_id = d.instrument_id "
                          "WHERE d.timestamp > '{0}' AND "
                          "d.timestamp < '{1}' "
-                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+                         "GROUP BY c.cpty_name, i.instrument_name".format(start, end))
         self.con.commit()
         self.cur.execute("SELECT cpty_name, "
-                         "concat('£ ', format(SUM(realized_profit_loss), 2)) "
+                         "concat('$ ', format(SUM(realized_profit_loss), 2)) "
                          "AS realized_profit_loss "
-                         "FROM realized_profit_loss GROUP BY cpty_name;")
+                         "FROM realized_profit_loss GROUP BY cpty_name ORDER BY cpty_name asc;")
         result = self.cur.fetchall()
         self.cur.execute("DROP VIEW realized_profit_loss;")
         self.con.commit()
@@ -113,11 +121,11 @@ class Database:
                          "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
         self.cur.execute("SELECT cpty_name, "
-                         "concat('£ ', format(SUM(realized_profit_loss), 2)) "
+                         "concat('$ ', format(SUM(realized_profit_loss), 2)) "
                          "AS realized_profit_loss "
                          "FROM realized_profit_loss "
                          "WHERE cpty_name = '{0}'"
-                         "GROUP BY cpty_name;".format(login))
+                         "GROUP BY cpty_name ORDER BY cpty_name asc;".format(login))
         result = self.cur.fetchall()
         self.cur.execute("DROP VIEW realized_profit_loss;")
         self.con.commit()
@@ -134,8 +142,8 @@ class Database:
                          "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
         self.cur.execute("SELECT cpty_name, "
-                         "concat('£ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss "
-                         "FROM effective_profit_loss GROUP BY cpty_name;")
+                         "concat('$ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss "
+                         "FROM effective_profit_loss GROUP BY cpty_name ORDER BY cpty_name asc;")
         result = self.cur.fetchall()
         self.cur.execute("DROP VIEW effective_profit_loss;")
         self.con.commit()
@@ -152,36 +160,33 @@ class Database:
                          "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
         self.cur.execute("SELECT cpty_name, "
-                         "concat('£ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss "
+                         "concat('$ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss "
                          "FROM effective_profit_loss "
                          "WHERE cpty_name = '{0}' "
-                         "GROUP BY cpty_name;".format(login))
+                         "GROUP BY cpty_name ORDER BY cpty_name asc;".format(login))
         result = self.cur.fetchall()
         self.cur.execute("DROP VIEW effective_profit_loss;")
         self.con.commit()
         return result
 
     def aggregated_ending(self, start, end):
-        self.cur.execute("SELECT i.instrument_name, "
-                         "concat('£ ', format(SUM(CASE "
-                         "WHEN d.type = 'B' THEN -d.price * d.quantity "
-                         "WHEN d.type = 'S' THEN d.price * d.quantity "
-                         "END), 2)) AS 'Ending Position', "
-                         "SUM(CASE "
-                         "WHEN d.type = 'B' THEN d.quantity END) "
-                         "AS 'Quantity Bought', "
-                         "SUM(CASE WHEN d.type = 'S' THEN d.quantity END) "
-                         "AS 'Quantity Sold', "
-                         "SUM(CASE "
-                         "WHEN d.type = 'B' THEN d.quantity "
-                         "WHEN d.type = 'S' THEN -d.quantity "
-                         "END) AS 'End Quantity' "
-                         "FROM COUNTER_PARTY c INNER JOIN "
-                         "(DEAL d INNER JOIN INSTRUMENT i "
-                         "ON d.instrument_id = i.instrument_id) "
-                         "ON c.counter_party_id = d.counter_party_id "
-                         "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
-                         "GROUP BY i.instrument_name;".format(start, end))
+        self.cur.execute("(SELECT i.instrument_name, concat('$ ', format(SUM(CASE WHEN d.type = 'B' THEN "
+                         "-d.price * d.quantity WHEN d.type = 'S' THEN d.price * d.quantity "
+                         "END), 2)) AS 'Ending Position', SUM(CASE WHEN d.type = 'B' THEN "
+                         "d.quantity END) AS 'Quantity Bought', "
+                         "SUM(CASE WHEN d.type = 'S' THEN d.quantity END) AS 'Quantity Sold', "
+                         "SUM(CASE WHEN d.type = 'B' THEN d.quantity "
+                         "WHEN d.type = 'S' THEN -d.quantity END) AS 'End Quantity' FROM COUNTER_PARTY c LEFT JOIN "
+                         "(DEAL d LEFT JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id) ON "
+                         "c.counter_party_id = d.counter_party_id WHERE d.timestamp > '{0}' "
+                         "AND d.timestamp <= '{1}' GROUP BY i.instrument_name) "
+                         "UNION "
+                         "(SELECT i.instrument_name, NULL, NULL, NULL, NULL FROM INSTRUMENT i "
+                         "WHERE i.instrument_name NOT IN (SELECT i.instrument_name FROM COUNTER_PARTY c "
+                         "LEFT JOIN (DEAL d LEFT JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id) "
+                         " ON c.counter_party_id = d.counter_party_id WHERE d.timestamp > '{0}' "
+                         "AND d.timestamp <= '{1}' GROUP BY i.instrument_name)) "
+                         "ORDER BY instrument_name asc;".format(start, end))
         result = self.cur.fetchall()
         return result
 
@@ -200,7 +205,7 @@ class Database:
                          "d.timestamp < '{1}' "
                          "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
-        self.cur.execute("SELECT concat('£ ', format(SUM(realized_profit_loss), 2)) "
+        self.cur.execute("SELECT concat('$ ', format(SUM(realized_profit_loss), 2)) "
                          "AS 'Aggregated Realized Profit/Loss' "
                          "FROM realized_profit_loss;")
         result = self.cur.fetchall()
@@ -218,7 +223,7 @@ class Database:
                          "WHERE d.timestamp > '{0}' AND d.timestamp < '{1}' "
                          "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
-        self.cur.execute("SELECT concat('£ ', format(SUM(effective_profit_loss), 2)) "
+        self.cur.execute("SELECT concat('$ ', format(SUM(effective_profit_loss), 2)) "
                          "AS 'Aggregated Effective Profit/Loss' "
                          "FROM effective_profit_loss;")
         result = self.cur.fetchall()
