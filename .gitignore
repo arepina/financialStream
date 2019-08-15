@@ -4,3 +4,4 @@ dbBack/.idea
 dbBack/.idea/workspace.xml
 webBack/.idea
 dataGeneratingProcess/.idea
+webBack/endpoints.py

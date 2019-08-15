@@ -25,25 +25,43 @@ export default class DisplayData extends Component {
                           0,0,0,0,0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,0,0,0,0],
         };
-        this.setState({
-          endingDealers : {
-               labels: ["Lewis Astronomica", "Lewis Borealis", "Lewis Celestial", "Lewis Deuteronic", "Lewis Eclipse",
-             "Lewis Floral", "Lewis Galactia", "Lewis Heliosphere", "Lewis Interstella", "Lewis Jupiter", "Lewis Koronis", "Lewis Lunatic",
 
-             "Selvyn Astronomica", "Selvyn Borealis", "Selvyn Celestial", "Selvyn Deuteronic", "Selvyn Eclipse",
-             "Selvyn Floral", "Selvyn Galactia", "Selvyn Heliosphere", "Selvyn Interstella", "Selvyn Jupiter", "Selvyn Koronis", "Selvyn Lunatic",
+    }
 
-             "Richard Astronomica", "Richard Borealis", "Richard Celestial", "Richard Deuteronic", "Richard Eclipse",
-             "Richard Floral", "Richard Galactia", "Richard Heliosphere", "Richard Interstella", "Richard Jupiter", "Richard Koronis", "Richard Lunatic",
+    componentDidMount() {
+      this.setState({
+        endingDealers : {
+             labels: ["Lewis Astronomica", "Lewis Borealis", "Lewis Celestial", "Lewis Deuteronic", "Lewis Eclipse",
+           "Lewis Floral", "Lewis Galactia", "Lewis Heliosphere", "Lewis Interstella", "Lewis Jupiter", "Lewis Koronis", "Lewis Lunatic",
 
-             "Lina Astronomica", "Lina Borealis", "Lina Celestial", "Lina Deuteronic", "Lina Eclipse",
-             "Lina Floral", "Lina Galactia", "Lina Heliosphere", "Lina Interstella", "Lina Jupiter", "Lina Koronis", "Lina Lunatic",
+           "Selvyn Astronomica", "Selvyn Borealis", "Selvyn Celestial", "Selvyn Deuteronic", "Selvyn Eclipse",
+           "Selvyn Floral", "Selvyn Galactia", "Selvyn Heliosphere", "Selvyn Interstella", "Selvyn Jupiter", "Selvyn Koronis", "Selvyn Lunatic",
 
-             "John Astronomica", "John Borealis", "John Celestial", "John Deuteronic", "John Eclipse",
-             "John Floral", "John Galactia", "John Heliosphere", "John Interstella", "John Jupiter", "John Koronis", "John Lunatic",
+           "Richard Astronomica", "Richard Borealis", "Richard Celestial", "Richard Deuteronic", "Richard Eclipse",
+           "Richard Floral", "Richard Galactia", "Richard Heliosphere", "Richard Interstella", "Richard Jupiter", "Richard Koronis", "Richard Lunatic",
 
-             "Nidia Astronomica", "Nidia Borealis", "Nidia Celestial", "Nidia Deuteronic", "Nidia Eclipse",
-             "Nidia Floral", "Nidia Galactia", "Nidia Heliosphere", "Nidia Interstella", "Nidia Jupiter", "Nidia Koronis", "Nidia Lunatic"],
+           "Lina Astronomica", "Lina Borealis", "Lina Celestial", "Lina Deuteronic", "Lina Eclipse",
+           "Lina Floral", "Lina Galactia", "Lina Heliosphere", "Lina Interstella", "Lina Jupiter", "Lina Koronis", "Lina Lunatic",
+
+           "John Astronomica", "John Borealis", "John Celestial", "John Deuteronic", "John Eclipse",
+           "John Floral", "John Galactia", "John Heliosphere", "John Interstella", "John Jupiter", "John Koronis", "John Lunatic",
+
+           "Nidia Astronomica", "Nidia Borealis", "Nidia Celestial", "Nidia Deuteronic", "Nidia Eclipse",
+           "Nidia Floral", "Nidia Galactia", "Nidia Heliosphere", "Nidia Interstella", "Nidia Jupiter", "Nidia Koronis", "Nidia Lunatic"],
+             datasets: [
+               {
+                 label: 'My First dataset',
+                 backgroundColor: 'rgba(255,99,132,0.2)',
+                 borderColor: 'rgba(255,99,132,1)',
+                 borderWidth: 1,
+                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                 hoverBorderColor: 'rgba(255,99,132,1)',
+                 data: this.state.endingDealersData
+               }
+             ]
+           },
+        realisedDealers : {
+               labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
                datasets: [
                  {
                    label: 'My First dataset',
@@ -52,104 +70,90 @@ export default class DisplayData extends Component {
                    borderWidth: 1,
                    hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                    hoverBorderColor: 'rgba(255,99,132,1)',
-                   data: this.state.endingDealersData
+                   data: this.state.realisedDealersData
                  }
                ]
-             },
-          realisedDealers : {
-                 labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
-                 datasets: [
-                   {
-                     label: 'My First dataset',
-                     backgroundColor: 'rgba(255,99,132,0.2)',
-                     borderColor: 'rgba(255,99,132,1)',
-                     borderWidth: 1,
-                     hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                     hoverBorderColor: 'rgba(255,99,132,1)',
-                     data: this.state.realisedDealersData
-                   }
-                 ]
-             },
-          effectiveDealers : {
-                 labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
-                 datasets: [
-                   {
-                     label: 'My First dataset',
-                     backgroundColor: 'rgba(255,99,132,0.2)',
-                     borderColor: 'rgba(255,99,132,1)',
-                     borderWidth: 1,
-                     hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                     hoverBorderColor: 'rgba(255,99,132,1)',
-                     data: this.state.effectiveDealersData
-                   }
-                 ]
-             },
-          endingAggregated : {
-             labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
-             "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
-             datasets: [
-                 {
-                 label: 'My First dataset',
-                 backgroundColor: 'rgba(255,99,132,0.2)',
-                 borderColor: 'rgba(255,99,132,1)',
-                 borderWidth: 1,
-                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                 hoverBorderColor: 'rgba(255,99,132,1)',
-                 data: this.state.endingAggregatedData
-                 }
-             ]
            },
-          realisedAggregated : this.state.realisedAggregatedData,
-          effectiveAggregated : this.state.effectiveAggregatedData,
-          averageData : {
-                 labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
-                 "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
-                 datasets: [
-                   {
-                     label: 'Buy price',
-                     fill: false,
-                     lineTension: 0.1,
-                     backgroundColor: 'rgba(255,192,192,0.4)',
-                     borderColor: 'rgba(255,192,192,1)',
-                     borderCapStyle: 'butt',
-                     borderDash: [],
-                     borderDashOffset: 0.0,
-                     borderJoinStyle: 'miter',
-                     pointBorderColor: 'rgba(255,192,192,1)',
-                     pointBackgroundColor: '#fff',
-                     pointBorderWidth: 1,
-                     pointHoverRadius: 5,
-                     pointHoverBackgroundColor: 'rgba(255,192,192,1)',
-                     pointHoverBorderColor: 'rgba(220,220,220,1)',
-                     pointHoverBorderWidth: 2,
-                     pointRadius: 1,
-                     pointHitRadius: 10,
-                     data: this.state.averageBuyData
-                   },
-                   {
-                     label: 'Sell price',
-                     fill: false,
-                     lineTension: 0.1,
-                     backgroundColor: 'rgba(75,192,192,0.4)',
-                     borderColor: 'rgba(75,192,192,1)',
-                     borderCapStyle: 'butt',
-                     borderDash: [],
-                     borderDashOffset: 0.0,
-                     borderJoinStyle: 'miter',
-                     pointBorderColor: 'rgba(75,192,192,1)',
-                     pointBackgroundColor: '#fff',
-                     pointBorderWidth: 1,
-                     pointHoverRadius: 5,
-                     pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-                     pointHoverBorderColor: 'rgba(220,220,220,1)',
-                     pointHoverBorderWidth: 2,
-                     pointRadius: 1,
-                     pointHitRadius: 10,
-                     data: this.state.averageSellData
-                   }
-                 ]
-             }
-           });
+        effectiveDealers : {
+               labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
+               datasets: [
+                 {
+                   label: 'My First dataset',
+                   backgroundColor: 'rgba(255,99,132,0.2)',
+                   borderColor: 'rgba(255,99,132,1)',
+                   borderWidth: 1,
+                   hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                   hoverBorderColor: 'rgba(255,99,132,1)',
+                   data: this.state.effectiveDealersData
+                 }
+               ]
+           },
+        endingAggregated : {
+           labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
+           "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
+           datasets: [
+               {
+               label: 'My First dataset',
+               backgroundColor: 'rgba(255,99,132,0.2)',
+               borderColor: 'rgba(255,99,132,1)',
+               borderWidth: 1,
+               hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+               hoverBorderColor: 'rgba(255,99,132,1)',
+               data: this.state.endingAggregatedData
+               }
+           ]
+         },
+        realisedAggregated : this.state.realisedAggregatedData,
+        effectiveAggregated : this.state.effectiveAggregatedData,
+        averageData : {
+               labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
+               "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
+               datasets: [
+                 {
+                   label: 'Buy price',
+                   fill: false,
+                   lineTension: 0.1,
+                   backgroundColor: 'rgba(255,192,192,0.4)',
+                   borderColor: 'rgba(255,192,192,1)',
+                   borderCapStyle: 'butt',
+                   borderDash: [],
+                   borderDashOffset: 0.0,
+                   borderJoinStyle: 'miter',
+                   pointBorderColor: 'rgba(255,192,192,1)',
+                   pointBackgroundColor: '#fff',
+                   pointBorderWidth: 1,
+                   pointHoverRadius: 5,
+                   pointHoverBackgroundColor: 'rgba(255,192,192,1)',
+                   pointHoverBorderColor: 'rgba(220,220,220,1)',
+                   pointHoverBorderWidth: 2,
+                   pointRadius: 1,
+                   pointHitRadius: 10,
+                   data: this.state.averageBuyData
+                 },
+                 {
+                   label: 'Sell price',
+                   fill: false,
+                   lineTension: 0.1,
+                   backgroundColor: 'rgba(75,192,192,0.4)',
+                   borderColor: 'rgba(75,192,192,1)',
+                   borderCapStyle: 'butt',
+                   borderDash: [],
+                   borderDashOffset: 0.0,
+                   borderJoinStyle: 'miter',
+                   pointBorderColor: 'rgba(75,192,192,1)',
+                   pointBackgroundColor: '#fff',
+                   pointBorderWidth: 1,
+                   pointHoverRadius: 5,
+                   pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                   pointHoverBorderColor: 'rgba(220,220,220,1)',
+                   pointHoverBorderWidth: 2,
+                   pointRadius: 1,
+                   pointHitRadius: 10,
+                   data: this.state.averageSellData
+                 }
+               ]
+           }
+         });
     }
 
     getChartsUrl(id){
@@ -174,7 +178,7 @@ export default class DisplayData extends Component {
         document.getElementById('effectiveAggregated').style.display = 'none';
     }
 
-    handleChartDataSubmit = async event => {
+    handleChartDataSubmit = event => {
         this.hideAll();
         var sel = document.getElementById("charts");
         var id = sel.options[sel.selectedIndex].value;
@@ -198,45 +202,174 @@ export default class DisplayData extends Component {
             console.log(url);
             switch(url){
               case  'http://localhost:5001/average' : {
-                this.state.averageBuyData = result.averageBuy;
-                this.state.averageSellData = result.averageSell;
+                this.setState({
+                  averageData : {
+                         labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
+                         "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
+                         datasets: [
+                           {
+                             label: 'Buy price',
+                             fill: false,
+                             lineTension: 0.1,
+                             backgroundColor: 'rgba(255,192,192,0.4)',
+                             borderColor: 'rgba(255,192,192,1)',
+                             borderCapStyle: 'butt',
+                             borderDash: [],
+                             borderDashOffset: 0.0,
+                             borderJoinStyle: 'miter',
+                             pointBorderColor: 'rgba(255,192,192,1)',
+                             pointBackgroundColor: '#fff',
+                             pointBorderWidth: 1,
+                             pointHoverRadius: 5,
+                             pointHoverBackgroundColor: 'rgba(255,192,192,1)',
+                             pointHoverBorderColor: 'rgba(220,220,220,1)',
+                             pointHoverBorderWidth: 2,
+                             pointRadius: 1,
+                             pointHitRadius: 10,
+                             data: result.averageBuy
+                           },
+                           {
+                             label: 'Sell price',
+                             fill: false,
+                             lineTension: 0.1,
+                             backgroundColor: 'rgba(75,192,192,0.4)',
+                             borderColor: 'rgba(75,192,192,1)',
+                             borderCapStyle: 'butt',
+                             borderDash: [],
+                             borderDashOffset: 0.0,
+                             borderJoinStyle: 'miter',
+                             pointBorderColor: 'rgba(75,192,192,1)',
+                             pointBackgroundColor: '#fff',
+                             pointBorderWidth: 1,
+                             pointHoverRadius: 5,
+                             pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                             pointHoverBorderColor: 'rgba(220,220,220,1)',
+                             pointHoverBorderWidth: 2,
+                             pointRadius: 1,
+                             pointHitRadius: 10,
+                             data: result.averageSell
+                           }
+                         ]
+                     }
+                });
                 console.log(this.state.averageBuyData);
                 console.log(this.state.averageSellData);
                 document.getElementById('averageData').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/dealers_position' : {
-                this.state.endingDealersData = result.endingDealers;
+                this.setState({
+                  endingDealers : {
+                       labels: ["Lewis Astronomica", "Lewis Borealis", "Lewis Celestial", "Lewis Deuteronic", "Lewis Eclipse",
+                     "Lewis Floral", "Lewis Galactia", "Lewis Heliosphere", "Lewis Interstella", "Lewis Jupiter", "Lewis Koronis", "Lewis Lunatic",
+
+                     "Selvyn Astronomica", "Selvyn Borealis", "Selvyn Celestial", "Selvyn Deuteronic", "Selvyn Eclipse",
+                     "Selvyn Floral", "Selvyn Galactia", "Selvyn Heliosphere", "Selvyn Interstella", "Selvyn Jupiter", "Selvyn Koronis", "Selvyn Lunatic",
+
+                     "Richard Astronomica", "Richard Borealis", "Richard Celestial", "Richard Deuteronic", "Richard Eclipse",
+                     "Richard Floral", "Richard Galactia", "Richard Heliosphere", "Richard Interstella", "Richard Jupiter", "Richard Koronis", "Richard Lunatic",
+
+                     "Lina Astronomica", "Lina Borealis", "Lina Celestial", "Lina Deuteronic", "Lina Eclipse",
+                     "Lina Floral", "Lina Galactia", "Lina Heliosphere", "Lina Interstella", "Lina Jupiter", "Lina Koronis", "Lina Lunatic",
+
+                     "John Astronomica", "John Borealis", "John Celestial", "John Deuteronic", "John Eclipse",
+                     "John Floral", "John Galactia", "John Heliosphere", "John Interstella", "John Jupiter", "John Koronis", "John Lunatic",
+
+                     "Nidia Astronomica", "Nidia Borealis", "Nidia Celestial", "Nidia Deuteronic", "Nidia Eclipse",
+                     "Nidia Floral", "Nidia Galactia", "Nidia Heliosphere", "Nidia Interstella", "Nidia Jupiter", "Nidia Koronis", "Nidia Lunatic"],
+                       datasets: [
+                         {
+                           label: 'My First dataset',
+                           backgroundColor: 'rgba(255,99,132,0.2)',
+                           borderColor: 'rgba(255,99,132,1)',
+                           borderWidth: 1,
+                           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                           hoverBorderColor: 'rgba(255,99,132,1)',
+                           data: result.endingDealers
+                         }
+                       ]
+                     },
+                });
                 console.log(this.state.endingDealersData);
                 document.getElementById('endingDealers').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/realised_profit_loss_dealers' : {
-                this.state.realisedDealersData = result.realisedDealers;
+                this.setState({
+                  realisedDealers : {
+                         labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
+                         datasets: [
+                           {
+                             label: 'My First dataset',
+                             backgroundColor: 'rgba(255,99,132,0.2)',
+                             borderColor: 'rgba(255,99,132,1)',
+                             borderWidth: 1,
+                             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                             hoverBorderColor: 'rgba(255,99,132,1)',
+                             data: result.realisedDealers
+                           }
+                         ]
+                     },
+                });
                 console.log(this.state.realisedDealersData);
                 document.getElementById('realisedDealers').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/effective_profit_loss_dealers' : {
-                this.state.effectiveDealersData = result.effectiveDealers;
+                this.setState({
+                  effectiveDealers : {
+                         labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
+                         datasets: [
+                           {
+                             label: 'My First dataset',
+                             backgroundColor: 'rgba(255,99,132,0.2)',
+                             borderColor: 'rgba(255,99,132,1)',
+                             borderWidth: 1,
+                             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                             hoverBorderColor: 'rgba(255,99,132,1)',
+                             data: result.effectiveDealers
+                           }
+                         ]
+                     },
+                });
                 console.log(this.state.effectiveDealersData);
                 document.getElementById('effectiveDealers').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/aggregated_ending' : {
-                this.state.endingAggregatedData = result.endingAggregated;
+                this.setState({
+                  endingAggregated : {
+                     labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
+                     "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
+                     datasets: [
+                         {
+                         label: 'My First dataset',
+                         backgroundColor: 'rgba(255,99,132,0.2)',
+                         borderColor: 'rgba(255,99,132,1)',
+                         borderWidth: 1,
+                         hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                         hoverBorderColor: 'rgba(255,99,132,1)',
+                         data: result.endingAggregated
+                         }
+                     ]
+                   },
+                });
                 console.log(this.state.endingAggregatedData);
                 document.getElementById('endingAggregated').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/aggregated_effective' : {
-                this.state.effectiveAggregatedData = result.effectiveAggregated;
+                this.setState({
+                  effectiveAggregatedData: result.effectiveAggregated,
+                });
                 console.log(this.state.effectiveAggregatedData);
                 document.getElementById('effectiveAggregated').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/aggregated_realised' : {
-                this.state.realisedAggregatedData = result.realisedAggregated;
+                this.setState({
+                  realisedAggregatedData: result.realisedAggregated,
+                });
                 console.log(this.state.realisedAggregatedData);
                 document.getElementById('realisedAggregated').style.display = 'block';
                 break;
@@ -308,7 +441,7 @@ export default class DisplayData extends Component {
                 <div id="endingDealers" style={{display:'none'}}>
                     <h4>Ending positions for each dealer</h4>
                     <Bar
-                    data={this.state.endingDealers}
+                    data={this.state.endingDealersData}
                     height={150}
                     options={{
                         maintainAspectRatio: false
@@ -318,7 +451,7 @@ export default class DisplayData extends Component {
                 <div id="realisedDealers" style={{display:'none'}}>
                     <h4>Realised profit/loss for each dealer</h4>
                     <Bar
-                    data={this.state.realisedDealers}
+                    data={this.state.realisedDealersData}
                     width={100}
                     height={50}
                     options={{
@@ -329,7 +462,7 @@ export default class DisplayData extends Component {
                 <div id="effectiveDealers" style={{display:'none'}}>
                     <h4>Effective profit/loss for each dealer</h4>
                     <Bar
-                    data={this.state.effectiveDealers}
+                    data={this.state.effectiveDealersData}
                     width={100}
                     height={50}
                     options={{
@@ -340,7 +473,7 @@ export default class DisplayData extends Component {
                 <div id="endingAggregated" style={{display:'none'}}>
                     <h4>Ending positions aggregated for all dealers</h4>
                     <Bar
-                    data={this.state.endingAggregated}
+                    data={this.state.endingAggregatedData}
                     width={100}
                     height={50}
                     options={{
@@ -350,11 +483,11 @@ export default class DisplayData extends Component {
                 </div>
                 <div id="realisedAggregated" style={{display:'none'}}>
                     <h4>Realised profit/loss for aggregated for all dealers</h4>
-                    <p>{this.state.realisedAggregated}</p>
+                    <p>{this.state.realisedAggregatedData}</p>
                 </div>
                 <div id="effectiveAggregated" style={{display:'none'}}>
                     <h4>Effective profit/loss aggregated for all dealers</h4>
-                    <p>{this.state.effectiveAggregated}</p>
+                    <p>{this.state.effectiveAggregatedData}</p>
                 </div>
             </div>
           </div>
