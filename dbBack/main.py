@@ -277,6 +277,17 @@ def get_stream_data():
     # print(data)
     # return data
 
+# @app.route('/deals')
+# def forwardStream():
+#     r = requests.get('http://localhost:8080/streampath', stream=True)
+#     def eventStream():
+#             for line in r.iter_lines( chunk_size=1):
+#                 if line:
+#                     # the next lines emit the received data as a SSE
+#                     yield 'data:{}\n\n'.format(line.decode())
+#     return Response(eventStream(), mimetype="text/event-stream")
+
+
 
 def bootapp():
     app.run(port=PORT, threaded=True, host=HOST, debug=True)
