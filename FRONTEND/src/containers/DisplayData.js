@@ -6,6 +6,7 @@ import {Line} from 'react-chartjs-2';
 import Loader from 'react-loader-spinner';
 import DateTimePicker from 'react-datetime-picker';
 import TableData from './TableData';
+import baseUrl from "./Utils";
 export default class DisplayData extends Component {
 
     constructor(props) {
@@ -154,13 +155,13 @@ export default class DisplayData extends Component {
 
     getChartsUrl(id){
         switch(id){
-            case "averageData": return "http://localhost:5001/average";
-            case "endingDealers": return "http://localhost:5001/dealers_position";
-            case "realisedDealers": return "http://localhost:5001/realised_profit_loss_dealers";
-            case "effectiveDealers": return "http://localhost:5001/effective_profit_loss_dealers";
-            case "endingAggregated": return "http://localhost:5001/aggregated_ending";
-            case "realisedAggregated": return "http://localhost:5001/aggregated_realised";
-            case "effectiveAggregated": return "http://localhost:5001/aggregated_effective";
+            case "averageData": return baseUrl + '/average';
+            case "endingDealers": return baseUrl + '/dealers_position';
+            case "realisedDealers": return baseUrl + '/realised_profit_loss_dealers';
+            case "effectiveDealers": return baseUrl + '/effective_profit_loss_dealers';
+            case "endingAggregated": return baseUrl + '/aggregated_ending';
+            case "realisedAggregated": return baseUrl + '/aggregated_effective';
+            case "effectiveAggregated": return baseUrl + '/aggregated_realised';
         }
     }
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
+import baseUrl from "./Utils";
 
 export default class Login extends Component {
   constructor(props) {
@@ -25,8 +26,8 @@ export default class Login extends Component {
 
   handleLoginSubmit = async event => {
     event.preventDefault();
-
-    fetch('https://jsonplaceholder.typicode.com/posts', {
+    const url = baseUrl + '/login'
+    fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -65,8 +66,8 @@ export default class Login extends Component {
 
   handleDisplayDataSubmit = async event => {
     event.preventDefault();
-
-    fetch('https://jsonplaceholder.typicode.com/posts', {
+    const url = baseUrl + '/connection'
+    fetch(url, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

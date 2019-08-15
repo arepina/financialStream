@@ -248,23 +248,27 @@ def add_stream_data():
         return response
 
 
-@app.route('/get_stream_data', methods=['GET'])
+@app.route('/get_stream_data')
 def get_stream_data():
-    try:
-        db = Database()
-        data = db.get_stream_data()
-        return app.response_class(
-            response=json.dumps(data),
-            status=200,
-            mimetype='application/json'
-        )
-    except Exception as e:
-        response = app.response_class(
-            response=json.dumps(e),
-            status=400,
-            mimetype='application/json'
-        )
-        return response
+    # try:
+    #     db = Database()
+    #     data = db.get_stream_data()
+    #     return app.response_class(
+    #         response=json.dumps(data),
+    #         status=200,
+    #         mimetype='application/json'
+    #     )
+    # except Exception as e:
+    #     response = app.response_class(
+    #         response=json.dumps(e),
+    #         status=400,
+    #         mimetype='application/json'
+    #     )
+    #     return response
+    db = Database()
+    data = db.get_stream_data()
+    print(data)
+    return data
 
 
 def bootapp():

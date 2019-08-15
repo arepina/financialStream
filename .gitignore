@@ -1,5 +1,4 @@
 mysql-server.tar
-frontend/node_modules
 dbBack/.idea
 dbBack/.idea/workspace.xml
 webBack/.idea
