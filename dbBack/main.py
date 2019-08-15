@@ -234,6 +234,7 @@ def add_stream_data():
         time = request.json.get("time")
         db = Database()
         data = db.add_stream_data(instrumentName, cpty, price, quantity, type, time)
+        db.close_connection()
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -245,7 +246,6 @@ def add_stream_data():
             status=400,
             mimetype='application/json'
         )
-        db.close_connection()
         return response
 
 
