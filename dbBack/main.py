@@ -269,7 +269,6 @@ def get_stream_data():
     db = Database()
     data = db.get_stream_data()
     print(data)
-    #db.close_connection()
     return data
 
 
