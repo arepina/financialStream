@@ -25,7 +25,7 @@ class Database:
         self.con.commit()
 
     def average(self, start, end):
-        self.cur.execute("SELECT i.instrument_name, "
+        self.cur.execute("(SELECT i.instrument_name, "
                          "concat('$ ', format((AVG(CASE WHEN d.type = 'B' THEN d.price END))"
                          ", 2)) AS 'Average Buy Price', "
                          "concat('$ ', format((AVG(CASE WHEN d.type = 'S' THEN d.price END))"
@@ -94,7 +94,7 @@ class Database:
                          "ON i.instrument_id = d.instrument_id "
                          "WHERE d.timestamp > '{0}' AND "
                          "d.timestamp < '{1}' "
-                         "GROUP BY c.cpty_name, i.instrument_name".format(start, end))
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
         self.cur.execute("SELECT cpty_name, "
                          "concat('$ ', format(SUM(realized_profit_loss), 2)) "

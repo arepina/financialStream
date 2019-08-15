@@ -14,6 +14,7 @@ class App extends Component {
             DB.Deals
               {/* <Link to="/" style={{color: 'white'}}>DB.Deals</Link> */}
             </Navbar.Brand>
+            <img src={require('./deutschebank.png')} width='32px' height='32px' style={{marginTop:'7px'}}/>
           </Navbar.Header>
         </Navbar>
         <Routes />
