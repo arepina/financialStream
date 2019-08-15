@@ -7,3 +7,5 @@ webBack/.idea
 dataGeneratingProcess/.idea
 webBack/endpoints.py
 FRONTEND/node_modules
+webBack/endpoints.py
+FRONTEND/src/containers/Utils.js

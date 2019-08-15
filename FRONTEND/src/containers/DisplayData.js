@@ -51,7 +51,6 @@ export default class DisplayData extends Component {
            "Nidia Floral", "Nidia Galactia", "Nidia Heliosphere", "Nidia Interstella", "Nidia Jupiter", "Nidia Koronis", "Nidia Lunatic"],
              datasets: [
                {
-                 label: 'My First dataset',
                  backgroundColor: 'rgba(255,99,132,0.2)',
                  borderColor: 'rgba(255,99,132,1)',
                  borderWidth: 1,
@@ -65,7 +64,6 @@ export default class DisplayData extends Component {
                labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
                datasets: [
                  {
-                   label: 'My First dataset',
                    backgroundColor: 'rgba(255,99,132,0.2)',
                    borderColor: 'rgba(255,99,132,1)',
                    borderWidth: 1,
@@ -79,7 +77,6 @@ export default class DisplayData extends Component {
                labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
                datasets: [
                  {
-                   label: 'My First dataset',
                    backgroundColor: 'rgba(255,99,132,0.2)',
                    borderColor: 'rgba(255,99,132,1)',
                    borderWidth: 1,
@@ -94,7 +91,6 @@ export default class DisplayData extends Component {
            "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
            datasets: [
                {
-               label: 'My First dataset',
                backgroundColor: 'rgba(255,99,132,0.2)',
                borderColor: 'rgba(255,99,132,1)',
                borderWidth: 1,
@@ -199,10 +195,9 @@ export default class DisplayData extends Component {
         })
         .then((response) => response.json())
         .then((result) => {
-            console.log(result);
             console.log(url);
             switch(url){
-              case  'http://localhost:5001/average' : {
+              case  baseUrl + '/average' : {
                 this.setState({
                   averageData : {
                          labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
@@ -253,12 +248,10 @@ export default class DisplayData extends Component {
                          ]
                      }
                 });
-                console.log(this.state.averageBuyData);
-                console.log(this.state.averageSellData);
                 document.getElementById('averageData').style.display = 'block';
                 break;
               }
-              case  'http://localhost:5001/dealers_position' : {
+              case  baseUrl + '/dealers_position' : {
                 this.setState({
                   endingDealers : {
                        labels: ["Lewis Astronomica", "Lewis Borealis", "Lewis Celestial", "Lewis Deuteronic", "Lewis Eclipse",
@@ -280,7 +273,7 @@ export default class DisplayData extends Component {
                      "Nidia Floral", "Nidia Galactia", "Nidia Heliosphere", "Nidia Interstella", "Nidia Jupiter", "Nidia Koronis", "Nidia Lunatic"],
                        datasets: [
                          {
-                           label: 'My First dataset',
+                           label: 'Ending profit/loss',
                            backgroundColor: 'rgba(255,99,132,0.2)',
                            borderColor: 'rgba(255,99,132,1)',
                            borderWidth: 1,
@@ -291,17 +284,16 @@ export default class DisplayData extends Component {
                        ]
                      },
                 });
-                console.log(this.state.endingDealersData);
                 document.getElementById('endingDealers').style.display = 'block';
                 break;
               }
-              case  'http://localhost:5001/realised_profit_loss_dealers' : {
+              case baseUrl + '/realised_profit_loss_dealers' : {
                 this.setState({
                   realisedDealers : {
                          labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
                          datasets: [
                            {
-                             label: 'My First dataset',
+                             label: 'Realised profit/loss',
                              backgroundColor: 'rgba(255,99,132,0.2)',
                              borderColor: 'rgba(255,99,132,1)',
                              borderWidth: 1,
@@ -312,17 +304,16 @@ export default class DisplayData extends Component {
                          ]
                      },
                 });
-                console.log(this.state.realisedDealersData);
                 document.getElementById('realisedDealers').style.display = 'block';
                 break;
               }
-              case  'http://localhost:5001/effective_profit_loss_dealers' : {
+              case  baseUrl + '/effective_profit_loss_dealers' : {
                 this.setState({
                   effectiveDealers : {
                          labels: ["Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia"],
                          datasets: [
                            {
-                             label: 'My First dataset',
+                             label: 'Effective profit/loss',
                              backgroundColor: 'rgba(255,99,132,0.2)',
                              borderColor: 'rgba(255,99,132,1)',
                              borderWidth: 1,
@@ -333,18 +324,17 @@ export default class DisplayData extends Component {
                          ]
                      },
                 });
-                console.log(this.state.effectiveDealersData);
                 document.getElementById('effectiveDealers').style.display = 'block';
                 break;
               }
-              case  'http://localhost:5001/aggregated_ending' : {
+              case baseUrl + '/aggregated_ending' : {
                 this.setState({
                   endingAggregated : {
                      labels: ["Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
                      "Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic"],
                      datasets: [
                          {
-                         label: 'My First dataset',
+                         label: 'Aggregated ending',
                          backgroundColor: 'rgba(255,99,132,0.2)',
                          borderColor: 'rgba(255,99,132,1)',
                          borderWidth: 1,
@@ -355,23 +345,20 @@ export default class DisplayData extends Component {
                      ]
                    },
                 });
-                console.log(this.state.endingAggregatedData);
                 document.getElementById('endingAggregated').style.display = 'block';
                 break;
               }
-              case  'http://localhost:5001/aggregated_effective' : {
+              case  baseUrl + '/aggregated_effective' : {
                 this.setState({
                   effectiveAggregatedData: result.effectiveAggregated,
                 });
-                console.log(this.state.effectiveAggregatedData);
                 document.getElementById('effectiveAggregated').style.display = 'block';
                 break;
               }
-              case  'http://localhost:5001/aggregated_realised' : {
+              case baseUrl + '/aggregated_realised' : {
                 this.setState({
                   realisedAggregatedData: result.realisedAggregated,
                 });
-                console.log(this.state.realisedAggregatedData);
                 document.getElementById('realisedAggregated').style.display = 'block';
                 break;
               }
@@ -384,6 +371,9 @@ export default class DisplayData extends Component {
         }
         );
     }
+
+
+
 
     renderSuccess() {
         return (
@@ -436,50 +426,40 @@ export default class DisplayData extends Component {
             <div>
                 <div id="averageData" style={{display:'none'}}>
                     <h4>Average buy and sell prices for each instrument during the period</h4>
-                    <Line data={this.state.averageData} width={100}
+                    <Line data={this.state.averageData}
+                    width={100}
                     height={50}/>
                 </div>
                 <div id="endingDealers" style={{display:'none'}}>
                     <h4>Ending positions for each dealer</h4>
                     <Bar
-                    data={this.state.endingDealersData}
-                    height={150}
-                    options={{
-                        maintainAspectRatio: false
-                    }}
+                    data={this.state.endingDealers}
+                    width={100}
+                    height={50}
                     />
                 </div>
                 <div id="realisedDealers" style={{display:'none'}}>
                     <h4>Realised profit/loss for each dealer</h4>
                     <Bar
-                    data={this.state.realisedDealersData}
+                    data={this.state.realisedDealers}
                     width={100}
                     height={50}
-                    options={{
-                        maintainAspectRatio: false
-                    }}
                     />
                 </div>
                 <div id="effectiveDealers" style={{display:'none'}}>
                     <h4>Effective profit/loss for each dealer</h4>
                     <Bar
-                    data={this.state.effectiveDealersData}
+                    data={this.state.effectiveDealers}
                     width={100}
                     height={50}
-                    options={{
-                        maintainAspectRatio: false
-                    }}
                     />
                 </div>
                 <div id="endingAggregated" style={{display:'none'}}>
                     <h4>Ending positions aggregated for all dealers</h4>
                     <Bar
-                    data={this.state.endingAggregatedData}
+                    data={this.state.endingAggregated}
                     width={100}
                     height={50}
-                    options={{
-                        maintainAspectRatio: false
-                    }}
                     />
                 </div>
                 <div id="realisedAggregated" style={{display:'none'}}>
