@@ -179,10 +179,8 @@ export default class DisplayData extends Component {
         this.hideAll();
         var sel = document.getElementById("charts");
         var id = sel.options[sel.selectedIndex].value;
-        console.log(id);
         document.getElementById('loader').style.display = 'block';
         var url = this.getChartsUrl(id);
-        console.log(url);
         fetch(url, {
             method: 'POST',
             headers: {
@@ -197,45 +195,51 @@ export default class DisplayData extends Component {
         })
         .then((response) => response.json())
         .then((result) => {
-            console.log(url);
             console.log(result);
+            console.log(url);
             switch(url){
               case  'http://localhost:5001/average' : {
                 this.state.averageBuyData = result.averageBuy;
                 this.state.averageSellData = result.averageSell;
                 console.log(this.state.averageBuyData);
-                console.log(result.averageBuy);
+                console.log(this.state.averageSellData);
                 document.getElementById('averageData').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/dealers_position' : {
-                this.state.effectiveAggregatedData = result.effectiveAggregated;
-                document.getElementById('effectiveAggregated').style.display = 'block';
+                this.state.endingDealersData = result.endingDealers;
+                console.log(this.state.endingDealersData);
+                document.getElementById('endingDealers').style.display = 'block';
                 break;
               }
               case  'http://localhost:5001/realised_profit_loss_dealers' : {
-                this.state.realisedAggregatedData = result.realisedAggregated;
-                document.getElementById('realisedAggregated').style.display = 'block';
-                break;
-              }
-              case  'http://localhost:5001/effective_profit_loss_dealers:' : {
-                this.state.endingAggregatedData = result.endingAggregated;
-                document.getElementById('endingAggregated').style.display = 'block';
-                break;
-              }
-              case  'http://localhost:5001/aggregated_ending' : {
-                this.state.effectiveDealersData = result.effectiveDealers;
-                document.getElementById('effectiveDealers').style.display = 'block';
-                break;
-              }
-              case  'http://localhost:5001/aggregated_effective' : {
                 this.state.realisedDealersData = result.realisedDealers;
+                console.log(this.state.realisedDealersData);
                 document.getElementById('realisedDealers').style.display = 'block';
                 break;
               }
+              case  'http://localhost:5001/effective_profit_loss_dealers' : {
+                this.state.effectiveDealersData = result.effectiveDealers;
+                console.log(this.state.effectiveDealersData);
+                document.getElementById('effectiveDealers').style.display = 'block';
+                break;
+              }
+              case  'http://localhost:5001/aggregated_ending' : {
+                this.state.endingAggregatedData = result.endingAggregated;
+                console.log(this.state.endingAggregatedData);
+                document.getElementById('endingAggregated').style.display = 'block';
+                break;
+              }
+              case  'http://localhost:5001/aggregated_effective' : {
+                this.state.effectiveAggregatedData = result.effectiveAggregated;
+                console.log(this.state.effectiveAggregatedData);
+                document.getElementById('effectiveAggregated').style.display = 'block';
+                break;
+              }
               case  'http://localhost:5001/aggregated_realised' : {
-                this.state.endingDealersData = result.endingDealers;
-                document.getElementById('endingDealers').style.display = 'block';
+                this.state.realisedAggregatedData = result.realisedAggregated;
+                console.log(this.state.realisedAggregatedData);
+                document.getElementById('realisedAggregated').style.display = 'block';
                 break;
               }
             }
