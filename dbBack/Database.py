@@ -1,5 +1,5 @@
 import pymysql
-import logging
+
 from endpoints import DB_HOST
 
 
@@ -16,7 +16,9 @@ class Database:
         self.cur.execute("SELECT * FROM USER "
                          "WHERE login = '{0}' and password = '{1}';".format(login, password))
         result = self.cur.fetchall()
-        return result
+        if len(result) != 0:
+            return result
+        raise Exception()
 
     def sign_up(self, login, password, user_type):
         self.cur.execute(
