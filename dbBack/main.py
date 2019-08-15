@@ -108,6 +108,12 @@ def dealers_position():
         return response
 
 
+@app.route('/connection', methods=['GET'])
+def connection():
+    db = Database()
+    return db.con
+
+
 @app.route('/realised_profit_loss_dealers', methods=['GET'])
 def realised_profit_loss_dealers():
     try:
