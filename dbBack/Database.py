@@ -94,7 +94,7 @@ class Database:
                          "ON i.instrument_id = d.instrument_id "
                          "WHERE d.timestamp > '{0}' AND "
                          "d.timestamp < '{1}' "
-                         "GROUP BY c.cpty_name, i.instrument_name".format(start, end))
+                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
         self.con.commit()
         self.cur.execute("SELECT cpty_name, "
                          "concat('$ ', format(SUM(realized_profit_loss), 2)) "
