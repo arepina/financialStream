@@ -1,6 +1,6 @@
 import logging
 import requests
-from flask import Flask
+from flask import Flask, Response
 from flask_cors import CORS
 import endpoint
 
@@ -16,17 +16,18 @@ def getstream():
         stream = RandomDealData()
         instrumentList = stream.createInstrumentList()
         while True:
-            yield stream.createRandomData(instrumentList)
+            yield 'data:{}\n\n'.format(stream.createRandomData(instrumentList))
 
-    for stream in data_stream():
-        print(stream)
-        try:
-            logging.info(stream)
-            requests.post(endpoint.POST_TO, json=stream)  # ERROR
-        except Exception as e:
-            logging.error("Error: ", str(e))
-            print(e)
-            continue
+    return Response(data_stream(), mimetype="text/event-stream")
+    # for stream in data_stream():
+    #     print(stream)
+    #     try:
+    #         logging.info(stream)
+    #         requests.post(endpoint.POST_TO, json=stream)  # ERROR
+    #     except Exception as e:
+    #         logging.error("Error: ", str(e))
+    #         print(e)
+    #         continue
 
 
 def bootapp():
