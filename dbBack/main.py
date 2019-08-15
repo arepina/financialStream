@@ -245,6 +245,7 @@ def add_stream_data():
             status=400,
             mimetype='application/json'
         )
+        db.close_connection()
         return response
 
 
