@@ -34,7 +34,7 @@ export default class Login extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        login: this.state.email,
+        login: this.state.username,
         password: this.state.password,
       }),
       //credentials: 'same-origin'
@@ -127,7 +127,7 @@ export default class Login extends Component {
 
   render() {
     const divStyle = {
-      justifycontent: 'center', 
+      justifycontent: 'center',
       display: 'grid'
     };
     if (this.state.loggedInStatus) {
@@ -136,9 +136,9 @@ export default class Login extends Component {
           <h3 style={{textAlign:'center', fontWeight: 'bold'}}> Welcome, {this.state.username}!</h3>
           <div style={{textAlign:'center'}}>
             <Button  style={{
-              background:'#0018A8', color: 'white', width: '100px', 
+              background:'#0018A8', color: 'white', width: '100px',
               fontWeight: 'bold', padding: '10px'
-              }} onClick={this.handleDisplayDataSubmit}> Continue 
+              }} onClick={this.handleDisplayDataSubmit}> Continue
             </Button>
           </div>
         </div>

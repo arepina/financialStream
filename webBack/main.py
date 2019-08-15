@@ -1,8 +1,10 @@
-import json
+import math
+import time
+from random import random
 
 import requests
 import simplejson
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_cors import CORS
 
 from endpoints import *
@@ -121,7 +123,7 @@ def aggregated_ending():
     for item in resp.text.split('], ['):
         item = item.replace('[', '').replace(']', '').replace('\\u00a3', '')
         item = item[item.index(',') + 2:]
-        item = item[:item.index('\",')] .replace('\"', '').replace(" ", "").replace(",", "")
+        item = item[:item.index('\",')].replace('\"', '').replace(" ", "").replace(",", "")
         if item == 'null':
             endingAggregated.append(0)
         else:
@@ -153,10 +155,29 @@ def aggregated_realised():
     return json_response({"realisedAggregated": realisedAggregated})
 
 
-@app.route('/get_stream_data', methods=["POST"])
+@app.route('/connection', methods=["GET"])
+def connection():
+    resp = requests.get(PATH + "connection")
+    return json_response({"status": resp.text})
+
+
+def get_data(id):
+    time.sleep(1.0)
+    data = {"instrumentName": id, "cpty": "Lewis", "price": 9964.235074757127, "type": "S", "quantity": 71,
+            "time": "11-Aug-2019 (12:07:06.471252)"}
+    return data
+
+
+@app.route('/get_stream_data')
 def get_stream_data():
-    resp = requests.get(GET_STREAM_DATA)
-    return json_response(resp)
+    def eventStream():
+        while True:
+            yield 'data:{}\n\n'.format(get_data(random() * 10000))
+
+    return Response(eventStream(), mimetype="text/event-stream")
+
+    # resp = requests.get(GET_STREAM_DATA)
+    # return json_response(resp)
 
 
 def bootapp():

@@ -6,7 +6,7 @@ import { Table, Input, Button } from 'reactstrap';
 import "./TableData.css";
 import baseUrl from "./Utils";
 
-    const url = baseUrl + '/streamTime/sse';
+    const url = baseUrl + '/get_stream_data';
     const source = new EventSource(url);
     const stringObservable = Observable.create(observer => {
         source.addEventListener('message', (messageEvent) => {
@@ -14,7 +14,7 @@ import baseUrl from "./Utils";
             observer.next(messageEvent.data);
         }, false);
     });
-    
+
 function TableData() {
     const myTable = "myTable";
 
@@ -45,7 +45,7 @@ function TableData() {
     }
 
     const filterFn = event => {
-        // Declare variables 
+        // Declare variables
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myFilter");
         filter = input.value.toUpperCase();
