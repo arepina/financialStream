@@ -76,7 +76,7 @@ class Database:
                          "ON d.counter_party_id = c.counter_party_id "
                          "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
                          "AND c.cpty_name = '{2}'"
-                         "GROUP BY c.cpty_name, i.instrument_name"
+                         "GROUP BY c.cpty_name, i.instrument_name "
                          "ORDER BY c.cpty_name asc, i.instrument_name asc;".format(start, end, login))
         result = self.cur.fetchall()
         return result
