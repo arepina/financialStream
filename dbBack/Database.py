@@ -6,8 +6,8 @@ from endpoints import DB_HOST
 class Database:
     def __init__(self):
         host = DB_HOST
-        user = "root"
-        password = "root"
+        user = "admin"
+        password = "admin"
         db = "sampledb"
         self.con = pymysql.connect(host=host, user=user, password=password, db=db)
         self.cur = self.con.cursor()
