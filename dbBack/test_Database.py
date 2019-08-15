@@ -11,7 +11,6 @@ class Test_Database:
         time = "11-Aug-2019 (12:07:07.042573)"
         result = Database.add_stream_data(self, instrumentName, cpty, price, type, quantity, time)
 
-        print(result)
 
 
 
