@@ -1,10 +1,6 @@
-show databases;
+CREATE DATABASE mydata;
 
-CREATE DATABASE CaseStudyTeam20;
-
-USE CaseStudyTeam20;
-
-#CREATE TABLES
+use mydata;
 
 CREATE TABLE `USER` (
   `login` varchar(100) NOT NULL,
@@ -13,19 +9,17 @@ CREATE TABLE `USER` (
   PRIMARY KEY (`login`)
 );
 
+CREATE TABLE `INSTRUMENT` (
+	`instrument_id` int NOT NULL auto_increment,
+    `instr_name` varchar(100) NOT NULL,
+    PRIMARY KEY (`instrument_id`)
+);
+
 CREATE TABLE `COUNTER_PARTY` (
 	`counter_party_id` int NOT NULL auto_increment,
     `cpty_name` varchar(100) NOT NULL,
     PRIMARY KEY (`counter_party_id`)
 );
-
-CREATE TABLE `INSTRUMENT` (
-	`instrument_id` int NOT NULL auto_increment,
-    `instrument_name` varchar(100) NOT NULL,
-    PRIMARY KEY (`instrument_id`) 
-);
-
-
 
 CREATE TABLE `DEAL` (
     `deal_id` int NOT NULL auto_increment,
@@ -34,111 +28,186 @@ CREATE TABLE `DEAL` (
     `price` float NOT NULL,
     `quantity` int not null,
     `type`  varchar(10) not null,
-    `timestamp` timestamp not null,
+    `timestamp` datetime not null,
     PRIMARY KEY (`deal_id`),
     FOREIGN KEY (`instrument_id`) REFERENCES `INSTRUMENT`(`instrument_id`),
     FOREIGN KEY (`counter_party_id`) REFERENCES `COUNTER_PARTY`(`counter_party_id`)
 );
 
+INSERT INTO COUNTER_PARTY (cpty_name) VALUES ('Lewis'), ('Selvyn'), ('Richard'), ('Lina'), ('John'), ('Nidia');
 
+INSERT INTO INSTRUMENT (instr_name) VALUES ('Astronomica'), ('Borealis'), ('Celestial'), ('Deuteronic'),
+	('Eclipse'), ('Floral'), ('Galactia'), ('Heliosphere'), ('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');
 
+INSERT INTO DEAL (counter_party_id, instrument_id, price, quantity, type, timestamp) VALUES (4, 1, 400, 10, 'B', '2019-08-12 16:01:00'),
+	(4, 2, 1000, 2, 'B', '2019-08-12 16:02:00'), (4, 1, 500, 5, 'S', '2019-08-12 16:03:00'), (5, 2, 1000, 20, 'B', '2019-08-12 16:04:00'),
+    (5, 2, 850, 10, 'S', '2019-08-12 16:06:00'), (5, 3, 150, 45, 'B', '2019-08-12 16:05:00'), (6, 3, 500, 60, 'B', '2019-08-12 16:04:00'),
+    (6, 3, 1750, 30, 'S', '2019-08-12 16:08:00'), (6, 4, 450, 5, 'S', '2019-08-12 16:06:00'), (1, 4, 300, 15, 'B', '2019-08-12 16:07:00'),
+    (1, 4, 350, 10, 'S', '2019-08-12 16:10:00'), (1, 5, 105, 10, 'B', '2019-08-12 16:12:00'), (2, 5, 1000, 40, 'S', '2019-08-12 16:08:00'),
+    (2, 5, 800, 50, 'B', '2019-08-12 16:11:00'), (2, 6, 500, 15, 'B','2019-05-12 16:10:00'), (3, 6, 1000, 10, 'B', '2019-04-12 16:11:00'),
+    (3, 6, 950, 5, 'S', '2019-08-12 16:15:00'), (3, 7, 105, 100, 'B', '2019-08-12 16:11:00'), (3, 7, 135, 80, 'S', '2019-08-12 16:10:00');
 
-#SQL Statements - NOT CURRENT
 
 # I want to see the average buy and sell prices for each instrument during the period, No. 7
 
-SELECT i.instr_name, avg(d.price)
+SELECT i.instr_name AS 'Instrument Name',
+concat('£ ', format((AVG(CASE
+	WHEN d.type = 'B' THEN d.price
+END)), 2)) AS 'Average Buy Price',
+concat('£ ', format((AVG(CASE
+	WHEN d.type = 'S' THEN d.price
+END)), 2)) AS 'Average Sell Price'
 	FROM DEAL d INNER JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id
-    WHERE d.timestamp > '2019-08-11' /*start_date*/ AND d.timestamp <= '2019-08-13' /*end_date*/ AND d.type = 'B' /*'B' - Buy, 'S' - Sell*/
-    GROUP BY i.instr_name;
+    WHERE d.timestamp > '2019-01-11' /*start_date*/ AND d.timestamp <= '2019-08-20' /*end_date*/
+    GROUP BY i.instr_name
+    ORDER BY i.instr_name asc;
+
 
 # I want to see the ending positions for each dealer, No. 8
 
-SELECT c.cpty_name,
-SUM(CASE
+SELECT c.cpty_name, i.instr_name,
+concat('£ ', format((SUM(CASE
 	WHEN d.type = 'B' THEN -d.price*d.quantity
     WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS dealer_revenue
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE d.timestamp > '2019-08-11' /*start_date*/ AND d.timestamp <= '2019-08-13' /*end_date*/
-    GROUP BY c.cpty_name;
+END)), 2)) AS 'Ending Position',
+SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+END) AS 'Quantity Bought',
+SUM(CASE
+    WHEN d.type = 'S' THEN d.quantity
+END) AS 'Quantity Sold',
+SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+    WHEN d.type = 'S' THEN -d.quantity
+END) AS 'End Quantity'
+	FROM COUNTER_PARTY c LEFT JOIN (DEAL d LEFT JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id)
+    ON d.counter_party_id = c.counter_party_id
+    WHERE d.timestamp > '2019-01-11 14:00:00' /*start_date*/ AND d.timestamp <= '2019-08-15 14:00:00' /*end_date*/
+    GROUP BY c.cpty_name, i.instr_name
+    ORDER BY c.cpty_name asc, i.instr_name asc;
 
 # I want to see the ending positions for each dealer, No. 8, addition: input specific dealer
 
-SELECT c.cpty_name, sum(d.price*d.quantity)
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE c.cpty_name = '<input_variable>' /*dropdown list*/ AND
-    d.timestamp > '2019-08-11' /*start_date*/ AND d.timestamp <= '2019-08-13' /*end_date*/
-    GROUP BY c.cpty_name;
+SELECT c.cpty_name, i.instr_name,
+SUM(CASE
+	WHEN d.type = 'B' THEN -d.price*d.quantity
+    WHEN d.type = 'S' THEN d.price*d.quantity
+END) AS 'Ending Position',
+SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+END) AS 'Quantity Bought',
+SUM(CASE
+    WHEN d.type = 'S' THEN d.quantity
+END) AS 'Quantity Sold',
+SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+    WHEN d.type = 'S' THEN -d.quantity
+END) AS 'End Quantity'
+	FROM COUNTER_PARTY c INNER JOIN (DEAL d INNER JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id)
+    ON d.counter_party_id = c.counter_party_id
+    WHERE d.timestamp > '2019-01-11 14:00:00' /*start_date*/ AND d.timestamp <= '2019-08-13 14:00:00' /*end_date*/
+    AND c.cpty_name = 'Lewis'
+    GROUP BY c.cpty_name, i.instr_name;
+
+# CREATE a view for realized_profit loss
+
+CREATE VIEW realized_profit_loss AS SELECT c.cpty_name,
+(SUM(CASE
+    WHEN d.type = 'S' THEN d.quantity
+END)) * ((AVG(CASE
+    WHEN d.type = 'S' THEN d.price
+END))-(AVG(CASE
+    WHEN d.type = 'B' THEN d.price
+END))) AS realized_profit_loss
+FROM INSTRUMENT i INNER JOIN (DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id)
+ON i.instrument_id = d.instrument_id
+WHERE d.timestamp > '2019-01-11 14:00:00' /*start_date-1*/ AND d.timestamp < '2019-08-14 14:00:00' /*end_date+1*/
+GROUP BY c.cpty_name, i.instr_name;
 
 # I want to see the realised profit/loss for each dealer, No. 9
 
-SELECT c.cpty_name,
-SUM(CASE
-	WHEN d.type = 'B' THEN -d.price*d.quantity
-    WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE d.timestamp > '%<dat_of_today>%'
-    GROUP BY c.cpty_name;
+SELECT cpty_name, concat('£ ', format(SUM(realized_profit_loss), 2)) AS realized_profit_loss
+FROM realized_profit_loss
+GROUP BY cpty_name;
+
+DROP VIEW realized_profit_loss;
 
 # I want to see the realised profit/loss for each dealer, No. 9, addition: input specific dealer
 
-SELECT c.cpty_name,
-SUM(CASE
-	WHEN d.type = 'B' THEN -d.price*d.quantity
-    WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE c.cpty_name = '<input_variable>' /*dropdown list*/ AND d.timestamp > '%<dat_of_today>%'
-    GROUP BY c.cpty_name;
+SELECT cpty_name, concat('£ ', format(SUM(realized_profit_loss), 2)) AS realized_profit_loss
+FROM realized_profit_loss
+WHERE cpty_name = '<input_name>'
+GROUP BY cpty_name;
+
+DROP VIEW realized_profit_loss;
+
+# CREATE a view for effective_profit loss
+
+CREATE VIEW effective_profit_loss AS SELECT c.cpty_name,
+(SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+    WHEN d.type = 'S' THEN -d.quantity
+END)) * ((AVG(CASE
+    WHEN d.type = 'S' THEN d.price
+END)) - (AVG(CASE
+    WHEN d.type = 'B' THEN d.price
+END))) AS effective_profit_loss
+FROM INSTRUMENT i INNER JOIN (DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id)
+ON i.instrument_id = d.instrument_id
+WHERE d.timestamp > '2019-02-11 14:00:00' /*start_date-1*/ AND d.timestamp < '2019-08-14 14:00:00' /*end_date+1*/
+GROUP BY c.cpty_name, i.instr_name;
 
 # I want to see the effective profit/loss for each dealer, No. 10
 
-SELECT c.cpty_name,
-SUM(CASE
-	WHEN d.type = 'B' THEN -d.price*d.quantity
-    WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    GROUP BY c.cpty_name;
+SELECT cpty_name, concat('£ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss
+FROM effective_profit_loss
+GROUP BY cpty_name;
+
+DROP VIEW effective_profit_loss;
 
 # I want to see the effective profit/loss for each dealer, No. 10, addition: input specific dealer
 
-SELECT c.cpty_name,
-SUM(CASE
-	WHEN d.type = 'B' THEN -d.price*d.quantity
-    WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE c.cpty_name = '<input_variable>' /*dropdown list*/
-    GROUP BY c.cpty_name;
+SELECT cpty_name, concat('£ ', format(SUM(effective_profit_loss), 2)) AS effective_profit_loss
+FROM effective_profit_loss
+WHERE cpty_name = '<input_name>'
+GROUP BY cpty_name;
+
+DROP VIEW effective_profit_loss;
 
 # I want to see the ending positions aggregated for all dealers, No. 11
 
-SELECT
-SUM(CASE
+SELECT i.instr_name,
+concat('£ ', format(SUM(CASE
 	WHEN d.type = 'B' THEN -d.price*d.quantity
     WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE d.timestamp > '2019-01-11' /*start_date*/ AND d.timestamp <= '2019-08-13' /*end_date*/;
+END), 2)) AS 'Ending Position',
+SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+END) AS 'Quantity Bought',
+SUM(CASE
+    WHEN d.type = 'S' THEN d.quantity
+END) AS 'Quantity Sold',
+SUM(CASE
+	WHEN d.type = 'B' THEN d.quantity
+    WHEN d.type = 'S' THEN -d.quantity
+END) AS 'End Quantity'
+	FROM COUNTER_PARTY c LEFT JOIN (DEAL d LEFT JOIN INSTRUMENT i ON d.instrument_id = i.instrument_id)
+    ON c.counter_party_id = d.counter_party_id
+    WHERE d.timestamp > '2019-01-11 14:00:00' /*start_date*/ AND d.timestamp <= '2019-08-15 14:00:00' /*end_date*/
+    GROUP BY i.instr_name;
 
 # I want to see the realised profit/loss for aggregated for all dealers, No. 12
 
-SELECT
-SUM(CASE
-	WHEN d.type = 'B' THEN -d.price*d.quantity
-    WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id
-    WHERE d.timestamp > '%<dat_of_today>%';
+SELECT concat('£ ', format(SUM(realized_profit_loss), 2)) AS 'Aggregated Realized Profit/Loss'
+FROM realized_profit_loss;
+
+DROP VIEW realized_profit_loss;
 
 # I want to see the effective profit/loss aggregated for all dealers, No. 13
 
-SELECT
-SUM(CASE
-	WHEN d.type = 'B' THEN -d.price*d.quantity
-    WHEN d.type = 'S' THEN d.price*d.quantity
-END) AS rev
-	FROM DEAL d INNER JOIN COUNTER_PARTY c ON d.counter_party_id = c.counter_party_id;
+SELECT concat('£ ', format(SUM(effective_profit_loss), 2)) AS 'Aggregated Effective Profit/Loss'
+FROM effective_profit_loss;
+
+DROP VIEW effective_profit_loss;
+
+

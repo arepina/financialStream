@@ -56,7 +56,7 @@ def average():
         if sell == 'null':
             averageSell.append(0)
         else:
-            averageSell.append(float(sell.replace(',', '')))
+            averageSell.append(float(sell.replace(',', '').replace("\"", "")))
     return json_response({'averageBuy': averageBuy, 'averageSell': averageSell})
 
 
@@ -72,10 +72,11 @@ def dealers_position():
         item = item[item.index(',') + 2:]
         item = item[item.index(',') + 2:]
         item = item[:item.index('\",')].replace('\"', '').replace(" ", "").replace(",", "")
+        item = item.replace(',', '').replace("\"", "")
         if item == 'null':
             endingDealers.append(0)
         else:
-            endingDealers.append(float(item.replace(',', '')))
+            endingDealers.append(float(item))
     return json_response({"endingDealers": endingDealers})
 
 
@@ -91,7 +92,7 @@ def realised_profit_loss_dealers():
         if item == 'null':
             realised.append(0)
         else:
-            realised.append(float(item.replace(',', '')))
+            realised.append(float(item.replace(',', '').replace("\"", "")))
     return json_response({"realisedDealers": realised})
 
 
@@ -107,7 +108,7 @@ def effective_profit_loss_dealers():
         if item == 'null':
             effectiveDealers.append(0)
         else:
-            effectiveDealers.append(float(item.replace(',', '')))
+            effectiveDealers.append(float(item.replace(',', '').replace("\"", "")))
     return json_response({"effectiveDealers": effectiveDealers})
 
 
@@ -124,7 +125,7 @@ def aggregated_ending():
         if item == 'null':
             endingAggregated.append(0)
         else:
-            endingAggregated.append(float(item.replace(',', '')))
+            endingAggregated.append(float(item.replace(',', '').replace("\"", "")))
     return json_response({"endingAggregated": endingAggregated})
 
 
@@ -136,6 +137,7 @@ def aggregated_effective():
     effectiveAggregated = resp.text.replace('[', '').replace(']', '').replace('\\u00a3', '')
     if effectiveAggregated == 'null':
         effectiveAggregated = 0
+    effectiveAggregated = effectiveAggregated.replace("\"", "").replace(" ", "").replace(",", "")
     return json_response({"effectiveAggregated": effectiveAggregated})
 
 
@@ -147,6 +149,7 @@ def aggregated_realised():
     realisedAggregated = resp.text.replace('[', '').replace(']', '').replace('\\u00a3', '')
     if realisedAggregated == 'null':
         realisedAggregated = 0
+    realisedAggregated = realisedAggregated.replace("\"", "").replace(" ", "").replace(",", "")
     return json_response({"realisedAggregated": realisedAggregated})
 
 
