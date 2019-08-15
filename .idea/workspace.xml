@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08bcf45f-c02a-4d59-b46b-ca6dbf18c4aa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FRONTEND/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/src/Routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/FRONTEND/src/Routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/src/containers/DisplayData.js" beforeDir="false" afterPath="$PROJECT_DIR$/FRONTEND/src/containers/DisplayData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/src/containers/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/FRONTEND/src/containers/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/src/containers/Signup.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/src/containers/Signup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRONTEND/src/containers/TableData.js" beforeDir="false" afterPath="$PROJECT_DIR$/FRONTEND/src/containers/TableData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbBack/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/dbBack/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dbBack/Database.py" beforeDir="false" afterPath="$PROJECT_DIR$/dbBack/Database.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,72 +11,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dbBack/Database.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+            <state relative-caret-position="289">
+              <caret line="53" column="64" selection-start-line="53" selection-start-column="64" selection-end-line="53" selection-end-column="64" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dbBack/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="93" column="34" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webBack/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="857">
-              <caret line="145" selection-start-line="145" selection-end-line="145" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webBack/endpoints.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dbBack/app.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
             </state>
           </provider>
         </entry>
@@ -118,12 +52,7 @@
           <expand>
             <path>
               <item name="team20project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\Client\Desktop\team20project" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="team20project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\Client\Desktop\team20project" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="webBack" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="C:\CaseStudyT20\team20project" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
@@ -224,9 +153,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -269,8 +198,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/dbBack/Database.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+        <state relative-caret-position="289">
+          <caret line="53" column="64" selection-start-line="53" selection-start-column="64" selection-end-line="53" selection-end-column="64" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
@@ -284,13 +213,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/db.txt" />
     <entry file="file://$PROJECT_DIR$/webBack/endpoints.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">

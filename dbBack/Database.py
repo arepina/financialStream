@@ -29,7 +29,7 @@ class Database:
                          " concat('£ ', format((AVG(CASE WHEN d.type = 'B' THEN d.price END)), 2)) "
                          "AS 'Average Buy Price', concat('£ ', format((AVG(CASE WHEN d.type = 'S' "
                          "THEN d.price END)), 2)) AS 'Average Sell Price' "
-                         "FROM DEAL d INNER JOIN INSTRUMENT i "
+                         "FROM DEAL d LEFT JOIN INSTRUMENT i "
                          "ON d.instrument_id = i.instrument_id "
                          "WHERE d.timestamp > '{0}' AND "
                          "d.timestamp <= '{1}' GROUP BY i.instrument_name "
@@ -46,11 +46,12 @@ class Database:
                          "SUM(CASE WHEN d.type = 'S' THEN d.quantity END) AS 'Quantity Sold', "
                          "SUM(CASE WHEN d.type = 'B' THEN d.quantity "
                          "WHEN d.type = 'S' THEN -d.quantity END) AS 'End Quantity' "
-                         "FROM COUNTER_PARTY c INNER JOIN(DEAL d INNER JOIN INSTRUMENT i "
+                         "FROM COUNTER_PARTY c LEFT JOIN(DEAL d LEFT JOIN INSTRUMENT i "
                          "ON d.instrument_id = i.instrument_id) "
                          "ON d.counter_party_id = c.counter_party_id "
                          "WHERE d.timestamp > '{0}' AND d.timestamp <= '{1}' "
-                         "GROUP BY c.cpty_name, i.instrument_name;".format(start, end))
+                         "GROUP BY c.cpty_name, i.instrument_name "
+                         "ORDER BY c.cpty_name asc, i.instrument_name asc;".format(start, end))
         result = self.cur.fetchall()
         return result
 
@@ -281,4 +282,8 @@ class Database:
                          "('Eclipse'), ('Floral'), ('Galactia'), ('Heliosphere'), "
                          "('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');")
         self.con.commit()
+
+    def close_connection(self):
+        self.cur.close()
+        self.con.close()
 
