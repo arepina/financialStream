@@ -1,6 +1,6 @@
-PATH = "http://localhost:8080/"
-HOST = "localhost"
-PORT = 5001
+PATH = "http://dbback-mysql-server.apps.dbgrads-6eec.openshiftworkshop.com/"
+HOST = "0.0.0.0"
+PORT = 8080
 CREATE_USER = PATH + "create_user"
 GET_USER = PATH + "get_user"
 GET_STREAM_DATA = PATH + "get_stream_data"
