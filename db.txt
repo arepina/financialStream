@@ -1,3 +1,53 @@
+CREATE DATABASE mydata;
+
+use mydata;
+
+CREATE TABLE `USER` (
+  `login` varchar(100) NOT NULL,
+  `user_type` varchar(50) DEFAULT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`login`)
+);
+
+CREATE TABLE `INSTRUMENT` (
+	`instrument_id` int NOT NULL auto_increment,
+    `instr_name` varchar(100) NOT NULL,
+    PRIMARY KEY (`instrument_id`)
+);
+
+CREATE TABLE `COUNTER_PARTY` (
+	`counter_party_id` int NOT NULL auto_increment,
+    `cpty_name` varchar(100) NOT NULL,
+    PRIMARY KEY (`counter_party_id`)
+);
+
+CREATE TABLE `DEAL` (
+    `deal_id` int NOT NULL auto_increment,
+    `instrument_id` int NOT NULL,
+    `counter_party_id` int NOT NULL,
+    `price` float NOT NULL,
+    `quantity` int not null,
+    `type`  varchar(10) not null,
+    `timestamp` datetime not null,
+    PRIMARY KEY (`deal_id`),
+    FOREIGN KEY (`instrument_id`) REFERENCES `INSTRUMENT`(`instrument_id`),
+    FOREIGN KEY (`counter_party_id`) REFERENCES `COUNTER_PARTY`(`counter_party_id`)
+);
+
+INSERT INTO COUNTER_PARTY (cpty_name) VALUES ('Lewis'), ('Selvyn'), ('Richard'), ('Lina'), ('John'), ('Nidia');
+
+INSERT INTO INSTRUMENT (instr_name) VALUES ('Astronomica'), ('Borealis'), ('Celestial'), ('Deuteronic'),
+	('Eclipse'), ('Floral'), ('Galactia'), ('Heliosphere'), ('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');
+
+INSERT INTO DEAL (counter_party_id, instrument_id, price, quantity, type, timestamp) VALUES (4, 1, 400, 10, 'B', '2019-08-12 16:01:00'),
+	(4, 2, 1000, 2, 'B', '2019-08-12 16:02:00'), (4, 1, 500, 5, 'S', '2019-08-12 16:03:00'), (5, 2, 1000, 20, 'B', '2019-08-12 16:04:00'),
+    (5, 2, 850, 10, 'S', '2019-08-12 16:06:00'), (5, 3, 150, 45, 'B', '2019-08-12 16:05:00'), (6, 3, 500, 60, 'B', '2019-08-12 16:04:00'),
+    (6, 3, 1750, 30, 'S', '2019-08-12 16:08:00'), (6, 4, 450, 5, 'S', '2019-08-12 16:06:00'), (1, 4, 300, 15, 'B', '2019-08-12 16:07:00'),
+    (1, 4, 350, 10, 'S', '2019-08-12 16:10:00'), (1, 5, 105, 10, 'B', '2019-08-12 16:12:00'), (2, 5, 1000, 40, 'S', '2019-08-12 16:08:00'),
+    (2, 5, 800, 50, 'B', '2019-08-12 16:11:00'), (2, 6, 500, 15, 'B','2019-05-12 16:10:00'), (3, 6, 1000, 10, 'B', '2019-04-12 16:11:00'),
+    (3, 6, 950, 5, 'S', '2019-08-12 16:15:00'), (3, 7, 105, 100, 'B', '2019-08-12 16:11:00'), (3, 7, 135, 80, 'S', '2019-08-12 16:10:00');
+
+
 # I want to see the average buy and sell prices for each instrument during the period, No. 7
 
 SELECT i.instr_name AS 'Instrument Name',
@@ -161,7 +211,3 @@ FROM effective_profit_loss;
 DROP VIEW effective_profit_loss;
 
 
-INSERT INTO COUNTER_PARTY (cpty_name) VALUES ('Lewis'), ('Selvyn'), ('Richard'), ('Lina'), ('John'), ('Nidia');
-
-INSERT INTO INSTRUMENT (instr_name) VALUES ('Astronomica'), ('Borealis'), ('Celestial'), ('Deuteronic'),
-	('Eclipse'), ('Floral'), ('Galactia'), ('Heliosphere'), ('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');
