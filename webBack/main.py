@@ -1,6 +1,7 @@
 import json
 
 import requests
+import simplejson
 from flask import Flask, request
 from flask_cors import CORS
 
@@ -11,7 +12,7 @@ CORS(app)
 
 
 def json_response(payload, status=200):
-    return (json.dumps(payload), status, {'content-type': 'application/json'})
+    return (simplejson.dumps(payload), status, {'content-type': 'application/json'})
 
 
 @app.route('/register', methods=["POST"])
@@ -65,17 +66,17 @@ def dealers_position():
     end = request.json['end']
     resp = requests.get(DEALERS_POSITION,
                         json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
-
-
-@app.route('/dealer_position', methods=["POST"])
-def dealer_position():
-    login = request.json['login']
-    start = request.json['start']
-    end = request.json['end']
-    resp = requests.get(DEALER_POSITION,
-                        json={"login": login, "start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
+    endingDealers = []
+    for item in resp.text.split('], ['):
+        item = item.replace('[', '').replace(']', '').replace('\\u00a3', '')
+        item = item[item.index(',') + 2:]
+        item = item[item.index(',') + 2:]
+        item = item[:item.index('\",')].replace('\"', '').replace(" ", "").replace(",", "")
+        if item == 'null':
+            endingDealers.append(0)
+        else:
+            endingDealers.append(float(item.replace(',', '')))
+    return json_response({"endingDealers": endingDealers})
 
 
 @app.route('/realised_profit_loss_dealers', methods=["POST"])
@@ -83,16 +84,15 @@ def realised_profit_loss_dealers():
     start = request.json['start']
     end = request.json['end']
     resp = requests.get(REALISED_DEALERS, json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
-
-
-@app.route('/realised_profit_loss_dealer', methods=["POST"])
-def realised_profit_loss_dealer():
-    login = request.json['login']
-    date = request.json['date']
-    resp = requests.get(REALISED_DEALER,
-                        json={"login": login, "date": date})
-    return resp.text, resp.status_code, resp.headers.items()
+    realised = []
+    for item in resp.text.split('], ['):
+        item = item.replace('[', '').replace(']', '').replace('\\u00a3', '')
+        item = item[item.index(',') + 2:]
+        if item == 'null':
+            realised.append(0)
+        else:
+            realised.append(float(item.replace(',', '')))
+    return json_response({"realisedDealers": realised})
 
 
 @app.route('/effective_profit_loss_dealers', methods=["POST"])
@@ -100,15 +100,15 @@ def effective_profit_loss_dealers():
     start = request.json['start']
     end = request.json['end']
     resp = requests.get(EFFECTIVE_DEALERS, json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
-
-
-@app.route('/effective_profit_loss_dealer', methods=["POST"])
-def effective_profit_loss_dealer():
-    login = request.json['login']
-    resp = requests.get(EFFECTIVE_DEALER,
-                        json={"login": login})
-    return resp.text, resp.status_code, resp.headers.items()
+    effectiveDealers = []
+    for item in resp.text.split('], ['):
+        item = item.replace('[', '').replace(']', '').replace('\\u00a3', '')
+        item = item[item.index(',') + 2:]
+        if item == 'null':
+            effectiveDealers.append(0)
+        else:
+            effectiveDealers.append(float(item.replace(',', '')))
+    return json_response({"effectiveDealers": effectiveDealers})
 
 
 @app.route('/aggregated_ending', methods=["POST"])
@@ -116,7 +116,16 @@ def aggregated_ending():
     start = request.json['start']
     end = request.json['end']
     resp = requests.get(AGGREGATED_ENDING, json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
+    endingAggregated = []
+    for item in resp.text.split('], ['):
+        item = item.replace('[', '').replace(']', '').replace('\\u00a3', '')
+        item = item[item.index(',') + 2:]
+        item = item[:item.index('\",')] .replace('\"', '').replace(" ", "").replace(",", "")
+        if item == 'null':
+            endingAggregated.append(0)
+        else:
+            endingAggregated.append(float(item.replace(',', '')))
+    return json_response({"endingAggregated": endingAggregated})
 
 
 @app.route('/aggregated_effective', methods=["POST"])
@@ -124,7 +133,10 @@ def aggregated_effective():
     start = request.json['start']
     end = request.json['end']
     resp = requests.get(AGGREGATED_EFFECTIVE, json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
+    effectiveAggregated = resp.text.replace('[', '').replace(']', '').replace('\\u00a3', '')
+    if effectiveAggregated == 'null':
+        effectiveAggregated = 0
+    return json_response({"effectiveAggregated": effectiveAggregated})
 
 
 @app.route('/aggregated_realised', methods=["POST"])
@@ -132,13 +144,16 @@ def aggregated_realised():
     start = request.json['start']
     end = request.json['end']
     resp = requests.get(AGGREGATED_REALISED, json={"start": start, "end": end})
-    return resp.text, resp.status_code, resp.headers.items()
+    realisedAggregated = resp.text.replace('[', '').replace(']', '').replace('\\u00a3', '')
+    if realisedAggregated == 'null':
+        realisedAggregated = 0
+    return json_response({"realisedAggregated": realisedAggregated})
 
 
 @app.route('/get_stream_data', methods=["POST"])
 def get_stream_data():
     resp = requests.get(GET_STREAM_DATA)
-    return resp.text, resp.status_code, resp.headers.items()
+    return json_response(resp)
 
 
 def bootapp():
