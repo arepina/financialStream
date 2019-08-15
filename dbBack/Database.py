@@ -271,6 +271,8 @@ class Database:
         self.cur.execute("INSERT INTO DEAL (instrument_id, counter_party_id, price, quantity, type, timestamp) VALUES ({0}, {1}, {2}, {3}, '{4}', CAST('{5}' AS DATETIME));".format(instr_id, cpty_id, price, quantity, type, time_string))
         self.con.commit()
         self.cur.log("Successful Insertion")
+        self.cur.close()
+        self.cur.close()
 
     def insert_initial_counter_party(self):
         self.cur.execute("INSERT INTO COUNTER_PARTY (cpty_name) VALUES "
@@ -284,7 +286,7 @@ class Database:
                          "('Interstella'), ('Jupiter'), ('Koronis'), ('Lunatic');")
         self.con.commit()
 
-    def close_connection(self):
-        self.cur.close()
-        self.con.close()
+    # def close_connection(self):
+    #     self.cur.close()
+    #     self.con.close()
 
