@@ -1,6 +1,8 @@
 import json
 
 import logging
+
+import simplejson
 from flask import Flask, request
 from flask_cors import CORS
 
@@ -9,6 +11,7 @@ from endpoints import PORT, HOST
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
@@ -92,31 +95,7 @@ def dealers_position():
         db = Database()
         data = db.dealers_position(start, end)
         return app.response_class(
-            response=json.dumps(data),
-            status=200,
-            mimetype='application/json'
-        )
-    except Exception as e:
-        response = app.response_class(
-            response=json.dumps(e),
-            status=400,
-            mimetype='application/json'
-        )
-        return response
-
-
-@app.route('/dealer_position', methods=['GET'])
-def dealer_position():
-    try:
-        login = request.json.get('login')
-        start = request.json.get('start')
-        end = request.json.get('end')
-        start = start[:10] + ' ' + start[10 + 1:]
-        end = end[:10] + ' ' + end[10 + 1:]
-        db = Database()
-        data = db.dealer_position(login, start, end)
-        return app.response_class(
-            response=json.dumps(data),
+            response=simplejson.dumps(data),
             status=200,
             mimetype='application/json'
         )
@@ -138,30 +117,6 @@ def realised_profit_loss_dealers():
         end = end[:10] + ' ' + end[10 + 1:]
         db = Database()
         data = db.realised_profit_loss_dealers(start, end)
-        return app.response_class(
-            response=json.dumps(data),
-            status=200,
-            mimetype='application/json'
-        )
-    except Exception as e:
-        response = app.response_class(
-            response=json.dumps(e),
-            status=400,
-            mimetype='application/json'
-        )
-        return response
-
-
-@app.route('/realised_profit_loss_dealer', methods=['GET'])
-def realised_profit_loss_dealer():
-    try:
-        login = request.json.get('login')
-        start = request.json.get('start')
-        end = request.json.get('end')
-        start = start[:10] + ' ' + start[10 + 1:]
-        end = end[:10] + ' ' + end[10 + 1:]
-        db = Database()
-        data = db.realised_profit_loss_dealer(start, end, login)
         return app.response_class(
             response=json.dumps(data),
             status=200,
@@ -199,30 +154,6 @@ def effective_profit_loss_dealers():
         return response
 
 
-@app.route('/effective_profit_loss_dealer', methods=['GET'])
-def effective_profit_loss_dealer():
-    try:
-        start = request.json.get('start')
-        end = request.json.get('end')
-        login = request.json.get('login')
-        start = start[:10] + ' ' + start[10 + 1:]
-        end = end[:10] + ' ' + end[10 + 1:]
-        db = Database()
-        data = db.effective_profit_loss_dealer(start, end, login)
-        return app.response_class(
-            response=json.dumps(data),
-            status=200,
-            mimetype='application/json'
-        )
-    except Exception as e:
-        response = app.response_class(
-            response=json.dumps(e),
-            status=400,
-            mimetype='application/json'
-        )
-        return response
-
-
 @app.route('/aggregated_ending', methods=['GET'])
 def aggregated_ending():
     try:
@@ -233,7 +164,7 @@ def aggregated_ending():
         db = Database()
         data = db.aggregated_ending(start, end)
         return app.response_class(
-            response=json.dumps(data),
+            response=simplejson.dumps(data),
             status=200,
             mimetype='application/json'
         )
@@ -301,7 +232,7 @@ def add_stream_data():
         type = request.json.get("type")
         quantity = request.json.get("quantity")
         time = request.json.get("time")
-        db = Database() #ERROR
+        db = Database()  # ERROR
         data = db.add_stream_data(instrumentName, cpty, price, quantity, type, time)
         return app.response_class(
             response=json.dumps(data),
