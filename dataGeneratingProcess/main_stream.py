@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/', methods="POST")
+@app.route('/')
 def getstream():
     def data_stream():
         stream = RandomDealData()
