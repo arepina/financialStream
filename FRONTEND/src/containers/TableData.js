@@ -6,8 +6,8 @@ import { Table, Input, Button } from 'reactstrap';
 import "./TableData.css";
 import baseUrl from "./Utils";
 
-    const url = baseUrl + '/get_stream_data';
-    const source = new EventSource(url);
+    const dataGenUrl = "http://datagen-mysql-server.apps.dbgrads-6eec.openshiftworkshop.com/getStreamData"
+    const source = new EventSource(dataGenUrl);
     const stringObservable = Observable.create(observer => {
         source.addEventListener('message', (messageEvent) => {
             // console.log(messageEvent);
@@ -113,8 +113,8 @@ function TableData() {
             </Table>
             </div>
             </div>
-            <Button onClick={stopStreaming}>Stop</Button>
-            <Button onClick={refresh}>Refresh</Button>
+            <Button onClick={stopStreaming} style={{margin: '10px'}}>Stop</Button>
+            <Button onClick={refresh} style={{margin: '10px'}}>Refresh</Button>
         </>
     );
 }
