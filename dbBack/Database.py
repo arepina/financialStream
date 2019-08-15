@@ -8,7 +8,7 @@ class Database:
         host = DB_HOST
         user = "root"
         password = "root"
-        db = "mydb"
+        db = "sampledb"
         self.con = pymysql.connect(host=host, user=user, password=password, db=db)
         self.cur = self.con.cursor()
 
