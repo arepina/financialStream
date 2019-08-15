@@ -3,10 +3,10 @@ import { useObservable } from 'rxjs-hooks';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom, filter } from 'rxjs/operators';
 import { Table, Input, Button } from 'reactstrap';
-// import { ReactTable } from 'react-table';
 import "./TableData.css";
+import baseUrl from "./Utils";
 
-const url = "http://localhost:8083/streamTime/sse";
+    const url = baseUrl + '/streamTime/sse';
     const source = new EventSource(url);
     const stringObservable = Observable.create(observer => {
         source.addEventListener('message', (messageEvent) => {
