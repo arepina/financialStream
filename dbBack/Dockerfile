@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:kinetic-20220830
 MAINTAINER Team Twenty "team20grads@gmail.com"
 RUN apt-get update -y
 RUN apt-get install -y python3 python3-pip
